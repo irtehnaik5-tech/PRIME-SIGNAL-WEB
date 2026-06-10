@@ -42,7 +42,7 @@
 
         .chart-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             background: #131722;
             border-radius: 16px;
             padding: 16px;
@@ -97,6 +97,14 @@
             font-size: 10px;
             color: #9ca3af;
             font-family: monospace;
+        }
+
+        .countdown-timer {
+            text-align: center;
+            margin-top: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #3b82f6;
         }
 
         /* RIGHT SIDE - Login section */
@@ -243,8 +251,8 @@
             }
 
             .art-section {
-                min-height: 40vh;
-                max-height: 40vh;
+                min-height: 42vh;
+                max-height: 42vh;
                 padding: 12px;
             }
 
@@ -257,7 +265,7 @@
             }
 
             .login-section {
-                min-height: 60vh;
+                min-height: 58vh;
                 align-items: flex-start;
                 padding-top: 20px;
             }
@@ -333,19 +341,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* Ripple effect on new candle */
-        @keyframes ripple {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.5); }
-        }
-        
-        .candle-flash {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
@@ -366,13 +361,14 @@
                         <span class="chart-change" id="priceChange">+0.00%</span>
                     </div>
                 </div>
-                <canvas id="candleCanvas" width="500" height="300" style="width:100%; height:auto; max-width:500px; aspect-ratio:500/300"></canvas>
+                <canvas id="candleCanvas" width="550" height="300" style="width:100%; height:auto; max-width:550px; aspect-ratio:550/300"></canvas>
                 <div class="chart-stats">
                     <span>High: <span id="highPrice">0</span></span>
                     <span>Low: <span id="lowPrice">0</span></span>
                     <span>Volume: <span id="volume">0</span></span>
                     <span>Live Demo</span>
                 </div>
+                <div class="countdown-timer" id="countdownTimer">Next candle in 15s</div>
             </div>
         </div>
 
@@ -433,7 +429,7 @@
         const ctx = canvas.getContext('2d');
         
         // Set canvas dimensions
-        const width = 500;
+        const width = 550;
         const height = 300;
         canvas.width = width;
         canvas.height = height;
@@ -446,8 +442,14 @@
         let lowPrice = 50000;
         let volume = 0;
         
+        // Current candle being formed (live price movement)
+        let currentCandle = null;
+        let candleInterval = null;
+        let countdownInterval = null;
+        let secondsLeft = 15;
+        
         // Candle settings
-        const candleWidth = 8;
+        const candleWidth = 9;
         const candleSpacing = 2;
         const totalCandles = Math.floor(width / (candleWidth + candleSpacing));
         
@@ -458,20 +460,21 @@
         const downColor = '#ef4444';
         const wickColor = '#9ca3af';
         
-        // Generate random price movement (0.4 to 1.0 second interval)
-        let lastMoveTime = 0;
-        let animationFrameId = null;
+        // Price movement during candle life (small increments)
+        let priceMovementInterval = null;
+        let targetClosePrice = null;
+        let priceStep = 0;
         
-        // Initialize with 50 candles
-        function initCandles() {
+        // Initialize with 30 historical candles
+        function initHistoricalCandles() {
             let price = 50000;
-            for (let i = 0; i < totalCandles; i++) {
-                const isUp = Math.random() > 0.5;
-                const change = (Math.random() * 200) - 100; // -100 to +100
+            for (let i = 0; i < 30; i++) {
+                const changePercent = (Math.random() - 0.5) * 0.008; // -0.4% to +0.4%
+                const change = price * changePercent;
                 const open = price;
                 const close = price + change;
-                const high = Math.max(open, close) + Math.random() * 50;
-                const low = Math.min(open, close) - Math.random() * 50;
+                const high = Math.max(open, close) + Math.random() * (price * 0.002);
+                const low = Math.min(open, close) - Math.random() * (price * 0.002);
                 
                 candles.push({
                     open: open,
@@ -479,58 +482,125 @@
                     low: low,
                     close: close,
                     isUp: close >= open,
-                    timestamp: Date.now() - (totalCandles - i) * 1000
+                    timestamp: Date.now() - (30 - i) * 15000
                 });
                 
                 price = close;
             }
             currentPrice = candles[candles.length - 1].close;
-            updateStats();
-        }
-        
-        // Add new candle
-        function addCandle() {
-            const lastCandle = candles[candles.length - 1];
-            const open = lastCandle.close;
-            
-            // Random movement between -0.5% and +0.5% (realistic)
-            const changePercent = (Math.random() - 0.5) * 0.01; // -0.5% to +0.5%
-            const change = open * changePercent;
-            const close = open + change;
-            
-            // Random high/low based on volatility
-            const volatility = Math.abs(change) * 1.5 + Math.random() * (open * 0.003);
-            const high = Math.max(open, close) + Math.random() * volatility;
-            const low = Math.min(open, close) - Math.random() * volatility;
-            
-            candles.push({
-                open: open,
-                high: high,
-                low: low,
-                close: close,
-                isUp: close >= open,
-                timestamp: Date.now()
-            });
-            
-            // Remove oldest candle if too many
-            if (candles.length > totalCandles) {
-                candles.shift();
-            }
-            
-            currentPrice = close;
-            
-            // Update high/low
-            if (high > highPrice) highPrice = high;
-            if (low < lowPrice) lowPrice = low;
-            
+            highPrice = Math.max(...candles.map(c => c.high));
+            lowPrice = Math.min(...candles.map(c => c.low));
             updateStats();
             drawChart();
-            
-            // Flash effect on new candle
-            createRippleEffect();
         }
         
-        // Update price display
+        // Start a new candle
+        function startNewCandle() {
+            // Complete previous candle if exists
+            if (currentCandle) {
+                // Add the completed candle to history
+                candles.push({
+                    open: currentCandle.open,
+                    high: currentCandle.high,
+                    low: currentCandle.low,
+                    close: currentPrice,
+                    isUp: currentPrice >= currentCandle.open,
+                    timestamp: Date.now()
+                });
+                
+                // Remove oldest if too many
+                if (candles.length > totalCandles) {
+                    candles.shift();
+                }
+                
+                // Update high/low
+                if (currentPrice > highPrice) highPrice = currentPrice;
+                if (currentPrice < lowPrice) lowPrice = currentPrice;
+            }
+            
+            // Create new candle
+            const open = currentPrice;
+            const targetChangePercent = (Math.random() - 0.5) * 0.012; // -0.6% to +0.6% over 15 seconds
+            targetClosePrice = open + (open * targetChangePercent);
+            
+            // Calculate step size for smooth movement (60 steps over 15 seconds = 250ms each)
+            const steps = 60;
+            priceStep = (targetClosePrice - open) / steps;
+            
+            currentCandle = {
+                open: open,
+                high: open,
+                low: open,
+                startTime: Date.now(),
+                stepCount: 0
+            };
+            
+            // Reset countdown display
+            secondsLeft = 15;
+            updateCountdownDisplay();
+            
+            // Start price movement (update every 250ms for smooth animation)
+            if (priceMovementInterval) clearInterval(priceMovementInterval);
+            priceMovementInterval = setInterval(updatePrice, 250);
+            
+            // Draw the new candle
+            drawChart();
+        }
+        
+        // Update price gradually
+        let lastStepTime = 0;
+        
+        function updatePrice() {
+            if (!currentCandle) return;
+            
+            const stepCount = currentCandle.stepCount || 0;
+            
+            if (stepCount < 60) {
+                // Move price by step
+                currentPrice += priceStep;
+                currentCandle.stepCount = stepCount + 1;
+                
+                // Update current candle high/low
+                if (currentPrice > currentCandle.high) currentCandle.high = currentPrice;
+                if (currentPrice < currentCandle.low) currentCandle.low = currentPrice;
+                
+                // Update overall high/low
+                if (currentPrice > highPrice) highPrice = currentPrice;
+                if (currentPrice < lowPrice) lowPrice = currentPrice;
+                
+                // Update display
+                updateStats();
+                drawChart();
+            }
+        }
+        
+        // Countdown timer
+        function updateCountdownDisplay() {
+            const timerElement = document.getElementById('countdownTimer');
+            if (timerElement) {
+                timerElement.textContent = `Next candle in ${secondsLeft}s`;
+            }
+        }
+        
+        function startCountdown() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            secondsLeft = 15;
+            updateCountdownDisplay();
+            
+            countdownInterval = setInterval(() => {
+                secondsLeft--;
+                updateCountdownDisplay();
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Start new candle
+                    startNewCandle();
+                    startCountdown(); // Restart countdown for next candle
+                }
+            }, 1000);
+        }
+        
+        // Update stats display
         function updateStats() {
             const priceElement = document.getElementById('currentPrice');
             const changeElement = document.getElementById('priceChange');
@@ -538,7 +608,6 @@
             const lowElement = document.getElementById('lowPrice');
             const volumeElement = document.getElementById('volume');
             
-            // Format price
             priceElement.textContent = currentPrice.toFixed(2);
             
             // Calculate change from entry (first candle close)
@@ -552,28 +621,9 @@
             highElement.textContent = highPrice.toFixed(2);
             lowElement.textContent = lowPrice.toFixed(2);
             
-            // Simulate volume
-            volume = Math.floor(Math.random() * 10000) + 1000;
+            // Random volume for realism
+            volume = Math.floor(Math.random() * 15000) + 5000;
             volumeElement.textContent = volume.toLocaleString();
-        }
-        
-        // Create ripple effect on chart
-        function createRippleEffect() {
-            const container = document.querySelector('.chart-container');
-            const rect = container.getBoundingClientRect();
-            const ripple = document.createElement('div');
-            ripple.style.position = 'absolute';
-            ripple.style.top = '0';
-            ripple.style.left = '0';
-            ripple.style.width = '100%';
-            ripple.style.height = '100%';
-            ripple.style.backgroundColor = 'rgba(59,130,246,0.2)';
-            ripple.style.borderRadius = '16px';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.animation = 'ripple 0.5s ease-out forwards';
-            container.style.position = 'relative';
-            container.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 500);
         }
         
         // Draw grid
@@ -606,36 +656,39 @@
         function drawChart() {
             if (!ctx) return;
             
-            // Clear canvas
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, width, height);
             
             drawGrid();
             
-            if (candles.length === 0) return;
-            
             // Find price range for scaling
-            let maxPrice = Math.max(...candles.map(c => c.high));
-            let minPrice = Math.min(...candles.map(c => c.low));
+            let allCandles = [...candles];
+            let maxPrice = highPrice;
+            let minPrice = lowPrice;
+            
+            // Add current candle to range if exists
+            if (currentCandle) {
+                maxPrice = Math.max(maxPrice, currentCandle.high);
+                minPrice = Math.min(minPrice, currentCandle.low);
+            }
+            
             const padding = (maxPrice - minPrice) * 0.1;
             maxPrice += padding;
             minPrice -= padding;
             const priceRange = maxPrice - minPrice;
             
-            // Calculate Y position for a given price
             const getY = (price) => {
                 return height - ((price - minPrice) / priceRange) * height;
             };
             
-            // Draw each candle
+            // Draw historical candles
             const startX = 10;
             const availableWidth = width - 20;
-            const candleTotalWidth = candleWidth + candleSpacing;
-            const maxCandles = Math.floor(availableWidth / candleTotalWidth);
-            const startIndex = Math.max(0, candles.length - maxCandles);
-            const displayCandles = candles.slice(startIndex);
-            const step = availableWidth / displayCandles.length;
+            const step = availableWidth / totalCandles;
             const actualCandleWidth = Math.min(candleWidth, step - candleSpacing);
+            
+            const startIndex = Math.max(0, candles.length - totalCandles);
+            const displayCandles = candles.slice(startIndex);
             
             for (let i = 0; i < displayCandles.length; i++) {
                 const candle = displayCandles[i];
@@ -649,7 +702,7 @@
                 const bodyBottom = Math.max(openY, closeY);
                 const bodyHeight = Math.max(1, bodyBottom - bodyTop);
                 
-                // Draw wick (high-low line)
+                // Wick
                 ctx.beginPath();
                 ctx.moveTo(x + actualCandleWidth / 2, highY);
                 ctx.lineTo(x + actualCandleWidth / 2, lowY);
@@ -657,19 +710,43 @@
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 
-                // Draw body
+                // Body
                 ctx.fillStyle = isUp ? upColor : downColor;
                 ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
-                
-                // Add border to body
                 ctx.strokeStyle = isUp ? upColor : downColor;
                 ctx.lineWidth = 0.5;
                 ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
             }
             
-            // Draw entry line (first candle)
-            if (displayCandles.length > 0) {
-                const firstPrice = displayCandles[0].open;
+            // Draw current forming candle (live)
+            if (currentCandle) {
+                const x = startX + (displayCandles.length * step);
+                const openY = getY(currentCandle.open);
+                const closeY = getY(currentPrice);
+                const highY = getY(currentCandle.high);
+                const lowY = getY(currentCandle.low);
+                const isUp = currentPrice >= currentCandle.open;
+                const bodyTop = Math.min(openY, closeY);
+                const bodyBottom = Math.max(openY, closeY);
+                const bodyHeight = Math.max(1, bodyBottom - bodyTop);
+                
+                // Wick
+                ctx.beginPath();
+                ctx.moveTo(x + actualCandleWidth / 2, highY);
+                ctx.lineTo(x + actualCandleWidth / 2, lowY);
+                ctx.strokeStyle = wickColor;
+                ctx.stroke();
+                
+                // Body
+                ctx.fillStyle = isUp ? upColor : downColor;
+                ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
+                ctx.strokeStyle = isUp ? upColor : downColor;
+                ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
+            }
+            
+            // Draw entry line
+            if (candles.length > 0) {
+                const firstPrice = candles[0].open;
                 const entryY = getY(firstPrice);
                 ctx.beginPath();
                 ctx.moveTo(0, entryY);
@@ -680,59 +757,32 @@
                 ctx.stroke();
                 ctx.setLineDash([]);
                 
-                // Label
                 ctx.fillStyle = '#3b82f6';
                 ctx.font = '10px monospace';
                 ctx.fillText('Entry: ' + firstPrice.toFixed(2), 5, entryY - 3);
             }
         }
         
-        // Random timing between 0.4 and 1.0 seconds
-        function getRandomDelay() {
-            return Math.random() * (1000 - 400) + 400; // 400ms to 1000ms
-        }
-        
-        // Animation loop
-        let isRunning = true;
-        
-        function startLiveChart() {
-            initCandles();
-            drawChart();
-            
-            function scheduleNext() {
-                if (!isRunning) return;
-                const delay = getRandomDelay();
-                setTimeout(() => {
-                    if (isRunning) {
-                        addCandle();
-                        scheduleNext();
-                    }
-                }, delay);
-            }
-            
-            scheduleNext();
-        }
-        
-        // Stop animation (call if needed)
-        function stopLiveChart() {
-            isRunning = false;
-        }
-        
-        // Handle window resize
+        // Handle resize
         function handleResize() {
-            // Redraw with new dimensions
             const rect = canvas.parentElement.getBoundingClientRect();
-            const newWidth = Math.min(rect.width, 500);
+            const newWidth = Math.min(rect.width, 550);
             canvas.style.width = newWidth + 'px';
             drawChart();
         }
         
         window.addEventListener('resize', handleResize);
         
-        // Start the live chart
-        startLiveChart();
+        // Initialize everything
+        function init() {
+            initHistoricalCandles();
+            startNewCandle();
+            startCountdown();
+        }
         
-        // Hide loading animation after page loads
+        init();
+        
+        // Hide loading animation
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
@@ -740,8 +790,7 @@
             }, 500);
             handleResize();
         });
-
-        // Track button click for analytics (optional)
+        
         document.getElementById('loginBtn').addEventListener('click', function() {
             console.log('Telegram login initiated');
         });
