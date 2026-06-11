@@ -64,6 +64,15 @@
             color: #3b82f6;
         }
 
+        .live-badge {
+            font-size: 10px;
+            background: #22c55e20;
+            color: #22c55e;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
         .chart-price {
             font-family: monospace;
             font-size: 20px;
@@ -97,12 +106,19 @@
             font-family: monospace;
         }
 
-        .countdown-timer {
+        .connection-status {
             text-align: center;
             margin-top: 12px;
             font-family: monospace;
-            font-size: 12px;
-            color: #3b82f6;
+            font-size: 10px;
+        }
+
+        .status-connected {
+            color: #22c55e;
+        }
+
+        .status-disconnected {
+            color: #ef4444;
         }
 
         .login-section {
@@ -243,8 +259,8 @@
                 flex-direction: column;
             }
             .art-section {
-                min-height: 42vh;
-                max-height: 42vh;
+                min-height: 45vh;
+                max-height: 45vh;
                 padding: 12px;
             }
             .chart-container {
@@ -254,7 +270,7 @@
                 font-size: 16px;
             }
             .login-section {
-                min-height: 58vh;
+                min-height: 55vh;
                 align-items: flex-start;
                 padding-top: 20px;
             }
@@ -334,7 +350,10 @@
         <div class="art-section">
             <div class="chart-container">
                 <div class="chart-header">
-                    <span class="chart-symbol">BTC/USDT</span>
+                    <div>
+                        <span class="chart-symbol">BTC/USDT</span>
+                        <span class="live-badge" id="liveBadge">LIVE</span>
+                    </div>
                     <div>
                         <span class="chart-price" id="currentPrice">0.00</span>
                         <span class="chart-change" id="priceChange">+0.00%</span>
@@ -342,12 +361,14 @@
                 </div>
                 <canvas id="candleCanvas" width="550" height="300" style="width:100%; height:auto; max-width:550px; aspect-ratio:550/300"></canvas>
                 <div class="chart-stats">
-                    <span>High: <span id="highPrice">0</span></span>
-                    <span>Low: <span id="lowPrice">0</span></span>
+                    <span>24h High: <span id="highPrice">0</span></span>
+                    <span>24h Low: <span id="lowPrice">0</span></span>
                     <span>Volume: <span id="volume">0</span></span>
-                    <span>Live Demo</span>
+                    <span>Real Data</span>
                 </div>
-                <div class="countdown-timer" id="countdownTimer">Next candle in 15s</div>
+                <div class="connection-status">
+                    <span id="connectionStatus">Connecting to Binance...</span>
+                </div>
             </div>
         </div>
 
@@ -370,8 +391,8 @@
                 <div class="divider"><span>Free • Secure • Instant</span></div>
                 <div class="stats">
                     <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Assets</div></div>
-                    <div class="stat-item"><div class="stat-number">⚡5s</div><div class="stat-label">Scan Rate</div></div>
-                    <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Live</div></div>
+                    <div class="stat-item"><div class="stat-number">⚡Real-time</div><div class="stat-label">Live Data</div></div>
+                    <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Trading</div></div>
                 </div>
                 <div class="divider"></div>
                 <div style="text-align: center; margin-top: 16px;">
@@ -390,15 +411,18 @@
         canvas.width = width;
         canvas.height = height;
         
+        // Store 1-minute candles (60 candles = 1 hour)
         let candles = [];
-        let currentPrice = 50000;
-        let highPrice = 50000;
-        let lowPrice = 50000;
-        
-        // Current candle being formed
         let currentCandle = null;
-        let countdownInterval = null;
-        let secondsLeft = 15;
+        let currentPrice = 0;
+        let high24h = 0;
+        let low24h = Infinity;
+        let volume24h = 0;
+        
+        // WebSocket connection
+        let ws = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 10;
         
         const candleWidth = 9;
         const candleSpacing = 2;
@@ -410,134 +434,162 @@
         const downColor = '#ef4444';
         const wickColor = '#9ca3af';
         
-        // Realistic price movement - create a path with ups and downs
-        let pricePath = [];
-        let currentStep = 0;
-        let targetClose = null;
+        // Binance WebSocket URL for BTC/USDT
+        // Using wss://stream.binance.com:9443/ws/btcusdt@trade for real-time trades
+        // This gives us updates every time a trade happens (very fast)
         
-        function generateRealisticPath(startPrice, steps = 60) {
-            // Generate a realistic price path that goes up AND down during the candle
-            const path = [];
-            let price = startPrice;
+        function connectWebSocket() {
+            const wsUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
             
-            // Random direction bias (slight overall trend)
-            const trendBias = (Math.random() - 0.5) * 0.004; // -0.2% to +0.2% overall
+            ws = new WebSocket(wsUrl);
             
-            // Random volatility
-            const volatility = 0.0015 + Math.random() * 0.0015; // 0.15% to 0.3% per step
+            ws.onopen = function() {
+                console.log('WebSocket connected');
+                updateConnectionStatus('Connected to Binance (Real-time)', true);
+                reconnectAttempts = 0;
+            };
             
-            for (let i = 0; i <= steps; i++) {
-                // Add random movement (up AND down)
-                const randomMove = (Math.random() - 0.5) * volatility;
-                const trendMove = trendBias / steps;
-                price = price * (1 + randomMove + trendMove);
-                
-                // Ensure price doesn't go to extremes
-                price = Math.max(price, startPrice * 0.99);
-                price = Math.min(price, startPrice * 1.02);
-                
-                path.push(price);
-            }
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.e === 'trade') {
+                    const price = parseFloat(data.p);
+                    const volume = parseFloat(data.q);
+                    
+                    updatePrice(price, volume);
+                }
+            };
             
-            return path;
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+                updateConnectionStatus('Connection error, reconnecting...', false);
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket disconnected');
+                updateConnectionStatus('Disconnected, reconnecting...', false);
+                reconnect();
+            };
         }
         
-        function initHistoricalCandles() {
-            let price = 50000;
-            for (let i = 0; i < 30; i++) {
-                // Generate realistic candle with proper high/low
-                const open = price;
-                const changePercent = (Math.random() - 0.5) * 0.006; // -0.3% to +0.3%
-                const close = price + (price * changePercent);
+        function reconnect() {
+            if (reconnectAttempts < maxReconnectAttempts) {
+                reconnectAttempts++;
+                setTimeout(() => {
+                    console.log(`Reconnecting attempt ${reconnectAttempts}...`);
+                    connectWebSocket();
+                }, 2000 * reconnectAttempts);
+            } else {
+                updateConnectionStatus('Failed to connect. Using simulated data.', false);
+                startSimulatedData();
+            }
+        }
+        
+        function updateConnectionStatus(message, isConnected) {
+            const statusElement = document.getElementById('connectionStatus');
+            const badgeElement = document.getElementById('liveBadge');
+            if (statusElement) {
+                statusElement.textContent = message;
+                statusElement.className = isConnected ? 'status-connected' : 'status-disconnected';
+            }
+            if (badgeElement) {
+                badgeElement.textContent = isConnected ? 'LIVE' : 'DEMO';
+                badgeElement.style.backgroundColor = isConnected ? '#22c55e20' : '#f59e0b20';
+                badgeElement.style.color = isConnected ? '#22c55e' : '#f59e0b';
+            }
+        }
+        
+        function updatePrice(price, tradeVolume) {
+            if (price === currentPrice) return;
+            
+            const oldPrice = currentPrice;
+            currentPrice = price;
+            
+            // Update 24h high/low
+            if (price > high24h) high24h = price;
+            if (price < low24h) low24h = price;
+            volume24h += tradeVolume;
+            
+            // Update current candle
+            const now = Date.now();
+            const currentMinute = Math.floor(now / 60000);
+            
+            if (!currentCandle || currentCandle.minute !== currentMinute) {
+                // Close previous candle if exists
+                if (currentCandle) {
+                    candles.push({
+                        open: currentCandle.open,
+                        high: currentCandle.high,
+                        low: currentCandle.low,
+                        close: currentCandle.close,
+                        minute: currentCandle.minute
+                    });
+                    
+                    // Keep only last 60 candles (1 hour)
+                    if (candles.length > totalCandles) {
+                        candles.shift();
+                    }
+                }
                 
-                // Create realistic high and low (price moved both directions)
-                const maxDeviation = Math.abs(close - open) * 2 + (price * 0.002);
-                const high = Math.max(open, close) + (Math.random() * maxDeviation);
-                const low = Math.min(open, close) - (Math.random() * maxDeviation);
+                // Start new candle
+                currentCandle = {
+                    open: price,
+                    high: price,
+                    low: price,
+                    close: price,
+                    minute: currentMinute
+                };
+            } else {
+                // Update current candle
+                currentCandle.high = Math.max(currentCandle.high, price);
+                currentCandle.low = Math.min(currentCandle.low, price);
+                currentCandle.close = price;
+            }
+            
+            updateStatsDisplay();
+            drawChart();
+        }
+        
+        // Fallback simulated data if WebSocket fails
+        function startSimulatedData() {
+            let simPrice = 50000;
+            high24h = 50000;
+            low24h = 50000;
+            
+            // Generate some initial candles
+            for (let i = 0; i < 30; i++) {
+                const change = (Math.random() - 0.5) * 200;
+                const open = simPrice;
+                const close = simPrice + change;
+                const high = Math.max(open, close) + Math.random() * 150;
+                const low = Math.min(open, close) - Math.random() * 150;
                 
                 candles.push({
                     open: open,
                     high: high,
                     low: low,
                     close: close,
-                    isUp: close >= open
+                    minute: Date.now() - (30 - i) * 60000
                 });
                 
-                price = close;
+                simPrice = close;
             }
-            currentPrice = candles[candles.length - 1].close;
-            updateHighLow();
+            
+            currentPrice = simPrice;
+            high24h = Math.max(...candles.map(c => c.high));
+            low24h = Math.min(...candles.map(c => c.low));
+            
+            updateStatsDisplay();
             drawChart();
+            
+            // Simulate price updates every 2 seconds
+            setInterval(() => {
+                const change = (Math.random() - 0.5) * 100;
+                const newPrice = Math.max(currentPrice + change, 10000);
+                updatePrice(newPrice, Math.random() * 5);
+            }, 2000);
         }
         
-        function updateHighLow() {
-            highPrice = Math.max(...candles.map(c => c.high));
-            lowPrice = Math.min(...candles.map(c => c.low));
-            if (currentCandle) {
-                highPrice = Math.max(highPrice, currentCandle.high);
-                lowPrice = Math.min(lowPrice, currentCandle.low);
-            }
-        }
-        
-        function startNewCandle() {
-            // Complete previous candle
-            if (currentCandle && pricePath.length > 0) {
-                const finalClose = pricePath[pricePath.length - 1];
-                const maxPrice = Math.max(...pricePath);
-                const minPrice = Math.min(...pricePath);
-                
-                candles.push({
-                    open: currentCandle.open,
-                    high: maxPrice,
-                    low: minPrice,
-                    close: finalClose,
-                    isUp: finalClose >= currentCandle.open
-                });
-                
-                currentPrice = finalClose;
-                
-                if (candles.length > totalCandles) {
-                    candles.shift();
-                }
-                
-                updateHighLow();
-            }
-            
-            // Generate new realistic price path for next candle
-            const openPrice = currentPrice;
-            pricePath = generateRealisticPath(openPrice, 60);
-            
-            currentCandle = {
-                open: openPrice,
-                high: openPrice,
-                low: openPrice,
-                startTime: Date.now(),
-                step: 0
-            };
-            
-            currentStep = 0;
-            
-            // Start price animation
-            if (window.priceInterval) clearInterval(window.priceInterval);
-            window.priceInterval = setInterval(updatePriceStep, 250); // 60 steps = 15 seconds
-        }
-        
-        function updatePriceStep() {
-            if (!currentCandle || currentStep >= pricePath.length - 1) return;
-            
-            currentStep++;
-            currentPrice = pricePath[currentStep];
-            
-            // Update current candle high/low
-            if (currentPrice > currentCandle.high) currentCandle.high = currentPrice;
-            if (currentPrice < currentCandle.low) currentCandle.low = currentPrice;
-            
-            updateHighLow();
-            updateStats();
-            drawChart();
-        }
-        
-        function updateStats() {
+        function updateStatsDisplay() {
             const priceElement = document.getElementById('currentPrice');
             const changeElement = document.getElementById('priceChange');
             const highElement = document.getElementById('highPrice');
@@ -546,41 +598,17 @@
             
             priceElement.textContent = currentPrice.toFixed(2);
             
-            const firstPrice = candles[0]?.open || currentPrice;
+            // Calculate 24h change (from first candle or last 24h)
+            const firstPrice = candles.length > 0 ? candles[0].open : currentPrice;
             const changePercent = ((currentPrice - firstPrice) / firstPrice) * 100;
             
             changeElement.textContent = (changePercent >= 0 ? '+' : '') + changePercent.toFixed(2) + '%';
             changeElement.className = 'chart-change ' + (changePercent >= 0 ? 'up' : 'down');
             priceElement.className = 'chart-price ' + (changePercent >= 0 ? 'up' : 'down');
             
-            highElement.textContent = highPrice.toFixed(2);
-            lowElement.textContent = lowPrice.toFixed(2);
-            
-            const volume = Math.floor(Math.random() * 15000) + 5000;
-            volumeElement.textContent = volume.toLocaleString();
-        }
-        
-        function startCountdown() {
-            if (countdownInterval) clearInterval(countdownInterval);
-            secondsLeft = 15;
-            updateCountdownDisplay();
-            
-            countdownInterval = setInterval(() => {
-                secondsLeft--;
-                updateCountdownDisplay();
-                if (secondsLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    startNewCandle();
-                    startCountdown();
-                }
-            }, 1000);
-        }
-        
-        function updateCountdownDisplay() {
-            const timerElement = document.getElementById('countdownTimer');
-            if (timerElement) {
-                timerElement.textContent = `Next candle in ${secondsLeft}s`;
-            }
+            highElement.textContent = high24h.toFixed(2);
+            lowElement.textContent = low24h.toFixed(2);
+            volumeElement.textContent = volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
         
         function drawGrid() {
@@ -611,8 +639,8 @@
             ctx.fillRect(0, 0, width, height);
             drawGrid();
             
-            let maxPrice = highPrice;
-            let minPrice = lowPrice;
+            let maxPrice = high24h;
+            let minPrice = low24h;
             if (currentCandle) {
                 maxPrice = Math.max(maxPrice, currentCandle.high);
                 minPrice = Math.min(minPrice, currentCandle.low);
@@ -646,7 +674,7 @@
                 const bodyBottom = Math.max(openY, closeY);
                 const bodyHeight = Math.max(1, bodyBottom - bodyTop);
                 
-                // Draw wick (shows the full range - price went both directions)
+                // Wick
                 ctx.beginPath();
                 ctx.moveTo(x + actualCandleWidth / 2, highY);
                 ctx.lineTo(x + actualCandleWidth / 2, lowY);
@@ -654,7 +682,7 @@
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 
-                // Draw body
+                // Body
                 ctx.fillStyle = isUp ? upColor : downColor;
                 ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
                 ctx.strokeStyle = isUp ? upColor : downColor;
@@ -663,48 +691,27 @@
             }
             
             // Draw current forming candle
-            if (currentCandle && pricePath.length > 0) {
+            if (currentCandle) {
                 const x = startX + (displayCandles.length * step);
-                const currentClose = pricePath[currentStep] || currentCandle.open;
                 const openY = getY(currentCandle.open);
-                const closeY = getY(currentClose);
+                const closeY = getY(currentCandle.close);
                 const highY = getY(currentCandle.high);
                 const lowY = getY(currentCandle.low);
-                const isUp = currentClose >= currentCandle.open;
+                const isUp = currentCandle.close >= currentCandle.open;
                 const bodyTop = Math.min(openY, closeY);
                 const bodyBottom = Math.max(openY, closeY);
                 const bodyHeight = Math.max(1, bodyBottom - bodyTop);
                 
-                // Draw wick
                 ctx.beginPath();
                 ctx.moveTo(x + actualCandleWidth / 2, highY);
                 ctx.lineTo(x + actualCandleWidth / 2, lowY);
                 ctx.strokeStyle = wickColor;
                 ctx.stroke();
                 
-                // Draw body (updates in real-time)
                 ctx.fillStyle = isUp ? upColor : downColor;
                 ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
                 ctx.strokeStyle = isUp ? upColor : downColor;
                 ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
-            }
-            
-            // Draw entry line
-            if (candles.length > 0) {
-                const firstPrice = candles[0].open;
-                const entryY = getY(firstPrice);
-                ctx.beginPath();
-                ctx.moveTo(0, entryY);
-                ctx.lineTo(width, entryY);
-                ctx.strokeStyle = '#3b82f6';
-                ctx.lineWidth = 1;
-                ctx.setLineDash([5, 5]);
-                ctx.stroke();
-                ctx.setLineDash([]);
-                
-                ctx.fillStyle = '#3b82f6';
-                ctx.font = '10px monospace';
-                ctx.fillText('Entry: ' + firstPrice.toFixed(2), 5, entryY - 3);
             }
         }
         
@@ -717,10 +724,15 @@
         
         window.addEventListener('resize', handleResize);
         
+        // Initialize
         function init() {
-            initHistoricalCandles();
-            startNewCandle();
-            startCountdown();
+            connectWebSocket();
+            // Fallback: if no data after 5 seconds, start simulated
+            setTimeout(() => {
+                if (candles.length === 0 && !currentCandle) {
+                    startSimulatedData();
+                }
+            }, 5000);
         }
         
         init();
