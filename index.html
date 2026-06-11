@@ -40,7 +40,7 @@
 
         .chart-container {
             width: 100%;
-            max-width: 550px;
+            max-width: 650px;
             background: #131722;
             border-radius: 16px;
             padding: 16px;
@@ -93,6 +93,7 @@
             height: auto;
             background: #131722;
             border-radius: 8px;
+            cursor: pointer;
         }
 
         .chart-stats {
@@ -359,7 +360,7 @@
                         <span class="chart-change" id="priceChange">+0.00%</span>
                     </div>
                 </div>
-                <canvas id="candleCanvas" width="550" height="300" style="width:100%; height:auto; max-width:550px; aspect-ratio:550/300"></canvas>
+                <canvas id="candleCanvas" width="650" height="320" style="width:100%; height:auto; max-width:650px; aspect-ratio:650/320"></canvas>
                 <div class="chart-stats">
                     <span>24h High: <span id="highPrice">0</span></span>
                     <span>24h Low: <span id="lowPrice">0</span></span>
@@ -367,7 +368,7 @@
                     <span>Real Data</span>
                 </div>
                 <div class="connection-status">
-                    <span id="connectionStatus">Connecting to Binance...</span>
+                    <span id="connectionStatus">Loading 7 days of data...</span>
                 </div>
             </div>
         </div>
@@ -406,12 +407,12 @@
         const canvas = document.getElementById('candleCanvas');
         const ctx = canvas.getContext('2d');
         
-        const width = 550;
-        const height = 300;
+        const width = 650;
+        const height = 320;
         canvas.width = width;
         canvas.height = height;
         
-        // Store 1-minute candles (60 candles = 1 hour)
+        // Store candles (maximum 10080 = 7 days * 24h * 60min = 10080 candles)
         let candles = [];
         let currentCandle = null;
         let currentPrice = 0;
@@ -419,14 +420,10 @@
         let low24h = Infinity;
         let volume24h = 0;
         
-        // WebSocket connection
-        let ws = null;
-        let reconnectAttempts = 0;
-        const maxReconnectAttempts = 10;
-        
-        const candleWidth = 9;
+        // Fixed number of candles to display (based on canvas width)
+        const candleWidth = 8;
         const candleSpacing = 2;
-        const totalCandles = Math.floor(width / (candleWidth + candleSpacing));
+        const displayCandleCount = Math.floor(width / (candleWidth + candleSpacing));
         
         const bgColor = '#131722';
         const gridColor = '#2a2e39';
@@ -434,9 +431,125 @@
         const downColor = '#ef4444';
         const wickColor = '#9ca3af';
         
-        // Binance WebSocket URL for BTC/USDT
-        // Using wss://stream.binance.com:9443/ws/btcusdt@trade for real-time trades
-        // This gives us updates every time a trade happens (very fast)
+        let ws = null;
+        let reconnectAttempts = 0;
+        
+        // Fetch historical klines from Binance API
+        async function fetchHistoricalData() {
+            updateConnectionStatus('Fetching 7 days of historical data...', false);
+            
+            try {
+                // Fetch 7 days of 1-minute candles (10080 candles)
+                const limit = 1000; // Binance max per request
+                const endTime = Date.now();
+                const startTime = endTime - (7 * 24 * 60 * 60 * 1000); // 7 days ago
+                
+                let allKlines = [];
+                let currentStartTime = startTime;
+                
+                // Binance limits to 1000 candles per request, so we need multiple requests
+                while (currentStartTime < endTime) {
+                    const url = `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=${limit}&startTime=${currentStartTime}&endTime=${endTime}`;
+                    const response = await fetch(url);
+                    const klines = await response.json();
+                    
+                    if (klines.length === 0) break;
+                    
+                    allKlines = allKlines.concat(klines);
+                    currentStartTime = klines[klines.length - 1][0] + 60000; // Move to next minute
+                    
+                    // Small delay to avoid rate limits
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                // Process klines into candles
+                for (const k of allKlines) {
+                    const open = parseFloat(k[1]);
+                    const high = parseFloat(k[2]);
+                    const low = parseFloat(k[3]);
+                    const close = parseFloat(k[4]);
+                    const volume = parseFloat(k[5]);
+                    const time = k[0];
+                    
+                    candles.push({
+                        open: open,
+                        high: high,
+                        low: low,
+                        close: close,
+                        volume: volume,
+                        time: time
+                    });
+                    
+                    // Update 24h high/low (last 1440 candles = last 24h)
+                    const last24hCandles = candles.slice(-1440);
+                    high24h = Math.max(...last24hCandles.map(c => c.high));
+                    low24h = Math.min(...last24hCandles.map(c => c.low));
+                    volume24h = last24hCandles.reduce((sum, c) => sum + c.volume, 0);
+                }
+                
+                currentPrice = candles[candles.length - 1].close;
+                
+                updateStatsDisplay();
+                drawChart();
+                
+                updateConnectionStatus('Connected to Binance (Real-time)', true);
+                
+                // Start WebSocket for live updates
+                connectWebSocket();
+                
+            } catch (error) {
+                console.error('Failed to fetch historical data:', error);
+                updateConnectionStatus('Failed to load historical data, using demo mode', false);
+                generateDemoData();
+            }
+        }
+        
+        // Generate realistic demo data if API fails
+        function generateDemoData() {
+            let price = 50000;
+            const now = Date.now();
+            const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
+            
+            for (let i = 0; i < 10080; i++) {
+                const change = (Math.random() - 0.5) * 100;
+                const open = price;
+                const close = price + change;
+                const high = Math.max(open, close) + Math.random() * 80;
+                const low = Math.min(open, close) - Math.random() * 80;
+                
+                candles.push({
+                    open: open,
+                    high: high,
+                    low: low,
+                    close: close,
+                    volume: Math.random() * 100,
+                    time: sevenDaysAgo + (i * 60000)
+                });
+                
+                price = close;
+            }
+            
+            currentPrice = price;
+            const last24hCandles = candles.slice(-1440);
+            high24h = Math.max(...last24hCandles.map(c => c.high));
+            low24h = Math.min(...last24hCandles.map(c => c.low));
+            volume24h = last24hCandles.reduce((sum, c) => sum + c.volume, 0);
+            
+            updateStatsDisplay();
+            drawChart();
+            updateConnectionStatus('Demo mode (simulated data)', false);
+            
+            // Start demo updates
+            startDemoUpdates();
+        }
+        
+        function startDemoUpdates() {
+            setInterval(() => {
+                const change = (Math.random() - 0.5) * 50;
+                const newPrice = Math.max(currentPrice + change, 10000);
+                updatePrice(newPrice, Math.random() * 2);
+            }, 3000);
+        }
         
         function connectWebSocket() {
             const wsUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
@@ -445,7 +558,7 @@
             
             ws.onopen = function() {
                 console.log('WebSocket connected');
-                updateConnectionStatus('Connected to Binance (Real-time)', true);
+                updateConnectionStatus('Live updates active', true);
                 reconnectAttempts = 0;
             };
             
@@ -454,78 +567,57 @@
                 if (data.e === 'trade') {
                     const price = parseFloat(data.p);
                     const volume = parseFloat(data.q);
-                    
                     updatePrice(price, volume);
                 }
             };
             
             ws.onerror = function(error) {
                 console.error('WebSocket error:', error);
-                updateConnectionStatus('Connection error, reconnecting...', false);
+                updateConnectionStatus('WebSocket error, using REST updates', false);
             };
             
             ws.onclose = function() {
                 console.log('WebSocket disconnected');
-                updateConnectionStatus('Disconnected, reconnecting...', false);
-                reconnect();
+                updateConnectionStatus('Reconnecting...', false);
+                setTimeout(() => reconnectWebSocket(), 3000);
             };
         }
         
-        function reconnect() {
-            if (reconnectAttempts < maxReconnectAttempts) {
+        function reconnectWebSocket() {
+            if (reconnectAttempts < 10) {
                 reconnectAttempts++;
-                setTimeout(() => {
-                    console.log(`Reconnecting attempt ${reconnectAttempts}...`);
-                    connectWebSocket();
-                }, 2000 * reconnectAttempts);
-            } else {
-                updateConnectionStatus('Failed to connect. Using simulated data.', false);
-                startSimulatedData();
-            }
-        }
-        
-        function updateConnectionStatus(message, isConnected) {
-            const statusElement = document.getElementById('connectionStatus');
-            const badgeElement = document.getElementById('liveBadge');
-            if (statusElement) {
-                statusElement.textContent = message;
-                statusElement.className = isConnected ? 'status-connected' : 'status-disconnected';
-            }
-            if (badgeElement) {
-                badgeElement.textContent = isConnected ? 'LIVE' : 'DEMO';
-                badgeElement.style.backgroundColor = isConnected ? '#22c55e20' : '#f59e0b20';
-                badgeElement.style.color = isConnected ? '#22c55e' : '#f59e0b';
+                connectWebSocket();
             }
         }
         
         function updatePrice(price, tradeVolume) {
             if (price === currentPrice) return;
             
-            const oldPrice = currentPrice;
             currentPrice = price;
             
-            // Update 24h high/low
+            // Update 24h stats
             if (price > high24h) high24h = price;
             if (price < low24h) low24h = price;
             volume24h += tradeVolume;
             
-            // Update current candle
+            // Update current candle (1-minute based)
             const now = Date.now();
             const currentMinute = Math.floor(now / 60000);
             
             if (!currentCandle || currentCandle.minute !== currentMinute) {
-                // Close previous candle if exists
+                // Close previous candle
                 if (currentCandle) {
                     candles.push({
                         open: currentCandle.open,
                         high: currentCandle.high,
                         low: currentCandle.low,
                         close: currentCandle.close,
-                        minute: currentCandle.minute
+                        volume: currentCandle.volume,
+                        time: currentCandle.minute * 60000
                     });
                     
-                    // Keep only last 60 candles (1 hour)
-                    if (candles.length > totalCandles) {
+                    // Keep only last 7 days (10080 candles)
+                    if (candles.length > 10080) {
                         candles.shift();
                     }
                 }
@@ -536,6 +628,7 @@
                     high: price,
                     low: price,
                     close: price,
+                    volume: 0,
                     minute: currentMinute
                 };
             } else {
@@ -543,50 +636,11 @@
                 currentCandle.high = Math.max(currentCandle.high, price);
                 currentCandle.low = Math.min(currentCandle.low, price);
                 currentCandle.close = price;
+                currentCandle.volume += tradeVolume;
             }
             
             updateStatsDisplay();
             drawChart();
-        }
-        
-        // Fallback simulated data if WebSocket fails
-        function startSimulatedData() {
-            let simPrice = 50000;
-            high24h = 50000;
-            low24h = 50000;
-            
-            // Generate some initial candles
-            for (let i = 0; i < 30; i++) {
-                const change = (Math.random() - 0.5) * 200;
-                const open = simPrice;
-                const close = simPrice + change;
-                const high = Math.max(open, close) + Math.random() * 150;
-                const low = Math.min(open, close) - Math.random() * 150;
-                
-                candles.push({
-                    open: open,
-                    high: high,
-                    low: low,
-                    close: close,
-                    minute: Date.now() - (30 - i) * 60000
-                });
-                
-                simPrice = close;
-            }
-            
-            currentPrice = simPrice;
-            high24h = Math.max(...candles.map(c => c.high));
-            low24h = Math.min(...candles.map(c => c.low));
-            
-            updateStatsDisplay();
-            drawChart();
-            
-            // Simulate price updates every 2 seconds
-            setInterval(() => {
-                const change = (Math.random() - 0.5) * 100;
-                const newPrice = Math.max(currentPrice + change, 10000);
-                updatePrice(newPrice, Math.random() * 5);
-            }, 2000);
         }
         
         function updateStatsDisplay() {
@@ -598,9 +652,9 @@
             
             priceElement.textContent = currentPrice.toFixed(2);
             
-            // Calculate 24h change (from first candle or last 24h)
-            const firstPrice = candles.length > 0 ? candles[0].open : currentPrice;
-            const changePercent = ((currentPrice - firstPrice) / firstPrice) * 100;
+            // Calculate 24h change (from 1440 candles ago)
+            const dayAgoPrice = candles.length > 1440 ? candles[candles.length - 1440].open : currentPrice;
+            const changePercent = ((currentPrice - dayAgoPrice) / dayAgoPrice) * 100;
             
             changeElement.textContent = (changePercent >= 0 ? '+' : '') + changePercent.toFixed(2) + '%';
             changeElement.className = 'chart-change ' + (changePercent >= 0 ? 'up' : 'down');
@@ -639,8 +693,15 @@
             ctx.fillRect(0, 0, width, height);
             drawGrid();
             
+            // Get last N candles to display (newest on right)
+            const displayCandles = candles.slice(-displayCandleCount);
+            
+            if (displayCandles.length === 0 && !currentCandle) return;
+            
+            // Calculate price range for scaling
             let maxPrice = high24h;
             let minPrice = low24h;
+            
             if (currentCandle) {
                 maxPrice = Math.max(maxPrice, currentCandle.high);
                 minPrice = Math.min(minPrice, currentCandle.low);
@@ -655,13 +716,10 @@
             
             const startX = 10;
             const availableWidth = width - 20;
-            const step = availableWidth / totalCandles;
+            const step = availableWidth / displayCandleCount;
             const actualCandleWidth = Math.min(candleWidth, step - candleSpacing);
             
-            const startIndex = Math.max(0, candles.length - totalCandles);
-            const displayCandles = candles.slice(startIndex);
-            
-            // Draw historical candles
+            // Draw historical candles (oldest on left, newest on right)
             for (let i = 0; i < displayCandles.length; i++) {
                 const candle = displayCandles[i];
                 const x = startX + (i * step);
@@ -690,7 +748,7 @@
                 ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
             }
             
-            // Draw current forming candle
+            // Draw current forming candle (at the right edge)
             if (currentCandle) {
                 const x = startX + (displayCandles.length * step);
                 const openY = getY(currentCandle.open);
@@ -715,9 +773,23 @@
             }
         }
         
+        function updateConnectionStatus(message, isConnected) {
+            const statusElement = document.getElementById('connectionStatus');
+            const badgeElement = document.getElementById('liveBadge');
+            if (statusElement) {
+                statusElement.textContent = message;
+                statusElement.className = isConnected ? 'status-connected' : 'status-disconnected';
+            }
+            if (badgeElement) {
+                badgeElement.textContent = isConnected ? 'LIVE' : 'DEMO';
+                badgeElement.style.backgroundColor = isConnected ? '#22c55e20' : '#f59e0b20';
+                badgeElement.style.color = isConnected ? '#22c55e' : '#f59e0b';
+            }
+        }
+        
         function handleResize() {
             const rect = canvas.parentElement.getBoundingClientRect();
-            const newWidth = Math.min(rect.width, 550);
+            const newWidth = Math.min(rect.width, 650);
             canvas.style.width = newWidth + 'px';
             drawChart();
         }
@@ -725,23 +797,13 @@
         window.addEventListener('resize', handleResize);
         
         // Initialize
-        function init() {
-            connectWebSocket();
-            // Fallback: if no data after 5 seconds, start simulated
-            setTimeout(() => {
-                if (candles.length === 0 && !currentCandle) {
-                    startSimulatedData();
-                }
-            }, 5000);
-        }
-        
-        init();
+        fetchHistoricalData();
         
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
                 loading.classList.add('hidden');
-            }, 500);
+            }, 1000);
             handleResize();
         });
         
