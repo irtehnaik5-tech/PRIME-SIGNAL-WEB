@@ -39,13 +39,14 @@
             overflow: hidden;
         }
 
-        /* Art content (center text) */
+        /* Art content (center text) - HIGH Z-INDEX TO STAY IN FRONT */
         .art-content {
             position: relative;
-            z-index: 2;
+            z-index: 99999;
             text-align: center;
             max-width: 80%;
             padding: 40px;
+            pointer-events: none;
         }
 
         .art-icon {
@@ -99,7 +100,7 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE - NO ROUND CORNERS, TOUCHING BOTTOM AND LEFT */
+        /* BOTTOM-LEFT IMAGE - LOWER Z-INDEX SO TEXT STAYS IN FRONT */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -255,7 +256,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization */
+        /* Mobile optimization - IMAGE GETS SMALLER WHEN SECTION MOVES TO TOP */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -270,6 +271,7 @@
             .art-content {
                 padding: 20px;
                 margin-top: 0;
+                z-index: 20;
             }
 
             .art-icon {
@@ -285,12 +287,12 @@
                 display: none;
             }
 
-            /* Bottom-left image on mobile - smaller, touching bottom-left corner */
+            /* IMAGE SMALLER ON MOBILE - 50% of original size */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
                 max-width: 250px;
-                min-width: 200px;
+                min-width: 150px;
                 opacity: 0.8;
             }
 
@@ -311,11 +313,11 @@
             }
         }
 
-        /* Small mobile (very small screens) */
+        /* Small mobile (very small screens) - IMAGE EVEN SMALLER */
         @media (max-width: 480px) {
             .bottom-left-image {
-                max-width: 200px;
-                min-width: 150px;
+                max-width: 150px;
+                min-width: 100px;
                 bottom: 0;
                 left: 0;
                 opacity: 0.7;
@@ -343,6 +345,14 @@
             }
         }
 
+        /* Extra small mobile */
+        @media (max-width: 380px) {
+            .bottom-left-image {
+                max-width: 120px;
+                min-width: 80px;
+            }
+        }
+
         /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .art-title {
@@ -359,7 +369,8 @@
             }
 
             .bottom-left-image {
-                max-width: 80px;
+                max-width: 350px;
+                min-width: 250px;
             }
         }
 
@@ -420,7 +431,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - No border radius, touching bottom and left -->
+            <!-- BOTTOM-LEFT IMAGE - Text stays in front -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
