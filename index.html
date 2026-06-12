@@ -19,6 +19,7 @@
             overflow: hidden;
         }
 
+        /* Split layout container */
         .split-container {
             display: flex;
             width: 100%;
@@ -26,102 +27,109 @@
             flex-direction: row;
         }
 
+        /* LEFT SIDE - Art / Image section */
         .art-section {
             flex: 1;
-            background: #0f172a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0a0c10 100%);
             position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding: 20px;
         }
 
-        .chart-container {
-            width: 100%;
-            max-width: 650px;
-            background: #131722;
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid #2a2f3c;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        /* Animated background elements */
+        .art-section::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(59,130,246,0.15) 0%, transparent 50%);
+            animation: slowMove 20s ease-in-out infinite;
         }
 
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #2a2f3c;
+        .art-section::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 70% 60%, rgba(139,92,246,0.1) 0%, transparent 50%);
+            animation: slowMoveReverse 25s ease-in-out infinite;
         }
 
-        .chart-symbol {
-            font-family: monospace;
-            font-size: 14px;
-            font-weight: bold;
-            color: #3b82f6;
+        @keyframes slowMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5%, -5%) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        .live-badge {
-            font-size: 10px;
-            background: #22c55e20;
-            color: #22c55e;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 8px;
+        @keyframes slowMoveReverse {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(5%, 5%) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        .chart-price {
-            font-family: monospace;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .chart-price.up { color: #22c55e; }
-        .chart-price.down { color: #ef4444; }
-
-        .chart-change {
-            font-family: monospace;
-            font-size: 12px;
-            margin-left: 8px;
-        }
-
-        canvas {
-            width: 100%;
-            height: auto;
-            background: #131722;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .chart-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #2a2f3c;
-            font-size: 10px;
-            color: #9ca3af;
-            font-family: monospace;
-        }
-
-        .connection-status {
+        /* Art content */
+        .art-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            margin-top: 12px;
-            font-family: monospace;
-            font-size: 10px;
+            max-width: 80%;
+            padding: 40px;
         }
 
-        .status-connected {
-            color: #22c55e;
+        .art-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
+            animation: float 6s ease-in-out infinite;
         }
 
-        .status-disconnected {
-            color: #ef4444;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
+        .art-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e6e9f0, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .art-features {
+            list-style: none;
+            margin-top: 32px;
+        }
+
+        .art-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #cbd5e1;
+        }
+
+        .art-features li::before {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: rgba(59,130,246,0.2);
+            border-radius: 50%;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* RIGHT SIDE - Login section */
         .login-section {
             flex: 1;
             display: flex;
@@ -179,6 +187,7 @@
             color: #9ca3af;
         }
 
+        /* Telegram login button */
         .telegram-login-btn {
             display: flex;
             align-items: center;
@@ -211,6 +220,7 @@
             fill: currentColor;
         }
 
+        /* Divider */
         .divider {
             display: flex;
             align-items: center;
@@ -231,6 +241,7 @@
             padding: 0 12px;
         }
 
+        /* Stats section */
         .stats {
             display: flex;
             justify-content: space-around;
@@ -255,59 +266,84 @@
             margin-top: 4px;
         }
 
+        /* Mobile optimization */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
             }
+
             .art-section {
-                min-height: 45vh;
-                max-height: 45vh;
-                padding: 12px;
+                min-height: 35vh;
+                max-height: 35vh;
             }
-            .chart-container {
-                padding: 10px;
+
+            .art-content {
+                padding: 20px;
             }
-            .chart-price {
-                font-size: 16px;
+
+            .art-icon {
+                font-size: 50px;
+                margin-bottom: 12px;
             }
+
+            .art-title {
+                font-size: 1.5rem;
+            }
+
+            .art-features {
+                display: none;
+            }
+
             .login-section {
-                min-height: 55vh;
+                min-height: 65vh;
                 align-items: flex-start;
                 padding-top: 20px;
             }
+
             .login-card {
-                padding: 28px 20px;
-                width: 92%;
+                padding: 32px 24px;
+                width: 90%;
                 margin: 0 auto;
             }
+
             .welcome-text h2 {
                 font-size: 20px;
             }
         }
 
+        /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
+            .art-title {
+                font-size: 1.8rem;
+            }
+
+            .art-features li {
+                font-size: 0.9rem;
+            }
+
             .login-card {
                 padding: 40px 32px;
                 margin: 20px;
             }
         }
 
+        /* Small mobile */
         @media (max-width: 480px) {
             .login-card {
-                padding: 20px 16px;
+                padding: 24px 20px;
             }
+
             .telegram-login-btn {
                 padding: 12px 20px;
                 font-size: 14px;
             }
+
             .stat-number {
                 font-size: 18px;
             }
-            .chart-price {
-                font-size: 14px;
-            }
         }
 
+        /* Loading animation */
         .loading {
             position: fixed;
             top: 0;
@@ -343,472 +379,92 @@
 </head>
 <body>
 
+    <!-- Loading animation -->
     <div id="loading" class="loading">
         <div class="spinner"></div>
     </div>
 
     <div class="split-container">
+        <!-- LEFT SIDE - Art / Design -->
         <div class="art-section">
-            <div class="chart-container">
-                <div class="chart-header">
-                    <div>
-                        <span class="chart-symbol">BTC/USDT</span>
-                        <span class="live-badge" id="liveBadge">LIVE</span>
-                    </div>
-                    <div>
-                        <span class="chart-price" id="currentPrice">0.00</span>
-                        <span class="chart-change" id="priceChange">+0.00%</span>
-                    </div>
+            <div class="art-content">
+                <div class="art-icon">
+                    📊
                 </div>
-                <canvas id="candleCanvas" width="650" height="320" style="width:100%; height:auto; max-width:650px; aspect-ratio:650/320"></canvas>
-                <div class="chart-stats">
-                    <span>24h High: <span id="highPrice">0</span></span>
-                    <span>24h Low: <span id="lowPrice">0</span></span>
-                    <span>Volume: <span id="volume">0</span></span>
-                    <span>Real Data</span>
-                </div>
-                <div class="connection-status">
-                    <span id="connectionStatus">Loading 7 days of data...</span>
-                </div>
+                <h1 class="art-title">Trade Smarter<br>With AI</h1>
+                <ul class="art-features">
+                    <li>Real-time market scanning (100+ assets)</li>
+                    <li>AI-powered entry, stop & take-profit</li>
+                    <li>Crypto · Forex · Stocks</li>
+                    <li>Live charts with technical indicators</li>
+                </ul>
             </div>
         </div>
 
+        <!-- RIGHT SIDE - Login Form -->
         <div class="login-section">
             <div class="login-card">
                 <div class="logo">
                     <h1>⚡ PRIMESIGNAL</h1>
                     <p>AI-Powered Trading Signals</p>
                 </div>
+
                 <div class="welcome-text">
                     <h2>Welcome back, trader</h2>
                     <p>Access your dashboard in Telegram</p>
                 </div>
+
+                <!-- Telegram Login Button -->
                 <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtn">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.6-1.38-.97-2.23-1.56-.99-.69-.35-1.07.22-1.69.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.09-.2-.1-.06-.24-.04-.35-.02-.16.03-2.6 1.65-3.35 2.11-.32.21-.6.32-.86.32-.28 0-.82-.16-1.22-.29-.5-.16-1.01-.33-1.46-.35-.48-.03-.95.12-1.4.36-.45.24-.77.59-.97.94l-.02.01c-.19.34-.29.72-.27 1.1.02.38.16.73.4 1.04.24.31.54.53.88.64 1.06.35 2.48.45 3.73.09.82-.24 2.43-.96 4.04-1.88 1.75-1 3.45-2.16 4.49-3.66.2-.28.33-.6.4-.94.07-.34.06-.7-.03-1.04-.09-.34-.25-.65-.48-.91-.23-.26-.52-.45-.84-.56-.65-.23-1.29-.21-1.94-.19-.28.01-.56.04-.84.1-.63.13-1.24.37-1.8.71-1.2.73-2.23 1.73-3 2.92-.2.3-.35.63-.43.98-.08.35-.1.71-.05 1.07.05.36.17.7.35 1.01.18.31.42.58.7.79.19.15.4.26.63.33.13.04.26.06.39.06.34 0 .68-.09.99-.27.31-.18.57-.42.78-.71.42-.58.7-1.24.83-1.94.13-.7.1-1.42-.09-2.11-.19-.69-.53-1.32-1-1.87-.47-.55-1.05-.99-1.71-1.3-.65-.31-1.36-.48-2.08-.5-.39-.01-.78.03-1.17.12-.38.09-.75.23-1.1.42l-.02.01c-.66.35-1.24.85-1.7 1.45-.46.6-.8 1.3-1 2.05-.2.75-.25 1.54-.15 2.31.1.77.35 1.5.74 2.16.39.66.91 1.23 1.54 1.68.62.45 1.33.78 2.08.97.65.16 1.32.22 1.99.18.67-.04 1.33-.18 1.96-.42.95-.36 1.83-.86 2.62-1.48.79-.62 1.47-1.35 2.03-2.17.55-.82.98-1.72 1.27-2.68.29-.96.44-1.97.44-2.99 0-1.02-.16-2.03-.48-3-.32-.97-.79-1.88-1.4-2.7-.61-.82-1.35-1.53-2.19-2.1-.84-.57-1.78-1-2.78-1.27-.99-.27-2.03-.4-3.07-.38-1.04.02-2.07.18-3.06.48-.99.3-1.92.74-2.77 1.3-.85.56-1.61 1.24-2.26 2.02-.65.78-1.18 1.65-1.59 2.59-.41.94-.69 1.94-.84 2.97-.15 1.03-.16 2.08-.03 3.12.13 1.04.4 2.04.8 2.99.4.95.93 1.83 1.57 2.63.64.8 1.39 1.5 2.22 2.09.83.59 1.74 1.06 2.7 1.39.96.33 1.97.52 3 .56 1.03.04 2.06-.07 3.06-.33 1-.26 1.94-.66 2.82-1.18.88-.52 1.68-1.15 2.39-1.87.71-.72 1.31-1.54 1.79-2.43.48-.89.84-1.85 1.06-2.85.22-1 .3-2.04.24-3.08-.06-1.04-.27-2.06-.62-3.03-.35-.97-.84-1.88-1.45-2.71-.61-.83-1.34-1.56-2.17-2.18-.83-.62-1.75-1.12-2.73-1.49-.98-.37-2.01-.6-3.05-.69-1.04-.09-2.09-.03-3.11.18-1.02.21-1.99.56-2.89 1.03-.9.47-1.72 1.05-2.44 1.73-.72.68-1.33 1.45-1.81 2.3-.48.85-.83 1.77-1.03 2.73-.2.96-.25 1.95-.16 2.93.09.98.32 1.93.68 2.84.36.91.84 1.76 1.42 2.53.58.77 1.26 1.45 2.02 2.02.76.57 1.59 1.03 2.47 1.37.88.34 1.8.55 2.73.63.93.08 1.87.03 2.78-.16.91-.19 1.78-.5 2.6-.93.82-.43 1.57-.96 2.25-1.58.68-.62 1.27-1.33 1.77-2.11.5-.78.9-1.63 1.19-2.52.29-.89.46-1.82.51-2.76.05-.94-.02-1.88-.21-2.8z"/>
                     </svg>
                     Continue with Telegram
                 </a>
-                <div class="divider"><span>Free • Secure • Instant</span></div>
-                <div class="stats">
-                    <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Assets</div></div>
-                    <div class="stat-item"><div class="stat-number">⚡Real-time</div><div class="stat-label">Live Data</div></div>
-                    <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Trading</div></div>
+
+                <div class="divider">
+                    <span>Free • Secure • Instant</span>
                 </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Assets</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">⚡5s</div>
+                        <div class="stat-label">Scan Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Live</div>
+                    </div>
+                </div>
+
                 <div class="divider"></div>
+                
                 <div style="text-align: center; margin-top: 16px;">
-                    <span style="font-size: 11px; color: #6b7280;">🔐 No passwords • No email • Telegram only</span>
+                    <span style="font-size: 11px; color: #6b7280;">
+                        🔐 No passwords • No email • Telegram only
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('candleCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        const width = 650;
-        const height = 320;
-        canvas.width = width;
-        canvas.height = height;
-        
-        // Store candles (maximum 10080 = 7 days * 24h * 60min = 10080 candles)
-        let candles = [];
-        let currentCandle = null;
-        let currentPrice = 0;
-        let high24h = 0;
-        let low24h = Infinity;
-        let volume24h = 0;
-        
-        // Fixed number of candles to display (based on canvas width)
-        const candleWidth = 8;
-        const candleSpacing = 2;
-        const displayCandleCount = Math.floor(width / (candleWidth + candleSpacing));
-        
-        const bgColor = '#131722';
-        const gridColor = '#2a2e39';
-        const upColor = '#22c55e';
-        const downColor = '#ef4444';
-        const wickColor = '#9ca3af';
-        
-        let ws = null;
-        let reconnectAttempts = 0;
-        
-        // Fetch historical klines from Binance API
-        async function fetchHistoricalData() {
-            updateConnectionStatus('Fetching 7 days of historical data...', false);
-            
-            try {
-                // Fetch 7 days of 1-minute candles (10080 candles)
-                const limit = 1000; // Binance max per request
-                const endTime = Date.now();
-                const startTime = endTime - (7 * 24 * 60 * 60 * 1000); // 7 days ago
-                
-                let allKlines = [];
-                let currentStartTime = startTime;
-                
-                // Binance limits to 1000 candles per request, so we need multiple requests
-                while (currentStartTime < endTime) {
-                    const url = `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=${limit}&startTime=${currentStartTime}&endTime=${endTime}`;
-                    const response = await fetch(url);
-                    const klines = await response.json();
-                    
-                    if (klines.length === 0) break;
-                    
-                    allKlines = allKlines.concat(klines);
-                    currentStartTime = klines[klines.length - 1][0] + 60000; // Move to next minute
-                    
-                    // Small delay to avoid rate limits
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                }
-                
-                // Process klines into candles
-                for (const k of allKlines) {
-                    const open = parseFloat(k[1]);
-                    const high = parseFloat(k[2]);
-                    const low = parseFloat(k[3]);
-                    const close = parseFloat(k[4]);
-                    const volume = parseFloat(k[5]);
-                    const time = k[0];
-                    
-                    candles.push({
-                        open: open,
-                        high: high,
-                        low: low,
-                        close: close,
-                        volume: volume,
-                        time: time
-                    });
-                    
-                    // Update 24h high/low (last 1440 candles = last 24h)
-                    const last24hCandles = candles.slice(-1440);
-                    high24h = Math.max(...last24hCandles.map(c => c.high));
-                    low24h = Math.min(...last24hCandles.map(c => c.low));
-                    volume24h = last24hCandles.reduce((sum, c) => sum + c.volume, 0);
-                }
-                
-                currentPrice = candles[candles.length - 1].close;
-                
-                updateStatsDisplay();
-                drawChart();
-                
-                updateConnectionStatus('Connected to Binance (Real-time)', true);
-                
-                // Start WebSocket for live updates
-                connectWebSocket();
-                
-            } catch (error) {
-                console.error('Failed to fetch historical data:', error);
-                updateConnectionStatus('Failed to load historical data, using demo mode', false);
-                generateDemoData();
-            }
-        }
-        
-        // Generate realistic demo data if API fails
-        function generateDemoData() {
-            let price = 50000;
-            const now = Date.now();
-            const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
-            
-            for (let i = 0; i < 10080; i++) {
-                const change = (Math.random() - 0.5) * 100;
-                const open = price;
-                const close = price + change;
-                const high = Math.max(open, close) + Math.random() * 80;
-                const low = Math.min(open, close) - Math.random() * 80;
-                
-                candles.push({
-                    open: open,
-                    high: high,
-                    low: low,
-                    close: close,
-                    volume: Math.random() * 100,
-                    time: sevenDaysAgo + (i * 60000)
-                });
-                
-                price = close;
-            }
-            
-            currentPrice = price;
-            const last24hCandles = candles.slice(-1440);
-            high24h = Math.max(...last24hCandles.map(c => c.high));
-            low24h = Math.min(...last24hCandles.map(c => c.low));
-            volume24h = last24hCandles.reduce((sum, c) => sum + c.volume, 0);
-            
-            updateStatsDisplay();
-            drawChart();
-            updateConnectionStatus('Demo mode (simulated data)', false);
-            
-            // Start demo updates
-            startDemoUpdates();
-        }
-        
-        function startDemoUpdates() {
-            setInterval(() => {
-                const change = (Math.random() - 0.5) * 50;
-                const newPrice = Math.max(currentPrice + change, 10000);
-                updatePrice(newPrice, Math.random() * 2);
-            }, 3000);
-        }
-        
-        function connectWebSocket() {
-            const wsUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
-            
-            ws = new WebSocket(wsUrl);
-            
-            ws.onopen = function() {
-                console.log('WebSocket connected');
-                updateConnectionStatus('Live updates active', true);
-                reconnectAttempts = 0;
-            };
-            
-            ws.onmessage = function(event) {
-                const data = JSON.parse(event.data);
-                if (data.e === 'trade') {
-                    const price = parseFloat(data.p);
-                    const volume = parseFloat(data.q);
-                    updatePrice(price, volume);
-                }
-            };
-            
-            ws.onerror = function(error) {
-                console.error('WebSocket error:', error);
-                updateConnectionStatus('WebSocket error, using REST updates', false);
-            };
-            
-            ws.onclose = function() {
-                console.log('WebSocket disconnected');
-                updateConnectionStatus('Reconnecting...', false);
-                setTimeout(() => reconnectWebSocket(), 3000);
-            };
-        }
-        
-        function reconnectWebSocket() {
-            if (reconnectAttempts < 10) {
-                reconnectAttempts++;
-                connectWebSocket();
-            }
-        }
-        
-        function updatePrice(price, tradeVolume) {
-            if (price === currentPrice) return;
-            
-            currentPrice = price;
-            
-            // Update 24h stats
-            if (price > high24h) high24h = price;
-            if (price < low24h) low24h = price;
-            volume24h += tradeVolume;
-            
-            // Update current candle (1-minute based)
-            const now = Date.now();
-            const currentMinute = Math.floor(now / 60000);
-            
-            if (!currentCandle || currentCandle.minute !== currentMinute) {
-                // Close previous candle
-                if (currentCandle) {
-                    candles.push({
-                        open: currentCandle.open,
-                        high: currentCandle.high,
-                        low: currentCandle.low,
-                        close: currentCandle.close,
-                        volume: currentCandle.volume,
-                        time: currentCandle.minute * 60000
-                    });
-                    
-                    // Keep only last 7 days (10080 candles)
-                    if (candles.length > 10080) {
-                        candles.shift();
-                    }
-                }
-                
-                // Start new candle
-                currentCandle = {
-                    open: price,
-                    high: price,
-                    low: price,
-                    close: price,
-                    volume: 0,
-                    minute: currentMinute
-                };
-            } else {
-                // Update current candle
-                currentCandle.high = Math.max(currentCandle.high, price);
-                currentCandle.low = Math.min(currentCandle.low, price);
-                currentCandle.close = price;
-                currentCandle.volume += tradeVolume;
-            }
-            
-            updateStatsDisplay();
-            drawChart();
-        }
-        
-        function updateStatsDisplay() {
-            const priceElement = document.getElementById('currentPrice');
-            const changeElement = document.getElementById('priceChange');
-            const highElement = document.getElementById('highPrice');
-            const lowElement = document.getElementById('lowPrice');
-            const volumeElement = document.getElementById('volume');
-            
-            priceElement.textContent = currentPrice.toFixed(2);
-            
-            // Calculate 24h change (from 1440 candles ago)
-            const dayAgoPrice = candles.length > 1440 ? candles[candles.length - 1440].open : currentPrice;
-            const changePercent = ((currentPrice - dayAgoPrice) / dayAgoPrice) * 100;
-            
-            changeElement.textContent = (changePercent >= 0 ? '+' : '') + changePercent.toFixed(2) + '%';
-            changeElement.className = 'chart-change ' + (changePercent >= 0 ? 'up' : 'down');
-            priceElement.className = 'chart-price ' + (changePercent >= 0 ? 'up' : 'down');
-            
-            highElement.textContent = high24h.toFixed(2);
-            lowElement.textContent = low24h.toFixed(2);
-            volumeElement.textContent = volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        }
-        
-        function drawGrid() {
-            ctx.strokeStyle = gridColor;
-            ctx.lineWidth = 0.5;
-            
-            for (let i = 0; i <= 5; i++) {
-                const y = (height / 5) * i;
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(width, y);
-                ctx.stroke();
-            }
-            
-            for (let i = 0; i <= 10; i++) {
-                const x = (width / 10) * i;
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, height);
-                ctx.stroke();
-            }
-        }
-        
-        function drawChart() {
-            if (!ctx) return;
-            
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, width, height);
-            drawGrid();
-            
-            // Get last N candles to display (newest on right)
-            const displayCandles = candles.slice(-displayCandleCount);
-            
-            if (displayCandles.length === 0 && !currentCandle) return;
-            
-            // Calculate price range for scaling
-            let maxPrice = high24h;
-            let minPrice = low24h;
-            
-            if (currentCandle) {
-                maxPrice = Math.max(maxPrice, currentCandle.high);
-                minPrice = Math.min(minPrice, currentCandle.low);
-            }
-            
-            const padding = (maxPrice - minPrice) * 0.1;
-            maxPrice += padding;
-            minPrice -= padding;
-            const priceRange = maxPrice - minPrice;
-            
-            const getY = (price) => height - ((price - minPrice) / priceRange) * height;
-            
-            const startX = 10;
-            const availableWidth = width - 20;
-            const step = availableWidth / displayCandleCount;
-            const actualCandleWidth = Math.min(candleWidth, step - candleSpacing);
-            
-            // Draw historical candles (oldest on left, newest on right)
-            for (let i = 0; i < displayCandles.length; i++) {
-                const candle = displayCandles[i];
-                const x = startX + (i * step);
-                const openY = getY(candle.open);
-                const closeY = getY(candle.close);
-                const highY = getY(candle.high);
-                const lowY = getY(candle.low);
-                const isUp = candle.close >= candle.open;
-                const bodyTop = Math.min(openY, closeY);
-                const bodyBottom = Math.max(openY, closeY);
-                const bodyHeight = Math.max(1, bodyBottom - bodyTop);
-                
-                // Wick
-                ctx.beginPath();
-                ctx.moveTo(x + actualCandleWidth / 2, highY);
-                ctx.lineTo(x + actualCandleWidth / 2, lowY);
-                ctx.strokeStyle = wickColor;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-                
-                // Body
-                ctx.fillStyle = isUp ? upColor : downColor;
-                ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
-                ctx.strokeStyle = isUp ? upColor : downColor;
-                ctx.lineWidth = 0.5;
-                ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
-            }
-            
-            // Draw current forming candle (at the right edge)
-            if (currentCandle) {
-                const x = startX + (displayCandles.length * step);
-                const openY = getY(currentCandle.open);
-                const closeY = getY(currentCandle.close);
-                const highY = getY(currentCandle.high);
-                const lowY = getY(currentCandle.low);
-                const isUp = currentCandle.close >= currentCandle.open;
-                const bodyTop = Math.min(openY, closeY);
-                const bodyBottom = Math.max(openY, closeY);
-                const bodyHeight = Math.max(1, bodyBottom - bodyTop);
-                
-                ctx.beginPath();
-                ctx.moveTo(x + actualCandleWidth / 2, highY);
-                ctx.lineTo(x + actualCandleWidth / 2, lowY);
-                ctx.strokeStyle = wickColor;
-                ctx.stroke();
-                
-                ctx.fillStyle = isUp ? upColor : downColor;
-                ctx.fillRect(x, bodyTop, actualCandleWidth, bodyHeight);
-                ctx.strokeStyle = isUp ? upColor : downColor;
-                ctx.strokeRect(x, bodyTop, actualCandleWidth, bodyHeight);
-            }
-        }
-        
-        function updateConnectionStatus(message, isConnected) {
-            const statusElement = document.getElementById('connectionStatus');
-            const badgeElement = document.getElementById('liveBadge');
-            if (statusElement) {
-                statusElement.textContent = message;
-                statusElement.className = isConnected ? 'status-connected' : 'status-disconnected';
-            }
-            if (badgeElement) {
-                badgeElement.textContent = isConnected ? 'LIVE' : 'DEMO';
-                badgeElement.style.backgroundColor = isConnected ? '#22c55e20' : '#f59e0b20';
-                badgeElement.style.color = isConnected ? '#22c55e' : '#f59e0b';
-            }
-        }
-        
-        function handleResize() {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            const newWidth = Math.min(rect.width, 650);
-            canvas.style.width = newWidth + 'px';
-            drawChart();
-        }
-        
-        window.addEventListener('resize', handleResize);
-        
-        // Initialize
-        fetchHistoricalData();
-        
+        // Hide loading animation after page loads
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
                 loading.classList.add('hidden');
-            }, 1000);
-            handleResize();
+            }, 500);
         });
-        
+
+        // Track button click for analytics (optional)
         document.getElementById('loginBtn').addEventListener('click', function() {
             console.log('Telegram login initiated');
+            // You can add analytics tracking here
         });
     </script>
 </body>
