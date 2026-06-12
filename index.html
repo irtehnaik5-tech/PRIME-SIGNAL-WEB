@@ -16,15 +16,15 @@
             font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0c10;
             color: #e6e9f0;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* Split layout container */
         .split-container {
             display: flex;
             width: 100%;
-            min-height: 100vh;
+            height: 100%;
             flex-direction: row;
         }
 
@@ -264,29 +264,29 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - FLOATING LOGIN BOX, BOTH SECTIONS KEPT */
+        /* Mobile optimization - LOGIN BOX AS INDEPENDENT FLOATING LAYER */
         @media (max-width: 768px) {
-            body {
-                overflow-x: hidden;
-            }
-            
             .split-container {
-                flex-direction: column;
+                position: relative;
             }
 
-            /* Art section - keeps its original size */
+            /* Art section becomes full screen background */
             .art-section {
-                min-height: 40vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                min-height: 100vh;
                 max-height: none;
                 justify-content: center;
-                position: relative;
                 z-index: 1;
             }
 
             .art-content {
                 padding: 20px;
                 margin: 0 auto;
-                z-index: 20;
+                z-index: 2;
             }
 
             .art-title {
@@ -297,77 +297,53 @@
                 display: none;
             }
 
-            /* IMAGE STAYS AT BOTTOM-LEFT */
+            /* Image stays at bottom-left */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
                 max-width: 250px;
                 min-width: 150px;
                 opacity: 0.8;
-                z-index: 10;
+                z-index: 3;
             }
 
-            /* Login section - keeps its space in layout */
+            /* LOGIN SECTION - FLOATING INDEPENDENT LAYER */
             .login-section {
-                min-height: 60vh;
-                position: relative;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 400px;
+                min-height: auto;
+                padding: 0;
+                z-index: 100;
                 background: transparent;
                 pointer-events: none;
-                display: block;
             }
 
-            /* Login card - FLOATING independently */
             .login-card {
-                position: fixed;
-                top: 12%;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                max-width: 350px;
-                margin: 0;
-                padding: 24px 20px;
                 pointer-events: auto;
-                z-index: 100;
+                padding: 24px 20px;
+                width: 100%;
+                margin: 0;
+                position: relative;
+                z-index: 101;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             }
 
             .welcome-text h2 {
                 font-size: 20px;
             }
-            
-            /* Adjust for shorter screens */
-            @media (max-height: 700px) {
-                .login-card {
-                    top: 5%;
-                }
-                .login-card {
-                    padding: 16px 20px;
-                }
-                .logo {
-                    margin-bottom: 16px;
-                }
-                .welcome-text {
-                    margin-bottom: 16px;
-                }
-            }
-            
-            /* Adjust for taller screens */
-            @media (min-height: 800px) {
-                .login-card {
-                    top: 15%;
-                }
-            }
         }
 
-        /* Small mobile (very small screens) */
+        /* Small mobile */
         @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 150px;
                 min-width: 100px;
-                bottom: 0;
-                left: 0;
                 opacity: 0.7;
-                z-index: 10;
+                z-index: 3;
             }
 
             .art-title {
@@ -485,7 +461,7 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDE - Login section (kept in layout, content floats) -->
+        <!-- RIGHT SIDE - Login Form (FLOATING LAYER ON MOBILE) -->
         <div class="login-section">
             <div class="login-card">
                 <div class="logo">
