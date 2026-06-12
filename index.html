@@ -27,47 +27,16 @@
             flex-direction: row;
         }
 
-        /* LEFT SIDE - Art / Image section */
+        /* LEFT SIDE - Art / Image section - TOTALLY BLACK */
         .art-section {
             flex: 1;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0a0c10 100%);
+            background: #000000;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-        }
-
-        /* Animated background elements */
-        .art-section::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(59,130,246,0.15) 0%, transparent 50%);
-            animation: slowMove 20s ease-in-out infinite;
-        }
-
-        .art-section::after {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle at 70% 60%, rgba(139,92,246,0.1) 0%, transparent 50%);
-            animation: slowMoveReverse 25s ease-in-out infinite;
-        }
-
-        @keyframes slowMove {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-5%, -5%) rotate(5deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-
-        @keyframes slowMoveReverse {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(5%, 5%) rotate(-5deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
         }
 
         /* Art content (center text) */
@@ -130,24 +99,23 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE */
+        /* BOTTOM-LEFT IMAGE - NO ROUND CORNERS, TOUCHING BOTTOM AND LEFT */
         .bottom-left-image {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            bottom: 0;
+            left: 0;
             z-index: 10;
             max-width: 100px;
             width: auto;
             min-width: 60px;
             opacity: 0.85;
             transition: all 0.3s ease;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
         }
 
         .bottom-left-image img {
             width: 100%;
             height: auto;
-            border-radius: 12px;
+            border-radius: 0;
         }
 
         /* RIGHT SIDE - Login section */
@@ -317,10 +285,10 @@
                 display: none;
             }
 
-            /* Bottom-left image on mobile - smaller, stays at bottom-left */
+            /* Bottom-left image on mobile - smaller, touching bottom-left corner */
             .bottom-left-image {
-                bottom: 10px;
-                left: 10px;
+                bottom: 0;
+                left: 0;
                 max-width: 50px;
                 min-width: 40px;
                 opacity: 0.8;
@@ -348,8 +316,8 @@
             .bottom-left-image {
                 max-width: 40px;
                 min-width: 35px;
-                bottom: 8px;
-                left: 8px;
+                bottom: 0;
+                left: 0;
                 opacity: 0.7;
             }
 
@@ -437,7 +405,7 @@
     </div>
 
     <div class="split-container">
-        <!-- LEFT SIDE - Art / Design -->
+        <!-- LEFT SIDE - Art / Design (TOTALLY BLACK) -->
         <div class="art-section">
             <div class="art-content">
                 <div class="art-icon">
@@ -452,7 +420,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE (from your repository) -->
+            <!-- BOTTOM-LEFT IMAGE - No border radius, touching bottom and left -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
