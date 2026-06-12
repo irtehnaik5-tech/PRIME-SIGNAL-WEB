@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>PrimeSignal · AI Trading Signals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +13,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0c10;
             color: #e6e9f0;
             height: 100vh;
@@ -42,34 +43,33 @@
         /* Art content (center text) - HIGH Z-INDEX TO STAY IN FRONT */
         .art-content {
             position: relative;
-            z-index: 99999;
+            z-index: 20;
             text-align: center;
             max-width: 80%;
             padding: 40px;
             pointer-events: none;
         }
 
-        .art-icon {
-            font-size: 80px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
+        /* Title styling - Libre Franklin Black */
         .art-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #e6e9f0, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
+            font-family: 'Libre Franklin', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .art-title .prime {
+            color: #ffffff;
+        }
+
+        .art-title .signal {
+            color: #38b6ff;
+        }
+
+        .art-title .ai {
+            color: #ffffff;
         }
 
         .art-features {
@@ -84,6 +84,7 @@
             margin-bottom: 20px;
             font-size: 1rem;
             color: #cbd5e1;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .art-features li::before {
@@ -93,9 +94,9 @@
             justify-content: center;
             width: 24px;
             height: 24px;
-            background: rgba(59,130,246,0.2);
+            background: rgba(56,182,255,0.2);
             border-radius: 50%;
-            color: #3b82f6;
+            color: #38b6ff;
             font-weight: bold;
             font-size: 14px;
         }
@@ -108,7 +109,7 @@
             z-index: 10;
             max-width: 400px;
             width: auto;
-            min-width: 240px;
+            min-width: 250px;
             opacity: 0.85;
             transition: all 0.3s ease;
         }
@@ -148,17 +149,19 @@
         .logo h1 {
             font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #38b6ff, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .logo p {
             font-size: 12px;
             color: #9ca3af;
             margin-top: 8px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text {
@@ -170,11 +173,13 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text p {
             font-size: 14px;
             color: #9ca3af;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         /* Telegram login button */
@@ -185,7 +190,7 @@
             gap: 12px;
             width: 100%;
             background: #2a2f3c;
-            border: 1px solid #3b82f6;
+            border: 1px solid #38b6ff;
             color: white;
             padding: 14px 24px;
             border-radius: 60px;
@@ -195,13 +200,14 @@
             transition: all 0.3s ease;
             text-decoration: none;
             margin-bottom: 24px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .telegram-login-btn:hover {
-            background: #3b82f6;
-            border-color: #3b82f6;
+            background: #38b6ff;
+            border-color: #38b6ff;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(59,130,246,0.3);
+            box-shadow: 0 10px 25px -5px rgba(56,182,255,0.3);
         }
 
         .telegram-login-btn svg {
@@ -247,13 +253,15 @@
         .stat-number {
             font-size: 24px;
             font-weight: 800;
-            color: #3b82f6;
+            color: #38b6ff;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .stat-label {
             font-size: 11px;
             color: #9ca3af;
             margin-top: 4px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         /* Mobile optimization - IMAGE GETS SMALLER WHEN SECTION MOVES TO TOP */
@@ -274,13 +282,8 @@
                 z-index: 20;
             }
 
-            .art-icon {
-                font-size: 40px;
-                margin-bottom: 8px;
-            }
-
             .art-title {
-                font-size: 1.3rem;
+                font-size: 1.8rem;
             }
 
             .art-features {
@@ -323,12 +326,8 @@
                 opacity: 0.7;
             }
 
-            .art-icon {
-                font-size: 32px;
-            }
-
             .art-title {
-                font-size: 1.1rem;
+                font-size: 1.4rem;
             }
 
             .login-card {
@@ -351,12 +350,16 @@
                 max-width: 120px;
                 min-width: 80px;
             }
+
+            .art-title {
+                font-size: 1.2rem;
+            }
         }
 
         /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .art-title {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
 
             .art-features li {
@@ -398,7 +401,7 @@
             width: 40px;
             height: 40px;
             border: 3px solid #2a2f3c;
-            border-top-color: #3b82f6;
+            border-top-color: #38b6ff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -419,10 +422,12 @@
         <!-- LEFT SIDE - Art / Design (TOTALLY BLACK) -->
         <div class="art-section">
             <div class="art-content">
-                <div class="art-icon">
-                    📊
-                </div>
-                <h1 class="art-title">Trade Smarter<br>With AI</h1>
+                <!-- NEW TITLE: PRIME SIGNAL AI with colors -->
+                <h1 class="art-title">
+                    <span class="prime">PRIME</span>
+                    <span class="signal">SIGNAL</span>
+                    <span class="ai">AI</span>
+                </h1>
                 <ul class="art-features">
                     <li>Real-time market scanning (100+ assets)</li>
                     <li>AI-powered entry, stop & take-profit</li>
@@ -480,7 +485,7 @@
                 <div class="divider"></div>
                 
                 <div style="text-align: center; margin-top: 16px;">
-                    <span style="font-size: 11px; color: #6b7280;">
+                    <span style="font-size: 11px; color: #6b7280; font-family: 'Libre Franklin', sans-serif;">
                         🔐 No passwords • No email • Telegram only
                     </span>
                 </div>
