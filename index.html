@@ -105,12 +105,12 @@
         /* BOTTOM-LEFT IMAGE - Desktop */
         .bottom-left-image {
             position: absolute;
-            bottom: 0;
-            left: 0;
+            bottom: 20px;
+            left: 20px;
             z-index: 10;
             max-width: 400px;
             width: auto;
-            min-width: 250px;
+            min-width: 200px;
             opacity: 0.85;
             transition: all 0.3s ease;
         }
@@ -265,14 +265,14 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - IMAGE MOVES TO BOTTOM-RIGHT */
+        /* Mobile optimization - HIDE IMAGE ON MOBILE COMPLETELY */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
             }
 
             .art-section {
-                min-height: 45vh;
+                min-height: 40vh;
                 max-height: none;
                 justify-content: center;
                 padding: 20px 0;
@@ -292,18 +292,13 @@
                 display: none;
             }
 
-            /* IMAGE MOVES TO BOTTOM-RIGHT ON MOBILE */
+            /* HIDE IMAGE ON MOBILE - no overlap with login box */
             .bottom-left-image {
-                bottom: 0;
-                left: auto;
-                right: 0;
-                max-width: 100px;
-                min-width: 70px;
-                opacity: 0.6;
+                display: none;
             }
 
             .login-section {
-                min-height: 55vh;
+                min-height: 60vh;
                 align-items: center;
                 padding: 20px 0;
             }
@@ -319,16 +314,10 @@
             }
         }
 
-        /* Small mobile (very small screens) */
+        /* Small mobile */
         @media (max-width: 480px) {
             .art-section {
-                min-height: 40vh;
-            }
-            
-            .bottom-left-image {
-                max-width: 70px;
-                min-width: 50px;
-                opacity: 0.5;
+                min-height: 35vh;
             }
 
             .art-title {
@@ -351,17 +340,12 @@
 
         /* Extra small mobile */
         @media (max-width: 380px) {
-            .bottom-left-image {
-                max-width: 60px;
-                min-width: 45px;
-            }
-
             .art-title {
                 font-size: 1.4rem;
             }
             
             .art-section {
-                min-height: 38vh;
+                min-height: 32vh;
             }
         }
 
@@ -381,8 +365,8 @@
             }
 
             .bottom-left-image {
-                max-width: 300px;
-                min-width: 200px;
+                max-width: 250px;
+                min-width: 150px;
             }
         }
 
@@ -444,7 +428,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - Desktop: bottom-left, Mobile: bottom-right -->
+            <!-- BOTTOM-LEFT IMAGE - Desktop only, hidden on mobile -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
