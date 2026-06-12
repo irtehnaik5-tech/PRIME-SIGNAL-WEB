@@ -18,6 +18,7 @@
             color: #e6e9f0;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
         /* Split layout container */
@@ -102,7 +103,7 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE - Desktop */
+        /* BOTTOM-LEFT IMAGE - Desktop (inside art section) */
         .bottom-left-image {
             position: absolute;
             bottom: 20px;
@@ -265,7 +266,7 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - HIDE IMAGE ON MOBILE COMPLETELY */
+        /* Mobile optimization - IMAGE STAYS AT BOTTOM-LEFT OF SCREEN */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -292,9 +293,15 @@
                 display: none;
             }
 
-            /* HIDE IMAGE ON MOBILE - no overlap with login box */
+            /* Image - fixed position on mobile (bottom-left of entire screen) */
             .bottom-left-image {
-                display: none;
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                max-width: 60px;
+                min-width: 50px;
+                opacity: 0.6;
+                z-index: 100;
             }
 
             .login-section {
@@ -324,6 +331,14 @@
                 font-size: 1.6rem;
             }
 
+            .bottom-left-image {
+                max-width: 50px;
+                min-width: 40px;
+                bottom: 8px;
+                left: 8px;
+                opacity: 0.5;
+            }
+
             .login-card {
                 padding: 20px 16px;
             }
@@ -346,6 +361,14 @@
             
             .art-section {
                 min-height: 32vh;
+            }
+
+            .bottom-left-image {
+                max-width: 40px;
+                min-width: 35px;
+                bottom: 5px;
+                left: 5px;
+                opacity: 0.4;
             }
         }
 
@@ -428,7 +451,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - Desktop only, hidden on mobile -->
+            <!-- BOTTOM-LEFT IMAGE -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
