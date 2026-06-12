@@ -101,12 +101,12 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE - Higher z-index to stay on top */
+        /* BOTTOM-LEFT IMAGE */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
             left: 0;
-            z-index: 30;
+            z-index: 5;
             max-width: 400px;
             width: auto;
             min-width: 250px;
@@ -279,9 +279,9 @@
 
             .art-section {
                 width: 100%;
-                min-height: 50vh;
+                min-height: 55vh;
                 height: auto;
-                padding: 40px 20px 60px 20px;
+                padding: 40px 20px 0 20px;
                 justify-content: center;
                 overflow: visible;
             }
@@ -301,24 +301,24 @@
                 display: none;
             }
 
-            /* Image - HIGHEST z-index to stay on top of everything */
+            /* Image - normal z-index, stays at bottom-left */
             .bottom-left-image {
                 position: absolute;
-                bottom: 10px;
-                left: 10px;
+                bottom: 0;
+                left: 0;
                 max-width: 100px;
                 min-width: 70px;
                 opacity: 0.7;
-                z-index: 100;
+                z-index: 5;
             }
 
-            /* Login section - moved up but image stays on top */
+            /* Login section - moved up with margin-top */
             .login-section {
                 width: 100%;
                 min-height: auto;
                 padding: 0 0 50px 0;
                 background: #0a0c10;
-                margin-top: -40px;
+                margin-top: -30px;
                 position: relative;
                 z-index: 10;
             }
@@ -348,8 +348,8 @@
         /* Small mobile */
         @media (max-width: 480px) {
             .art-section {
-                min-height: 45vh;
-                padding: 30px 16px 50px 16px;
+                min-height: 50vh;
+                padding: 30px 16px 0 16px;
             }
             
             .art-title {
@@ -359,14 +359,11 @@
             .bottom-left-image {
                 max-width: 70px;
                 min-width: 50px;
-                bottom: 8px;
-                left: 8px;
                 opacity: 0.6;
-                z-index: 100;
             }
 
             .login-section {
-                margin-top: -35px;
+                margin-top: -25px;
             }
 
             .login-card {
@@ -386,8 +383,7 @@
         /* Extra small mobile */
         @media (max-width: 380px) {
             .art-section {
-                min-height: 40vh;
-                padding-bottom: 45px;
+                min-height: 45vh;
             }
             
             .art-title {
@@ -397,11 +393,10 @@
             .bottom-left-image {
                 max-width: 55px;
                 min-width: 45px;
-                z-index: 100;
             }
 
             .login-section {
-                margin-top: -30px;
+                margin-top: -20px;
             }
         }
 
@@ -484,7 +479,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - HIGH Z-INDEX -->
+            <!-- BOTTOM-LEFT IMAGE -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
