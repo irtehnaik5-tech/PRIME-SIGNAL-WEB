@@ -264,7 +264,7 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - ONLY FIX TEXT CENTERING, NOTHING ELSE */
+        /* Mobile optimization - FIX TEXT CENTERING AND Z-INDEX */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -290,25 +290,32 @@
                 display: none;
             }
 
-            /* IMAGE STAYS EXACTLY AS BEFORE - BOTTOM-LEFT */
+            /* IMAGE STAYS AT BOTTOM-LEFT */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
                 max-width: 250px;
                 min-width: 150px;
                 opacity: 0.8;
+                z-index: 10;
             }
 
+            /* LOGIN SECTION - HIGHER Z-INDEX TO STAY IN FRONT OF IMAGE */
             .login-section {
                 min-height: 60vh;
                 align-items: center;
                 padding: 20px 0;
+                position: relative;
+                z-index: 15;
+                background: #0a0c10;
             }
 
             .login-card {
                 padding: 24px 20px;
                 width: 90%;
                 margin: 0 auto;
+                position: relative;
+                z-index: 16;
             }
 
             .welcome-text h2 {
@@ -324,6 +331,15 @@
                 bottom: 0;
                 left: 0;
                 opacity: 0.7;
+                z-index: 10;
+            }
+
+            .login-section {
+                z-index: 15;
+            }
+
+            .login-card {
+                z-index: 16;
             }
 
             .art-title {
@@ -435,7 +451,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - Text stays in front -->
+            <!-- BOTTOM-LEFT IMAGE -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
