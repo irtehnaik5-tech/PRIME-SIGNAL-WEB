@@ -40,7 +40,7 @@
             overflow: hidden;
         }
 
-        /* Art content (center text) - HIGH Z-INDEX TO STAY IN FRONT */
+        /* Art content (center text) */
         .art-content {
             position: relative;
             z-index: 20;
@@ -101,7 +101,7 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE - LOWER Z-INDEX SO TEXT STAYS IN FRONT */
+        /* BOTTOM-LEFT IMAGE */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -264,15 +264,16 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - FIX TEXT CENTERING AND Z-INDEX */
+        /* Mobile optimization - FIX TEXT CENTERING */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
             }
 
+            /* Make top section taller for better text centering */
             .art-section {
-                min-height: 40vh;
-                max-height: none;
+                min-height: 48vh;
+                max-height: 48vh;
                 justify-content: center;
             }
 
@@ -283,7 +284,7 @@
             }
 
             .art-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
             .art-features {
@@ -294,24 +295,25 @@
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 250px;
-                min-width: 150px;
-                opacity: 0.8;
+                max-width: 180px;
+                min-width: 120px;
+                opacity: 0.7;
                 z-index: 10;
             }
 
-            /* LOGIN SECTION - HIGHER Z-INDEX TO STAY IN FRONT OF IMAGE */
+            /* Login section - visible without scrolling */
             .login-section {
-                min-height: 60vh;
+                min-height: 52vh;
                 align-items: center;
-                padding: 20px 0;
+                justify-content: center;
+                padding: 15px 0;
                 position: relative;
                 z-index: 15;
                 background: #0a0c10;
             }
 
             .login-card {
-                padding: 24px 20px;
+                padding: 20px 20px;
                 width: 90%;
                 margin: 0 auto;
                 position: relative;
@@ -321,61 +323,68 @@
             .welcome-text h2 {
                 font-size: 20px;
             }
+            
+            .welcome-text {
+                margin-bottom: 20px;
+            }
+            
+            .logo {
+                margin-bottom: 20px;
+            }
         }
 
         /* Small mobile (very small screens) */
         @media (max-width: 480px) {
+            .art-section {
+                min-height: 45vh;
+                max-height: 45vh;
+            }
+            
             .bottom-left-image {
-                max-width: 150px;
-                min-width: 100px;
-                bottom: 0;
-                left: 0;
-                opacity: 0.7;
-                z-index: 10;
+                max-width: 120px;
+                min-width: 80px;
+                opacity: 0.6;
             }
-
-            .login-section {
-                z-index: 15;
-            }
-
-            .login-card {
-                z-index: 16;
-            }
-
+            
             .art-title {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
 
             .login-card {
-                padding: 20px 16px;
+                padding: 16px 16px;
             }
 
             .telegram-login-btn {
-                padding: 12px 16px;
-                font-size: 14px;
+                padding: 10px 14px;
+                font-size: 13px;
             }
 
             .stat-number {
-                font-size: 18px;
+                font-size: 16px;
             }
         }
 
         /* Extra small mobile */
         @media (max-width: 380px) {
+            .art-section {
+                min-height: 42vh;
+                max-height: 42vh;
+            }
+            
             .bottom-left-image {
-                max-width: 120px;
-                min-width: 80px;
+                max-width: 100px;
+                min-width: 70px;
             }
 
             .art-title {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
         }
 
         /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .art-title {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
 
             .art-features li {
@@ -388,8 +397,8 @@
             }
 
             .bottom-left-image {
-                max-width: 350px;
-                min-width: 250px;
+                max-width: 300px;
+                min-width: 200px;
             }
         }
 
