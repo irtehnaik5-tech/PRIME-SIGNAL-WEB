@@ -37,10 +37,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow: visible;
         }
 
-        /* Art content (center text) - ALWAYS CENTERED */
+        /* Art content (center text) */
         .art-content {
             position: relative;
             z-index: 20;
@@ -48,7 +48,6 @@
             max-width: 80%;
             padding: 40px;
             pointer-events: none;
-            margin: auto 0;
         }
 
         /* Title styling - Libre Franklin Black */
@@ -102,15 +101,15 @@
             font-size: 14px;
         }
 
-        /* BOTTOM-LEFT IMAGE - Desktop */
+        /* BOTTOM-LEFT IMAGE - Higher z-index to stay on top */
         .bottom-left-image {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10;
+            bottom: 0;
+            left: 0;
+            z-index: 30;
             max-width: 400px;
             width: auto;
-            min-width: 200px;
+            min-width: 250px;
             opacity: 0.85;
             transition: all 0.3s ease;
         }
@@ -265,63 +264,109 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - HIDE IMAGE ON MOBILE COMPLETELY */
+        /* Mobile optimization */
         @media (max-width: 768px) {
+            body {
+                overflow: auto;
+                height: auto;
+            }
+            
             .split-container {
                 flex-direction: column;
+                height: auto;
+                min-height: 100vh;
             }
 
             .art-section {
-                min-height: 40vh;
-                max-height: none;
+                width: 100%;
+                min-height: 50vh;
+                height: auto;
+                padding: 40px 20px 60px 20px;
                 justify-content: center;
-                padding: 20px 0;
+                overflow: visible;
             }
 
             .art-content {
-                padding: 20px;
-                margin: 0;
+                padding: 0;
+                margin: 0 auto;
                 max-width: 90%;
             }
 
             .art-title {
                 font-size: 2rem;
+                margin-bottom: 0;
             }
 
             .art-features {
                 display: none;
             }
 
-            /* HIDE IMAGE ON MOBILE - no overlap with login box */
+            /* Image - HIGHEST z-index to stay on top of everything */
             .bottom-left-image {
-                display: none;
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                max-width: 100px;
+                min-width: 70px;
+                opacity: 0.7;
+                z-index: 100;
             }
 
+            /* Login section - moved up but image stays on top */
             .login-section {
-                min-height: 60vh;
-                align-items: center;
-                padding: 20px 0;
+                width: 100%;
+                min-height: auto;
+                padding: 0 0 50px 0;
+                background: #0a0c10;
+                margin-top: -40px;
+                position: relative;
+                z-index: 10;
             }
 
             .login-card {
                 padding: 24px 20px;
                 width: 90%;
                 margin: 0 auto;
+                position: relative;
+                z-index: 10;
+                box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
             }
 
             .welcome-text h2 {
                 font-size: 20px;
+            }
+            
+            .welcome-text {
+                margin-bottom: 24px;
+            }
+            
+            .logo {
+                margin-bottom: 24px;
             }
         }
 
         /* Small mobile */
         @media (max-width: 480px) {
             .art-section {
-                min-height: 35vh;
+                min-height: 45vh;
+                padding: 30px 16px 50px 16px;
             }
-
+            
             .art-title {
                 font-size: 1.6rem;
+            }
+            
+            .bottom-left-image {
+                max-width: 70px;
+                min-width: 50px;
+                bottom: 8px;
+                left: 8px;
+                opacity: 0.6;
+                z-index: 100;
+            }
+
+            .login-section {
+                margin-top: -35px;
             }
 
             .login-card {
@@ -340,12 +385,23 @@
 
         /* Extra small mobile */
         @media (max-width: 380px) {
+            .art-section {
+                min-height: 40vh;
+                padding-bottom: 45px;
+            }
+            
             .art-title {
                 font-size: 1.4rem;
             }
             
-            .art-section {
-                min-height: 32vh;
+            .bottom-left-image {
+                max-width: 55px;
+                min-width: 45px;
+                z-index: 100;
+            }
+
+            .login-section {
+                margin-top: -30px;
             }
         }
 
@@ -365,8 +421,8 @@
             }
 
             .bottom-left-image {
-                max-width: 250px;
-                min-width: 150px;
+                max-width: 300px;
+                min-width: 200px;
             }
         }
 
@@ -428,7 +484,7 @@
                 </ul>
             </div>
 
-            <!-- BOTTOM-LEFT IMAGE - Desktop only, hidden on mobile -->
+            <!-- BOTTOM-LEFT IMAGE - HIGH Z-INDEX -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
