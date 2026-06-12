@@ -264,16 +264,23 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - FIX TEXT CENTERING AND Z-INDEX */
+        /* Mobile optimization - FLOATING LOGIN BOX INDEPENDENT */
         @media (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+            
             .split-container {
                 flex-direction: column;
             }
 
+            /* Art section takes full height, acts as background */
             .art-section {
-                min-height: 40vh;
+                min-height: 100vh;
                 max-height: none;
                 justify-content: center;
+                position: relative;
+                z-index: 1;
             }
 
             .art-content {
@@ -300,26 +307,57 @@
                 z-index: 10;
             }
 
-            /* LOGIN SECTION - HIGHER Z-INDEX TO STAY IN FRONT OF IMAGE */
+            /* LOGIN SECTION - FIXED POSITION, FLOATING, CLOSER TO TOP */
             .login-section {
-                min-height: 60vh;
+                position: fixed;
+                top: 12%;
+                left: 0;
+                right: 0;
+                min-height: auto;
                 align-items: center;
-                padding: 20px 0;
-                position: relative;
-                z-index: 15;
-                background: #0a0c10;
+                justify-content: center;
+                padding: 0;
+                z-index: 100;
+                background: transparent;
+                pointer-events: none;
             }
 
             .login-card {
-                padding: 24px 20px;
-                width: 90%;
-                margin: 0 auto;
                 position: relative;
-                z-index: 16;
+                width: 90%;
+                max-width: 350px;
+                margin: 0 auto;
+                padding: 24px 20px;
+                pointer-events: auto;
+                z-index: 101;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             }
 
             .welcome-text h2 {
                 font-size: 20px;
+            }
+            
+            /* Adjust for shorter screens */
+            @media (max-height: 700px) {
+                .login-section {
+                    top: 5%;
+                }
+                .login-card {
+                    padding: 16px 20px;
+                }
+                .logo {
+                    margin-bottom: 16px;
+                }
+                .welcome-text {
+                    margin-bottom: 16px;
+                }
+            }
+            
+            /* Adjust for taller screens */
+            @media (min-height: 800px) {
+                .login-section {
+                    top: 15%;
+                }
             }
         }
 
@@ -332,14 +370,6 @@
                 left: 0;
                 opacity: 0.7;
                 z-index: 10;
-            }
-
-            .login-section {
-                z-index: 15;
-            }
-
-            .login-card {
-                z-index: 16;
             }
 
             .art-title {
@@ -372,7 +402,7 @@
             }
         }
 
-        /* Tablet optimization */
+        /* Tablet optimization - keep original layout */
         @media (min-width: 769px) and (max-width: 1024px) {
             .art-title {
                 font-size: 2.5rem;
@@ -457,7 +487,7 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDE - Login Form -->
+        <!-- RIGHT SIDE - Login Form (FLOATING ON MOBILE) -->
         <div class="login-section">
             <div class="login-card">
                 <div class="logo">
