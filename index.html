@@ -40,7 +40,7 @@
             overflow: hidden;
         }
 
-        /* Art content (center text) - HIGH Z-INDEX TO STAY IN FRONT */
+        /* Art content (center text) - ALWAYS CENTERED */
         .art-content {
             position: relative;
             z-index: 20;
@@ -48,6 +48,8 @@
             max-width: 80%;
             padding: 40px;
             pointer-events: none;
+            /* Center vertically */
+            margin: auto 0;
         }
 
         /* Title styling - Libre Franklin Black */
@@ -264,45 +266,47 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - IMAGE GETS SMALLER WHEN SECTION MOVES TO TOP */
+        /* Mobile optimization - TEXT STAYS CENTERED */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
             }
 
+            /* Remove fixed height so art section takes proper space */
             .art-section {
-                min-height: 35vh;
-                max-height: 35vh;
+                min-height: 50vh;
+                max-height: none;
                 justify-content: center;
+                padding: 20px 0;
             }
 
             .art-content {
                 padding: 20px;
-                margin-top: 0;
-                z-index: 20;
+                margin: 0;
+                max-width: 90%;
             }
 
             .art-title {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
 
             .art-features {
                 display: none;
             }
 
-            /* IMAGE SMALLER ON MOBILE - 50% of original size */
+            /* IMAGE SMALLER ON MOBILE */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 250px;
-                min-width: 150px;
+                max-width: 200px;
+                min-width: 120px;
                 opacity: 0.8;
             }
 
             .login-section {
-                min-height: 65vh;
-                align-items: flex-start;
-                padding-top: 20px;
+                min-height: 50vh;
+                align-items: center;
+                padding: 20px 0;
             }
 
             .login-card {
@@ -316,18 +320,22 @@
             }
         }
 
-        /* Small mobile (very small screens) - IMAGE EVEN SMALLER */
+        /* Small mobile (very small screens) */
         @media (max-width: 480px) {
+            .art-section {
+                min-height: 45vh;
+            }
+            
             .bottom-left-image {
-                max-width: 150px;
-                min-width: 100px;
+                max-width: 120px;
+                min-width: 80px;
                 bottom: 0;
                 left: 0;
                 opacity: 0.7;
             }
 
             .art-title {
-                font-size: 1.4rem;
+                font-size: 1.8rem;
             }
 
             .login-card {
@@ -347,19 +355,23 @@
         /* Extra small mobile */
         @media (max-width: 380px) {
             .bottom-left-image {
-                max-width: 120px;
-                min-width: 80px;
+                max-width: 100px;
+                min-width: 70px;
             }
 
             .art-title {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
+            }
+            
+            .art-section {
+                min-height: 40vh;
             }
         }
 
         /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .art-title {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
 
             .art-features li {
@@ -372,8 +384,8 @@
             }
 
             .bottom-left-image {
-                max-width: 350px;
-                min-width: 250px;
+                max-width: 300px;
+                min-width: 200px;
             }
         }
 
