@@ -440,11 +440,20 @@
                 z-index: 3;
             }
 
-            /* Hide the normal login section on mobile */
+            /* Show the second section on mobile with white background */
             .login-section {
-                display: none !important;
+                display: flex !important;
+                flex: none;
+                width: 100%;
+                min-height: 40vh;
+                background: #ffffff;
+                padding: 40px 20px;
             }
-
+            
+            /* Hide the login card inside this white section (keep only the white background) */
+            .login-section .login-card {
+                display: none;
+            }
             /* Floating login box - stays centered while scrolling (fixed) */
             .floating-login-box {
                 position: fixed;
