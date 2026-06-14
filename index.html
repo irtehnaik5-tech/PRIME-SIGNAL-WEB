@@ -85,6 +85,13 @@
         }
 
         /* CONVERSATION STYLES */
+        .conversation-wrapper {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
         .conversation-container {
             width: 100%;
             max-width: 500px;
@@ -93,11 +100,35 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            overflow-y: auto;
             background: transparent;
-            position: relative;
+            height: 100%;
         }
 
-        /* GRADIENT OVERLAY - FIXED AT TOP */
+        .conversation-container::-webkit-scrollbar {
+            width: 3px;
+        }
+        .conversation-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .conversation-container::-webkit-scrollbar-thumb {
+            background: #38b6ff;
+            border-radius: 3px;
+        }
+
+        /* TRANSPARENT OVERLAY - prevents manual scrolling */
+        .scroll-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        /* GRADIENT OVERLAY - visual fade effect */
         .gradient-overlay {
             position: absolute;
             top: 0;
@@ -106,7 +137,7 @@
             height: 50px;
             background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
             pointer-events: none;
-            z-index: 10;
+            z-index: 20;
         }
 
         .message {
@@ -115,18 +146,6 @@
             gap: 8px;
             flex-wrap: wrap;
             max-width: 95%;
-            animation: fadeInUp 0.4s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .message.user {
@@ -214,7 +233,7 @@
             padding-top: 40px;
         }
 
-        /* LEFT SIDE - Conversation Section */
+        /* LEFT SIDE - Conversation Section - FIXED SOLID SIZE */
         .art-section {
             flex: 1;
             background: #000000;
@@ -236,16 +255,10 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
         }
 
-        /* Hide scrollbar but keep functionality */
-        .art-content::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
-        .conversation-container {
+        /* Conversation container wrapper */
+        .conversation-wrapper {
             flex: 1;
             min-height: 0;
         }
@@ -427,13 +440,17 @@
                 width: 100%;
                 z-index: 1;
                 padding-top: 10px;
+                padding-bottom: 0;
             }
 
             .art-content {
                 padding: 0 16px;
                 max-width: 95%;
                 height: 100%;
-                overflow-y: auto;
+            }
+
+            .conversation-container {
+                max-height: none;
             }
 
             .gradient-overlay {
@@ -574,9 +591,13 @@
     <div class="split-container">
         <div class="art-section">
             <div class="art-content">
-                <!-- GRADIENT OVERLAY -->
-                <div class="gradient-overlay"></div>
-                <div class="conversation-container" id="conversationContainer"></div>
+                <div class="conversation-wrapper">
+                    <!-- GRADIENT OVERLAY - visual fade at top -->
+                    <div class="gradient-overlay"></div>
+                    <!-- TRANSPARENT OVERLAY - prevents manual scrolling -->
+                    <div class="scroll-overlay"></div>
+                    <div class="conversation-container" id="conversationContainer"></div>
+                </div>
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
@@ -666,16 +687,15 @@
 
     <script>
         const container = document.getElementById('conversationContainer');
-        const artContent = document.querySelector('.art-content');
         
         // Function to adjust conversation container height based on login box position
         function adjustConversationHeight() {
             if (window.innerWidth <= 768) {
                 const floatingBox = document.querySelector('.floating-login-box');
-                const conversationContainer = document.getElementById('conversationContainer');
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
                 const artSection = document.querySelector('.art-section');
                 
-                if (floatingBox && conversationContainer && artSection) {
+                if (floatingBox && conversationWrapper && artSection) {
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
                     const artRect = artSection.getBoundingClientRect();
@@ -683,26 +703,22 @@
                     const availableHeight = loginBoxTop - artTop - 20;
                     
                     if (availableHeight > 100) {
-                        conversationContainer.style.maxHeight = availableHeight + 'px';
-                        conversationContainer.style.flex = 'none';
-                        conversationContainer.style.height = 'auto';
+                        conversationWrapper.style.maxHeight = availableHeight + 'px';
                     } else {
-                        conversationContainer.style.maxHeight = '200px';
+                        conversationWrapper.style.maxHeight = '200px';
                     }
                 }
             } else {
-                if (container) {
-                    container.style.maxHeight = '';
-                    container.style.flex = '';
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
+                if (conversationWrapper) {
+                    conversationWrapper.style.maxHeight = '';
                 }
             }
         }
         
         // Auto-scroll to bottom function
         function scrollToBottom() {
-            if (artContent) {
-                artContent.scrollTop = artContent.scrollHeight;
-            }
+            container.scrollTop = container.scrollHeight;
         }
         
         window.addEventListener('load', adjustConversationHeight);
