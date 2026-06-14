@@ -19,7 +19,6 @@
             height: 100vh;
             overflow: hidden;
         }
-
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -376,15 +375,26 @@
             padding: 0 12px;
         }
 
-        /* Mobile optimization */
+        /* Mobile optimization - ONLY FOR PHONES */
         @media (max-width: 768px) {
+            /* Allow body to scroll on mobile */
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
+                height: auto;
+                min-height: 100vh;
             }
 
             .ticker-wrapper {
                 padding: 5px 0;
+                position: fixed;
             }
 
             .ticker-item {
@@ -420,27 +430,30 @@
                 height: 40px;
             }
 
+            /* Image 4x bigger on phones */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 200px;
-                min-width: 120px;
-                opacity: 0.7;
+                max-width: 800px;
+                min-width: 320px;
+                opacity: 0.85;
                 z-index: 3;
             }
 
+            /* Hide the normal login section on mobile */
             .login-section {
-                display: none;
+                display: none !important;
             }
 
+            /* Floating login box - stays centered while scrolling (fixed) */
             .floating-login-box {
                 position: fixed;
-                top: 65%;
+                top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 90%;
                 max-width: 400px;
-                z-index: 100;
+                z-index: 1000;
                 pointer-events: none;
             }
 
@@ -452,10 +465,18 @@
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+                background: #1e222d;
+                border: 1px solid #2a2f3c;
+            }
+
+            /* Add spacing at bottom so content doesn't hide behind floating box */
+            .art-section {
+                margin-bottom: 100px;
             }
 
             .welcome-text h2 {
                 font-size: 20px;
+                color: #ffffff;
             }
             
             .logo h1 {
