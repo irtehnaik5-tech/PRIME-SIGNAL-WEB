@@ -85,13 +85,6 @@
         }
 
         /* CONVERSATION STYLES */
-        .conversation-wrapper {
-            position: relative;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
-        }
-
         .conversation-container {
             width: 100%;
             max-width: 500px;
@@ -102,7 +95,6 @@
             gap: 12px;
             overflow-y: auto;
             background: transparent;
-            height: 100%;
         }
 
         .conversation-container::-webkit-scrollbar {
@@ -114,30 +106,6 @@
         .conversation-container::-webkit-scrollbar-thumb {
             background: #38b6ff;
             border-radius: 3px;
-        }
-
-        /* TRANSPARENT OVERLAY - prevents manual scrolling */
-        .scroll-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: transparent;
-            z-index: 15;
-            pointer-events: none;
-        }
-
-        /* GRADIENT OVERLAY - visual fade effect */
-        .gradient-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
-            pointer-events: none;
-            z-index: 20;
         }
 
         .message {
@@ -257,10 +225,22 @@
             flex-direction: column;
         }
 
-        /* Conversation container wrapper */
-        .conversation-wrapper {
+        /* Conversation container - will be set by JavaScript on mobile */
+        .conversation-container {
             flex: 1;
             min-height: 0;
+        }
+
+        /* SIMPLE TRANSPARENT LAYER - does nothing, just sits there */
+        .top-transparent-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: transparent;
+            pointer-events: none;
+            z-index: 25;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -416,7 +396,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization */
+        /* Mobile optimization - Section stays solid, conversation container sized by JS */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -449,12 +429,15 @@
                 height: 100%;
             }
 
+            /* Default max-height, will be overridden by JS */
             .conversation-container {
                 max-height: none;
+                flex: 1;
+                min-height: 0;
             }
 
-            .gradient-overlay {
-                height: 40px;
+            .top-transparent-layer {
+                height: 25px;
             }
 
             .bottom-left-image {
@@ -520,8 +503,8 @@
                 height: 65vh;
             }
 
-            .gradient-overlay {
-                height: 35px;
+            .top-transparent-layer {
+                height: 20px;
             }
         }
 
@@ -591,13 +574,9 @@
     <div class="split-container">
         <div class="art-section">
             <div class="art-content">
-                <div class="conversation-wrapper">
-                    <!-- GRADIENT OVERLAY - visual fade at top -->
-                    <div class="gradient-overlay"></div>
-                    <!-- TRANSPARENT OVERLAY - prevents manual scrolling -->
-                    <div class="scroll-overlay"></div>
-                    <div class="conversation-container" id="conversationContainer"></div>
-                </div>
+                <!-- SIMPLE TRANSPARENT LAYER - does nothing, just sits on top -->
+                <div class="top-transparent-layer"></div>
+                <div class="conversation-container" id="conversationContainer"></div>
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
@@ -692,42 +671,44 @@
         function adjustConversationHeight() {
             if (window.innerWidth <= 768) {
                 const floatingBox = document.querySelector('.floating-login-box');
-                const conversationWrapper = document.querySelector('.conversation-wrapper');
+                const conversationContainer = document.getElementById('conversationContainer');
                 const artSection = document.querySelector('.art-section');
                 
-                if (floatingBox && conversationWrapper && artSection) {
+                if (floatingBox && conversationContainer && artSection) {
+                    // Get the top position of the floating login box
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
+                    
+                    // Get the top position of the art section
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    const availableHeight = loginBoxTop - artTop - 20;
+                    
+                    // Calculate available height: from art section top to login box top
+                    const availableHeight = loginBoxTop - artTop - 20; // 20px padding
                     
                     if (availableHeight > 100) {
-                        conversationWrapper.style.maxHeight = availableHeight + 'px';
+                        conversationContainer.style.maxHeight = availableHeight + 'px';
+                        conversationContainer.style.flex = 'none';
+                        conversationContainer.style.height = 'auto';
                     } else {
-                        conversationWrapper.style.maxHeight = '200px';
+                        conversationContainer.style.maxHeight = '200px';
                     }
                 }
             } else {
-                const conversationWrapper = document.querySelector('.conversation-wrapper');
-                if (conversationWrapper) {
-                    conversationWrapper.style.maxHeight = '';
+                // Desktop: remove constraints
+                if (container) {
+                    container.style.maxHeight = '';
+                    container.style.flex = '';
                 }
             }
         }
         
-        // Auto-scroll to bottom function
-        function scrollToBottom() {
-            container.scrollTop = container.scrollHeight;
-        }
-        
+        // Run on load and resize
         window.addEventListener('load', adjustConversationHeight);
         window.addEventListener('resize', adjustConversationHeight);
         
-        const observer = new MutationObserver(() => {
-            adjustConversationHeight();
-            scrollToBottom();
-        });
+        // Also run when conversation updates (new messages)
+        const observer = new MutationObserver(adjustConversationHeight);
         observer.observe(container, { childList: true, subtree: true });
 
         // Conversation messages
@@ -760,7 +741,7 @@
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
-            scrollToBottom();
+            container.scrollTop = container.scrollHeight;
             
             return { element: messageDiv, bubble };
         }
@@ -769,7 +750,6 @@
             bubble.innerHTML = '';
             for (let i = 0; i < text.length; i++) {
                 bubble.innerHTML += text[i];
-                scrollToBottom();
                 await new Promise(r => setTimeout(r, 40 + Math.random() * 25));
             }
         }
@@ -787,13 +767,16 @@
                     addMessage('user', msg.text);
                     await new Promise(r => setTimeout(r, 600));
                 } else {
+                    // Show typing
                     const typingMsg = addMessage('bot', '', true);
                     await new Promise(r => setTimeout(r, 1000));
                     typingMsg.element.remove();
                     
+                    // Real message
                     const botMsg = addMessage('bot', '');
                     await typeText(botMsg.bubble, msg.text);
                     
+                    // If last message, do the Stu -> Sir correction
                     if (i === messages.length - 1) {
                         await new Promise(r => setTimeout(r, 700));
                         const fullText = msg.text;
@@ -813,7 +796,8 @@
                     
                     await new Promise(r => setTimeout(r, 400));
                 }
-                scrollToBottom();
+                container.scrollTop = container.scrollHeight;
+                adjustConversationHeight(); // Re-adjust after adding messages
             }
             
             isAnimating = false;
