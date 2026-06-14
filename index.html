@@ -13,14 +13,23 @@
             box-sizing: border-box;
         }
 
-body {
-    font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0c10;
-    color: #e6e9f0;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
+        body {
+            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0c10;
+            color: #e6e9f0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Mobile body fix - allows scrolling on phones only */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+        }
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -378,10 +387,19 @@ body {
         }
 
         /* Mobile optimization */
+        /* Mobile optimization - ONLY FOR PHONES, DOES NOT AFFECT DESKTOP */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            body {
+                min-height: 100vh;
+                overflow-x: hidden;
+                height: auto;
             }
 
             .ticker-wrapper {
@@ -421,42 +439,44 @@ body {
                 height: 40px;
             }
 
+            /* Image 4x bigger on phones - KEEP THIS */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 200px;
-                min-width: 120px;
-                opacity: 0.7;
+                max-width: 800px;
+                min-width: 320px;
+                opacity: 0.85;
                 z-index: 3;
             }
 
-.login-section {
-    display: none !important;
-}
+            /* Hide the normal login section on mobile - we use floating box instead */
+            .login-section {
+                display: none !important;
+            }
 
+            /* Floating login box for mobile only */
             .floating-login-box {
-                position: fixed;
-                top: 65%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                position: relative;
+                margin: 30px auto;
                 width: 90%;
                 max-width: 400px;
                 z-index: 100;
-                pointer-events: none;
             }
 
             .floating-login-box .login-card {
-                pointer-events: auto;
                 padding: 24px 20px;
                 width: 100%;
                 margin: 0;
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+                background: #000000;
+                border: 1px solid #38b6ff;
             }
 
             .welcome-text h2 {
                 font-size: 20px;
+                color: #ffffff;
             }
             
             .logo h1 {
@@ -599,17 +619,6 @@ body {
             
             .conversation-container div:first-child {
                 height: 70px !important;
-            }
-        }
-
-        /* FIX FOR DESKTOP - Hide floating box, show normal login section */
-        @media (min-width: 769px) {
-            .floating-login-box {
-                display: none;
-            }
-            
-            .login-section {
-                display: flex !important;
             }
         }
 
