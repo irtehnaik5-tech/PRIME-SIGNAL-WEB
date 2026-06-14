@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,14 +17,8 @@
             font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0c10;
             color: #e6e9f0;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Allow body to scroll on mobile */
-        body.mobile-scroll {
-            overflow-y: auto;
-            height: auto;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* TICKER / MARQUEE STYLES */
@@ -142,6 +137,7 @@
             max-width: 100%;
         }
 
+        /* Prevent avatar from wrapping to new line */
         .message-avatar {
             font-size: 11px;
             font-weight: 600;
@@ -201,7 +197,7 @@
         .split-container {
             display: flex;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             flex-direction: row;
             padding-top: 40px;
         }
@@ -235,6 +231,7 @@
             min-height: 0;
         }
 
+        /* FULL TRANSPARENT OVERLAY */
         .full-transparent-overlay {
             position: absolute;
             top: 0;
@@ -280,8 +277,8 @@
             max-width: 420px;
             width: 90%;
             padding: 48px 40px;
-            background: #000000;
-            border: 1px solid #38b6ff;
+            background: #1e222d;
+            border: 1px solid #2a2f3c;
             border-radius: 32px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
@@ -299,7 +296,7 @@
             background: none;
             -webkit-background-clip: unset;
             background-clip: unset;
-            color: #ffffff;
+            color: white;
         }
 
         .logo p {
@@ -319,7 +316,6 @@
             font-weight: 700;
             margin-bottom: 8px;
             font-family: 'Libre Franklin', sans-serif;
-            color: #ffffff;
         }
 
         .welcome-text p {
@@ -365,7 +361,7 @@
             display: flex;
             align-items: center;
             text-align: center;
-            color: #6b7280;
+            color: #4a5568;
             font-size: 12px;
             margin: 24px 0;
         }
@@ -381,18 +377,11 @@
             padding: 0 12px;
         }
 
-        /* ========== MOBILE VERSION - WITH #CDD9DF SECTION BELOW ========== */
+        /* Mobile optimization */
         @media (max-width: 768px) {
-            body.mobile-scroll {
-                overflow-y: auto;
-                height: auto;
-            }
-
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
-                height: auto;
-                min-height: 100vh;
             }
 
             .ticker-wrapper {
@@ -404,11 +393,9 @@
                 font-size: 10px;
             }
 
-            /* First section - Black background with conversation */
             .art-section {
                 flex: none;
                 height: 65vh;
-                min-height: 500px;
                 justify-content: flex-start;
                 position: relative;
                 width: 100%;
@@ -434,42 +421,38 @@
                 height: 40px;
             }
 
-            /* Image 4x bigger on phones */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 800px;
-                min-width: 480px;
-                opacity: 0.85;
+                max-width: 200px;
+                min-width: 120px;
+                opacity: 0.7;
                 z-index: 3;
             }
 
-            /* Second section - #CDD9DF background (VISIBLE NOW) */
             .login-section {
-                display: flex !important;
-                flex: none;
-                width: 100%;
-                min-height: 60vh;
-                background: #CDD9DF;
-                position: relative;
-                z-index: 2;
-                padding: 40px 20px;
-                margin-top: 0;
-            }
-
-            /* Hide the original floating box since we now have the real section */
-            .floating-login-box {
                 display: none;
             }
 
-            /* Style the login card inside the #CDD9DF section for mobile */
-            .login-section .login-card {
+            .floating-login-box {
+                position: fixed;
+                top: 65%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
                 max-width: 400px;
+                z-index: 100;
+                pointer-events: none;
+            }
+
+            .floating-login-box .login-card {
+                pointer-events: auto;
+                padding: 24px 20px;
                 width: 100%;
-                padding: 32px 24px;
-                margin: 0 auto;
-                background: #000000;
-                border: 1px solid #38b6ff;
+                margin: 0;
+                visibility: visible;
+                opacity: 1;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             }
 
             .welcome-text h2 {
@@ -487,9 +470,13 @@
 
         @media (max-width: 480px) {
             .bottom-left-image {
-                max-width: 480px;
-                min-width: 320px;
-                opacity: 0.85;
+                max-width: 360px;
+                min-width: 240px;
+                opacity: 0.6;
+            }
+
+            .floating-login-box .login-card {
+                padding: 20px 16px;
             }
 
             .telegram-login-btn {
@@ -499,7 +486,6 @@
             
             .art-section {
                 height: 65vh;
-                min-height: 450px;
             }
 
             .conversation-container {
@@ -513,16 +499,12 @@
             .logo h1 {
                 font-size: 24px;
             }
-
-            .login-section .login-card {
-                padding: 24px 20px;
-            }
         }
 
         @media (max-width: 380px) {
             .bottom-left-image {
                 max-width: 400px;
-                min-width: 280px;
+                min-width: 260px;
             }
             
             .logo h1 {
@@ -567,11 +549,6 @@
             
             .conversation-container div:first-child {
                 height: 50px !important;
-            }
-
-            /* Hide floating box on desktop */
-            .floating-login-box {
-                display: none;
             }
         }
 
@@ -669,7 +646,6 @@
     </div>
 
     <div class="split-container">
-        <!-- FIRST SECTION: Black background with conversation -->
         <div class="art-section">
             <div class="full-transparent-overlay"></div>
             <div class="art-content">
@@ -679,12 +655,10 @@
                 </div>
             </div>
             <div class="bottom-left-image">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160'%3E%3Crect width='200' height='160' fill='%231a1e2a'/%3E%3Cpath fill='%2338b6ff' opacity='0.7' d='M40,100 L70,50 L100,90 L130,40 L160,80 L170,110 L140,120 L110,100 L80,130 L50,110 Z'/%3E%3Ccircle cx='100' cy='80' r='20' fill='%2322c55e' opacity='0.5'/%3E%3Ctext x='30' y='145' fill='%239ca3af' font-size='12' font-family='monospace'%3ECHART%3C/text%3E%3C/svg%3E"
-                     alt="Trading chart icon" id="bottomImage">
+                <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
         </div>
 
-        <!-- SECOND SECTION: #CDD9DF background with login card -->
         <div class="login-section">
             <div class="login-card">
                 <div class="logo">
@@ -697,7 +671,7 @@
                     <h2>Welcome back, trader</h2>
                     <p>Log in to continue to your dashboard</p>
                 </div>
-                <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank" id="loginBtnDesktop">
+                <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank">
                     <svg viewBox="0 0 24 24" width="20" height="20">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                     </svg>
@@ -710,8 +684,7 @@
         </div>
     </div>
 
-    <!-- Hidden floating box - kept for potential future use but hidden on mobile now -->
-    <div class="floating-login-box" style="display: none;">
+    <div class="floating-login-box">
         <div class="login-card">
             <div class="logo">
                 <h1>
@@ -736,26 +709,44 @@
     </div>
 
     <script>
-        // Enable scrolling on mobile
-        if (window.innerWidth <= 768) {
-            document.body.classList.add('mobile-scroll');
-        }
-        
-        window.addEventListener('resize', function() {
-            if (window.innerWidth <= 768) {
-                document.body.classList.add('mobile-scroll');
-            } else {
-                document.body.classList.remove('mobile-scroll');
-            }
-        });
-
         const container = document.getElementById('conversationContainer');
+        
+        function adjustConversationHeight() {
+            if (window.innerWidth <= 768) {
+                const floatingBox = document.querySelector('.floating-login-box');
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
+                const artSection = document.querySelector('.art-section');
+                
+                if (floatingBox && conversationWrapper && artSection) {
+                    const boxRect = floatingBox.getBoundingClientRect();
+                    const loginBoxTop = boxRect.top;
+                    const artRect = artSection.getBoundingClientRect();
+                    const artTop = artRect.top;
+                    const availableHeight = loginBoxTop - artTop;
+                    
+                    if (availableHeight > 100) {
+                        conversationWrapper.style.maxHeight = availableHeight + 'px';
+                    } else {
+                        conversationWrapper.style.maxHeight = '200px';
+                    }
+                }
+            } else {
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
+                if (conversationWrapper) {
+                    conversationWrapper.style.maxHeight = '';
+                }
+            }
+        }
         
         function scrollToBottom() {
             container.scrollTop = container.scrollHeight;
         }
         
+        window.addEventListener('load', adjustConversationHeight);
+        window.addEventListener('resize', adjustConversationHeight);
+        
         const observer = new MutationObserver(() => {
+            adjustConversationHeight();
             scrollToBottom();
         });
         observer.observe(container, { childList: true, subtree: true });
@@ -939,11 +930,7 @@
             }, 500);
         });
 
-        // Handle both login buttons
-        document.getElementById('loginBtnDesktop')?.addEventListener('click', function() {
-            window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
-        });
-        document.getElementById('loginBtn')?.addEventListener('click', function() {
+        document.getElementById('loginBtn').addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
     </script>
