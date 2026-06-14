@@ -95,6 +95,22 @@
             gap: 12px;
             overflow-y: auto;
             background: transparent;
+            position: relative;
+        }
+
+        /* Gradient fade at the top - makes text disappear when scrolling up */
+        .conversation-container::before {
+            content: '';
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
+            pointer-events: none;
+            z-index: 5;
+            display: block;
+            margin-bottom: -40px;
         }
 
         .conversation-container::-webkit-scrollbar {
@@ -424,6 +440,12 @@
                 min-height: 0;
             }
 
+            /* Smaller gradient on mobile */
+            .conversation-container::before {
+                height: 30px;
+                margin-bottom: -30px;
+            }
+
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
@@ -485,6 +507,11 @@
             
             .art-section {
                 height: 65vh;
+            }
+
+            .conversation-container::before {
+                height: 25px;
+                margin-bottom: -25px;
             }
         }
 
