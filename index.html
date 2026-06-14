@@ -784,16 +784,15 @@
             if (type === 'bot') {
                 bubble.innerHTML = '<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
                 await new Promise(r => setTimeout(r, 800 + Math.random() * 700));
+                // IMPORTANT: Clear the typing indicator before typing actual message
+                bubble.innerHTML = '';
             }
             
             if (isLastMessage) {
-                // Type the complete message INCLUDING "Stu"
                 await typeTextLikeHuman(bubble, "Just use PRIME SIGNAL AI by logging in, Stu");
                 await new Promise(r => setTimeout(r, 600));
-                // Delete only the last 3 characters ("Stu")
                 await deleteLastChars(bubble, 3);
                 await new Promise(r => setTimeout(r, 150));
-                // Type "Sir" at the end
                 await typeTextLikeHuman(bubble, "Sir");
             } else {
                 await typeTextLikeHuman(bubble, text);
