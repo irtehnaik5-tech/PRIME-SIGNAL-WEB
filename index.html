@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,16 +18,6 @@
             color: #e6e9f0;
             height: 100vh;
             overflow: hidden;
-        }
-        
-        /* Mobile body fix - allows scrolling on phones only */
-        @media (max-width: 768px) {
-            body {
-                height: auto;
-                min-height: 100vh;
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
         }
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
@@ -386,9 +375,16 @@
             padding: 0 12px;
         }
 
-        /* Mobile optimization */
-        /* Mobile optimization - ONLY FOR PHONES, DOES NOT AFFECT DESKTOP */
+        /* Mobile optimization - ONLY FOR PHONES */
         @media (max-width: 768px) {
+            /* Allow body to scroll on mobile */
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
@@ -396,14 +392,9 @@
                 min-height: 100vh;
             }
 
-            body {
-                min-height: 100vh;
-                overflow-x: hidden;
-                height: auto;
-            }
-
             .ticker-wrapper {
                 padding: 5px 0;
+                position: fixed;
             }
 
             .ticker-item {
@@ -439,7 +430,7 @@
                 height: 40px;
             }
 
-            /* Image 4x bigger on phones - KEEP THIS */
+            /* Image 4x bigger on phones */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
@@ -449,21 +440,25 @@
                 z-index: 3;
             }
 
-            /* Hide the normal login section on mobile - we use floating box instead */
+            /* Hide the normal login section on mobile */
             .login-section {
                 display: none !important;
             }
 
-            /* Floating login box for mobile only */
+            /* Floating login box - stays centered while scrolling (fixed) */
             .floating-login-box {
-                position: relative;
-                margin: 30px auto;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
                 width: 90%;
                 max-width: 400px;
-                z-index: 100;
+                z-index: 1000;
+                pointer-events: none;
             }
 
             .floating-login-box .login-card {
+                pointer-events: auto;
                 padding: 24px 20px;
                 width: 100%;
                 margin: 0;
@@ -472,6 +467,11 @@
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
                 background: #000000;
                 border: 1px solid #38b6ff;
+            }
+
+            /* Add spacing at bottom so content doesn't hide behind floating box */
+            .art-section {
+                margin-bottom: 100px;
             }
 
             .welcome-text h2 {
