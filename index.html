@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,6 @@
             overflow-x: hidden;
             overflow-y: auto;
         }
-
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -262,7 +262,8 @@
             border-radius: 0;
         }
 
-        /* RIGHT SIDE - Login section - HIDDEN ON DESKTOP (we use floating box) */
+        /* RIGHT SIDE - Login section */
+              /* RIGHT SIDE - Login section - HIDDEN (floating box is used instead) */
         .login-section {
             display: none;
         }
@@ -310,7 +311,6 @@
             font-weight: 700;
             margin-bottom: 8px;
             font-family: 'Libre Franklin', sans-serif;
-            color: white;
         }
 
         .welcome-text p {
@@ -377,8 +377,6 @@
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
-                height: auto;
-                min-height: 100vh;
             }
 
             .ticker-wrapper {
@@ -427,10 +425,6 @@
                 z-index: 3;
             }
 
-            /* Hide the duplicate login section completely on mobile */
-            .login-section {
-                display: none;
-            }
 
             .floating-login-box {
                 position: fixed;
@@ -451,8 +445,6 @@
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-                background: #000000;
-                border: 1px solid #38b6ff;
             }
 
             .welcome-text h2 {
@@ -470,9 +462,9 @@
 
         @media (max-width: 480px) {
             .bottom-left-image {
-                max-width: 480px;
-                min-width: 320px;
-                opacity: 0.85;
+                max-width: 360px;
+                min-width: 240px;
+                opacity: 0.6;
             }
 
             .floating-login-box .login-card {
@@ -504,7 +496,7 @@
         @media (max-width: 380px) {
             .bottom-left-image {
                 max-width: 400px;
-                min-width: 280px;
+                min-width: 260px;
             }
             
             .logo h1 {
@@ -549,10 +541,6 @@
             
             .conversation-container div:first-child {
                 height: 50px !important;
-            }
-
-            .floating-login-box {
-                display: block;
             }
         }
 
@@ -637,8 +625,7 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        /* Mobile background spacer - makes page scrollable with #CDD9DF background */
+                /* Mobile background spacer - makes page scrollable with #CDD9DF background */
         @media (max-width: 768px) {
             .mobile-bg-spacer {
                 display: block !important;
@@ -671,8 +658,7 @@
                 </div>
             </div>
             <div class="bottom-left-image">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160'%3E%3Crect width='200' height='160' fill='%231a1e2a'/%3E%3Cpath fill='%2338b6ff' opacity='0.7' d='M40,100 L70,50 L100,90 L130,40 L160,80 L170,110 L140,120 L110,100 L80,130 L50,110 Z'/%3E%3Ccircle cx='100' cy='80' r='20' fill='%2322c55e' opacity='0.5'/%3E%3Ctext x='30' y='145' fill='%239ca3af' font-size='12' font-family='monospace'%3ECHART%3C/text%3E%3C/svg%3E"
-                     alt="Trading chart icon" id="bottomImage">
+                <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
         </div>
 
@@ -724,9 +710,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Background spacer section for scrolling on mobile - gives #CDD9DF background -->
-    <div class="mobile-bg-spacer" style="display: none;"></div>
 
     <script>
         const container = document.getElementById('conversationContainer');
