@@ -242,7 +242,7 @@
             cursor: default;
         }
 
-        /* BOTTOM-LEFT IMAGE - DEFAULT (Desktop & tablet) */
+        /* BOTTOM-LEFT IMAGE */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -259,7 +259,6 @@
             width: 100%;
             height: auto;
             border-radius: 0;
-            display: block;
         }
 
         /* RIGHT SIDE - Login section */
@@ -376,9 +375,8 @@
         .divider span {
             padding: 0 12px;
         }
-        
-        /* ---------- PHONE VERSION: IMAGE 4X LARGER + OPTIMIZATIONS ---------- */
-        /* Small phones: make bottom-left image 4 times bigger relative to its original phone size */
+
+        /* Mobile optimization */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -422,25 +420,13 @@
                 height: 40px;
             }
 
-            /* CRITICAL CHANGE: image becomes 4x larger on all phones (max-width: 768px) */
             .bottom-left-image {
-                position: absolute;
                 bottom: 0;
                 left: 0;
-                /* Original mobile size was around 120-200px max-width, now we boost drastically */
-                max-width: 800px;      /* Allow much larger expansion */
-                width: 75vw;           /* 75% of viewport width for prominent sizing */
-                min-width: 280px;      /* Guarantee decent minimum size, even on tiny screens */
-                opacity: 0.9;
-                transition: all 0.2s ease;
-                z-index: 15;
-            }
-            
-            /* For extra small devices ensure it's not clipping and remains huge relative to screen */
-            .bottom-left-image img {
-                width: 100%;
-                height: auto;
-                filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+                max-width: 400px;
+                min-width: 280px;
+                opacity: 0.7;
+                z-index: 3;
             }
 
             .login-section {
@@ -481,19 +467,13 @@
             }
         }
 
-        /* For smaller phones (<=480px) refine the 4x effect even better: 
-           Ensure image takes significant space but remains proportional */
         @media (max-width: 480px) {
-            /* Further increase relative size for ultra small screens ~ 4x compared to original tiny image */
             .bottom-left-image {
-                width: 85vw;           /* wider relative to viewport on tiny phones */
-                max-width: 550px;
-                min-width: 260px;
-                opacity: 0.92;
-                bottom: 0;
-                left: -5px;            /* slight offset to avoid edge crop but keep visibility */
+                max-width: 120px;
+                min-width: 80px;
+                opacity: 0.6;
             }
-            
+
             .floating-login-box .login-card {
                 padding: 20px 16px;
             }
@@ -519,15 +499,11 @@
                 font-size: 24px;
             }
         }
-        
-        /* For extremely narrow phones (<=380px), ensure the image is massive but not overflow-hidden */
+
         @media (max-width: 380px) {
             .bottom-left-image {
-                width: 92vw;           /* nearly full width, dramatically bigger */
-                min-width: 240px;
-                max-width: 600px;
-                bottom: 0;
-                left: -2px;
+                max-width: 100px;
+                min-width: 70px;
             }
             
             .logo h1 {
@@ -535,7 +511,7 @@
             }
         }
 
-        /* Tablet and Desktop optimization (keep original desktop image sizing) */
+        /* Tablet and Desktop optimization */
         @media (min-width: 769px) {
             .art-section {
                 justify-content: center;
@@ -572,14 +548,6 @@
             
             .conversation-container div:first-child {
                 height: 50px !important;
-            }
-            
-            /* Desktop: keep image at normal 400px max-width, not overscaled */
-            .bottom-left-image {
-                max-width: 400px;
-                width: auto;
-                min-width: 250px;
-                opacity: 0.85;
             }
         }
 
@@ -685,10 +653,8 @@
                     <div class="conversation-container" id="conversationContainer"></div>
                 </div>
             </div>
-            <!-- Bottom-left image: applies to all devices, but phone media queries enlarge it ~4x -->
             <div class="bottom-left-image">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160'%3E%3Crect width='200' height='160' fill='%231a1e2a'/%3E%3Cpath fill='%2338b6ff' opacity='0.7' d='M40,100 L70,50 L100,90 L130,40 L160,80 L170,110 L140,120 L110,100 L80,130 L50,110 Z'/%3E%3Ccircle cx='100' cy='80' r='20' fill='%2322c55e' opacity='0.5'/%3E%3Ctext x='30' y='145' fill='%239ca3af' font-size='12' font-family='monospace'%3ECHART%3C/text%3E%3C/svg%3E"
-                     alt="Trading chart icon" id="bottomImage">
+                <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
         </div>
 
