@@ -93,9 +93,16 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 320px;
             overflow-y: auto;
             background: transparent;
+        }
+
+        /* Desktop: conversation takes available space */
+        .art-section .art-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .conversation-container::-webkit-scrollbar {
@@ -148,7 +155,6 @@
             color: #cbd5e1;
         }
 
-        /* No background for any message bubble */
         .message.user .message-bubble,
         .message.bot .message-bubble {
             background: transparent !important;
@@ -213,7 +219,7 @@
             align-items: center;
             justify-content: flex-start;
             overflow: hidden;
-            padding-top: 20px;
+            height: 100%;
         }
 
         .art-content {
@@ -222,6 +228,9 @@
             width: 100%;
             max-width: 600px;
             padding: 0 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -377,7 +386,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization */
+        /* Mobile optimization - Conversation respects floating login box */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -394,22 +403,27 @@
             }
 
             .art-section {
-                min-height: 45vh;
-                max-height: none;
+                flex: none;
+                min-height: 0;
+                height: auto;
                 justify-content: flex-start;
                 position: relative;
                 width: 100%;
                 z-index: 1;
                 padding-top: 10px;
+                padding-bottom: 0;
             }
 
             .art-content {
                 padding: 0 16px;
                 max-width: 95%;
+                height: auto;
+                max-height: none;
             }
 
+            /* Conversation container: dynamically sized, stops at floating login box */
             .conversation-container {
-                max-height: 250px;
+                max-height: calc(65vh - 60px);
                 padding: 12px 16px 0 16px;
                 gap: 8px;
             }
@@ -432,7 +446,8 @@
             }
 
             .login-section {
-                min-height: 55vh;
+                min-height: 0;
+                height: auto;
                 position: relative;
                 background: #0a0c10;
                 z-index: 1;
@@ -492,7 +507,7 @@
             }
             
             .conversation-container {
-                max-height: 220px;
+                max-height: calc(65vh - 70px);
             }
         }
 
@@ -501,8 +516,13 @@
                 max-width: 100px;
                 min-width: 70px;
             }
+            
+            .conversation-container {
+                max-height: calc(65vh - 80px);
+            }
         }
 
+        /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .login-card {
                 padding: 40px 32px;
