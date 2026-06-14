@@ -113,21 +113,15 @@
             align-items: baseline;
             gap: 8px;
             flex-wrap: wrap;
-            max-width: 95%;
+            max-width: 100%;
         }
 
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message.bot {
-            justify-content: flex-start;
-        }
-
+        /* Prevent avatar from wrapping to new line */
         .message-avatar {
             font-size: 11px;
             font-weight: 600;
             flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .message.user .message-avatar {
@@ -145,6 +139,7 @@
             word-break: break-word;
             background: transparent !important;
             color: #cbd5e1;
+            flex: 1;
         }
 
         .message.user .message-bubble,
@@ -177,21 +172,6 @@
             30% { transform: translateY(-4px); opacity: 1; }
         }
 
-        .cursor-blink {
-            display: inline-block;
-            width: 2px;
-            height: 14px;
-            background: #38b6ff;
-            margin-left: 2px;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
         /* Adjust split container to account for ticker */
         .split-container {
             display: flex;
@@ -201,7 +181,7 @@
             padding-top: 40px;
         }
 
-        /* LEFT SIDE - Conversation Section - FIXED SOLID SIZE */
+        /* LEFT SIDE - Conversation Section */
         .art-section {
             flex: 1;
             background: #000000;
@@ -225,13 +205,12 @@
             flex-direction: column;
         }
 
-        /* Conversation container - will be set by JavaScript on mobile */
         .conversation-container {
             flex: 1;
             min-height: 0;
         }
 
-        /* FULL TRANSPARENT OVERLAY - covers entire first section, prevents all interaction */
+        /* FULL TRANSPARENT OVERLAY */
         .full-transparent-overlay {
             position: absolute;
             top: 0;
@@ -564,7 +543,6 @@
 
     <div class="split-container">
         <div class="art-section">
-            <!-- FULL TRANSPARENT OVERLAY - covers entire first section -->
             <div class="full-transparent-overlay"></div>
             <div class="art-content">
                 <div class="conversation-container" id="conversationContainer"></div>
@@ -666,16 +644,11 @@
                 const artSection = document.querySelector('.art-section');
                 
                 if (floatingBox && conversationContainer && artSection) {
-                    // Get the top position of the floating login box
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
-                    
-                    // Get the top position of the art section
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    
-                    // Calculate available height: from art section top to login box top
-                    const availableHeight = loginBoxTop - artTop - 20; // 20px padding
+                    const availableHeight = loginBoxTop - artTop - 20;
                     
                     if (availableHeight > 100) {
                         conversationContainer.style.maxHeight = availableHeight + 'px';
@@ -686,7 +659,6 @@
                     }
                 }
             } else {
-                // Desktop: remove constraints
                 if (container) {
                     container.style.maxHeight = '';
                     container.style.flex = '';
@@ -694,12 +666,18 @@
             }
         }
         
-        // Run on load and resize
+        // Auto-scroll to bottom function
+        function scrollToBottom() {
+            container.scrollTop = container.scrollHeight;
+        }
+        
         window.addEventListener('load', adjustConversationHeight);
         window.addEventListener('resize', adjustConversationHeight);
         
-        // Also run when conversation updates (new messages)
-        const observer = new MutationObserver(adjustConversationHeight);
+        const observer = new MutationObserver(() => {
+            adjustConversationHeight();
+            scrollToBottom();
+        });
         observer.observe(container, { childList: true, subtree: true });
 
         // Conversation messages
@@ -732,7 +710,7 @@
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
-            container.scrollTop = container.scrollHeight;
+            scrollToBottom();
             
             return { element: messageDiv, bubble };
         }
@@ -741,7 +719,16 @@
             bubble.innerHTML = '';
             for (let i = 0; i < text.length; i++) {
                 bubble.innerHTML += text[i];
+                scrollToBottom();
                 await new Promise(r => setTimeout(r, 40 + Math.random() * 25));
+            }
+        }
+
+        async function deleteText(bubble, count) {
+            for (let i = 0; i < count; i++) {
+                bubble.innerHTML = bubble.innerHTML.slice(0, -1);
+                scrollToBottom();
+                await new Promise(r => setTimeout(r, 80));
             }
         }
 
@@ -758,37 +745,28 @@
                     addMessage('user', msg.text);
                     await new Promise(r => setTimeout(r, 600));
                 } else {
-                    // Show typing
                     const typingMsg = addMessage('bot', '', true);
                     await new Promise(r => setTimeout(r, 1000));
                     typingMsg.element.remove();
                     
-                    // Real message
                     const botMsg = addMessage('bot', '');
-                    await typeText(botMsg.bubble, msg.text);
                     
-                    // If last message, do the Stu -> Sir correction
                     if (i === messages.length - 1) {
-                        await new Promise(r => setTimeout(r, 700));
-                        const fullText = msg.text;
-                        const stuIndex = fullText.indexOf('Stu');
-                        if (stuIndex !== -1) {
-                            const beforeStu = fullText.substring(0, stuIndex);
-                            const afterStu = fullText.substring(stuIndex + 3);
-                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
-                            await new Promise(r => setTimeout(r, 500));
-                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
-                            await new Promise(r => setTimeout(r, 300));
-                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
-                            await new Promise(r => setTimeout(r, 500));
-                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
-                        }
+                        // Type "Just use PRIME SIGNAL AI by logging in, Stu"
+                        await typeText(botMsg.bubble, "Just use PRIME SIGNAL AI by logging in, Stu");
+                        await new Promise(r => setTimeout(r, 800));
+                        // Delete "Stu" (3 letters)
+                        await deleteText(botMsg.bubble, 3);
+                        await new Promise(r => setTimeout(r, 200));
+                        // Type "Sir"
+                        await typeText(botMsg.bubble, "Sir");
+                    } else {
+                        await typeText(botMsg.bubble, msg.text);
                     }
                     
                     await new Promise(r => setTimeout(r, 400));
                 }
-                container.scrollTop = container.scrollHeight;
-                adjustConversationHeight(); // Re-adjust after adding messages
+                scrollToBottom();
             }
             
             isAnimating = false;
