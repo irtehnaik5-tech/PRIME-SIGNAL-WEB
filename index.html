@@ -395,7 +395,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization */
+        /* Mobile optimization - UNCHANGED */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -518,16 +518,98 @@
             }
         }
 
-        /* Tablet optimization */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .login-card {
-                padding: 40px 32px;
-                margin: 20px;
+        /* Tablet and Desktop optimization - ENHANCED FOR LARGER SCREENS */
+        @media (min-width: 769px) {
+            /* Vertically center the conversation in the left section */
+            .art-section {
+                justify-content: center;
             }
+            
+            .art-content {
+                justify-content: center;
+            }
+            
+            .conversation-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .conversation-container {
+                max-width: 600px;
+                padding: 40px 30px 40px 30px;
+                gap: 20px;
+            }
+            
+            /* Bigger text for better readability */
+            .message-avatar {
+                font-size: 14px;
+            }
+            
+            .message-bubble {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            
+            .gradient-overlay {
+                height: 80px;
+            }
+            
+            /* Adjust spacer height for desktop */
+            .conversation-container div:first-child {
+                height: 50px !important;
+            }
+        }
 
-            .bottom-left-image {
-                max-width: 300px;
-                min-width: 200px;
+        /* Extra large screens (1200px and above) - EVEN BIGGER */
+        @media (min-width: 1200px) {
+            .conversation-container {
+                max-width: 700px;
+                padding: 50px 40px 50px 40px;
+                gap: 24px;
+            }
+            
+            .message-avatar {
+                font-size: 16px;
+            }
+            
+            .message-bubble {
+                font-size: 18px;
+                line-height: 1.55;
+            }
+            
+            .gradient-overlay {
+                height: 100px;
+            }
+            
+            .conversation-container div:first-child {
+                height: 60px !important;
+            }
+        }
+
+        /* Very large screens (1600px and above) */
+        @media (min-width: 1600px) {
+            .conversation-container {
+                max-width: 800px;
+                padding: 60px 50px 60px 50px;
+                gap: 28px;
+            }
+            
+            .message-avatar {
+                font-size: 18px;
+            }
+            
+            .message-bubble {
+                font-size: 20px;
+                line-height: 1.6;
+            }
+            
+            .gradient-overlay {
+                height: 120px;
+            }
+            
+            .conversation-container div:first-child {
+                height: 70px !important;
             }
         }
 
