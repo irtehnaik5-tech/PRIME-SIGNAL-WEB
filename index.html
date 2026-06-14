@@ -19,6 +19,7 @@
             height: 100vh;
             overflow: hidden;
         }
+
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -375,26 +376,15 @@
             padding: 0 12px;
         }
 
-        /* Mobile optimization - ONLY FOR PHONES */
+        /* Mobile optimization */
         @media (max-width: 768px) {
-            /* Allow body to scroll on mobile */
-            body {
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-            
             .split-container {
                 flex-direction: column;
                 padding-top: 35px;
-                height: auto;
-                min-height: 100vh;
             }
 
             .ticker-wrapper {
                 padding: 5px 0;
-                position: fixed;
             }
 
             .ticker-item {
@@ -430,40 +420,27 @@
                 height: 40px;
             }
 
-            /* Image 4x bigger on phones */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 800px;
-                min-width: 320px;
-                opacity: 0.85;
+                max-width: 200px;
+                min-width: 120px;
+                opacity: 0.7;
                 z-index: 3;
             }
 
-            /* Show the second section on mobile with white background */
-            /* Make white section touch black section with no gap */
             .login-section {
-                display: flex !important;
-                flex: none;
-                width: 100%;
-                min-height: 40vh;
-                background: #ffffff;
-                padding: 40px 20px;
-                margin-top: -2px;
-            }
-            /* Hide the login card inside this white section (keep only the white background) */
-            .login-section .login-card {
                 display: none;
             }
-            /* Floating login box - stays centered while scrolling (fixed) */
+
             .floating-login-box {
                 position: fixed;
-                top: 50%;
+                top: 65%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 90%;
                 max-width: 400px;
-                z-index: 1000;
+                z-index: 100;
                 pointer-events: none;
             }
 
@@ -475,19 +452,10 @@
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-                background: #1e222d;
-                border: 1px solid #2a2f3c;
-            }
-
-            /* Add spacing at bottom so content doesn't hide behind floating box */
-            /* Remove margin-bottom - no gap between sections */
-            .art-section {
-                margin-bottom: 0;
             }
 
             .welcome-text h2 {
                 font-size: 20px;
-                color: #ffffff;
             }
             
             .logo h1 {
