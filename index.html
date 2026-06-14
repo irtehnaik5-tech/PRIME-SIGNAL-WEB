@@ -12,13 +12,13 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0c10;
-            color: #e6e9f0;
-            height: 100vh;
-            overflow: hidden;
-        }
+body {
+    font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0c10;
+    color: #e6e9f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
@@ -438,17 +438,18 @@
     padding: 40px 20px;
 }
 
-            .floating-login-box {
-                position: fixed;
-                top: 65%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 90%;
-                max-width: 400px;
-                z-index: 100;
-                pointer-events: none;
-            }
+/* Hide the login card inside the section on mobile (keep only background) */
+.login-section .login-card {
+    display: none;
+}
 
+.floating-login-box {
+    position: relative;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 400px;
+    z-index: 100;
+}
             .floating-login-box .login-card {
                 pointer-events: auto;
                 padding: 24px 20px;
