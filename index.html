@@ -730,7 +730,7 @@
             return 25 + Math.random() * 40;
         }
 
-        // New: Type with random breaks (1-3 breaks at random positions)
+        // Type with random breaks (1-3 breaks at random positions)
         async function typeTextLikeHuman(bubble, text) {
             const words = text.split(' ');
             
@@ -813,6 +813,9 @@
                 await deleteLastChars(bubble, 3);
                 await new Promise(r => setTimeout(r, 150));
                 await typeTextLikeHuman(bubble, "Sir");
+                // Add 1.5 second pause then type "!"
+                await new Promise(r => setTimeout(r, 1500));
+                await typeTextLikeHuman(bubble, "!");
             } else {
                 await typeTextLikeHuman(bubble, text);
             }
