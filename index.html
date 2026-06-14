@@ -813,7 +813,8 @@
                 await deleteLastChars(bubble, 3);
                 await new Promise(r => setTimeout(r, 150));
                 await typeTextLikeHuman(bubble, "Sir");
-                // Add 1.5 second pause then type "!"
+                // Add space then 1.5 second pause then type "!"
+                await typeTextLikeHuman(bubble, " ");
                 await new Promise(r => setTimeout(r, 1500));
                 await typeTextLikeHuman(bubble, "!");
             } else {
@@ -830,6 +831,13 @@
             if (resetTimeout) clearTimeout(resetTimeout);
             
             container.innerHTML = '';
+            
+            // Add an empty spacer message to push first message below gradient
+            const spacer = document.createElement('div');
+            spacer.style.height = '30px';
+            spacer.style.opacity = '0';
+            spacer.style.pointerEvents = 'none';
+            container.appendChild(spacer);
             
             await addMessageWithTyping('user', messages[0].text);
             await new Promise(r => setTimeout(r, 800));
