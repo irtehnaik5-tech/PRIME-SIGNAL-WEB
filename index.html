@@ -84,6 +84,109 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* CONVERSATION STYLES */
+        .conversation-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.user .message-bubble {
+            background: #2a2f3c;
+            border-bottom-right-radius: 4px;
+            color: #e6e9f0;
+        }
+
+        .message.bot .message-bubble {
+            background: #1e222d;
+            border: 1px solid #2a2f3c;
+            border-bottom-left-radius: 4px;
+            color: #cbd5e1;
+        }
+
+        .message-avatar {
+            font-size: 10px;
+            margin-bottom: 4px;
+            padding-left: 8px;
+            color: #9ca3af;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 16px;
+            background: #38b6ff;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .correction-highlight {
+            display: inline-block;
+            position: relative;
+        }
+
         /* Adjust split container to account for ticker */
         .split-container {
             display: flex;
@@ -105,65 +208,15 @@
             overflow: hidden;
         }
 
-        /* Art content (center text) - HIGH Z-INDEX TO STAY IN FRONT */
+        /* Art content with conversation */
         .art-content {
             position: relative;
             z-index: 20;
             text-align: center;
-            max-width: 80%;
-            padding: 40px;
+            width: 100%;
+            max-width: 550px;
+            padding: 20px;
             pointer-events: none;
-        }
-
-        /* Title styling - Libre Franklin Black */
-        .art-title {
-            font-family: 'Libre Franklin', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
-            line-height: 1.2;
-        }
-
-        .art-title .prime {
-            color: #ffffff;
-        }
-
-        .art-title .signal {
-            color: #38b6ff;
-        }
-
-        .art-title .ai {
-            color: #ffffff;
-        }
-
-        .art-features {
-            list-style: none;
-            margin-top: 32px;
-        }
-
-        .art-features li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #cbd5e1;
-            font-family: 'Libre Franklin', sans-serif;
-        }
-
-        .art-features li::before {
-            content: '✓';
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background: rgba(56,182,255,0.2);
-            border-radius: 50%;
-            color: #38b6ff;
-            font-weight: bold;
-            font-size: 14px;
         }
 
         /* BOTTOM-LEFT IMAGE - LOWER Z-INDEX SO TEXT STAYS IN FRONT */
@@ -329,7 +382,7 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Mobile optimization - KEEP BOTH SECTIONS, LOGIN BOX FLOATS OVER */
+        /* Mobile optimization */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -345,7 +398,6 @@
                 font-size: 10px;
             }
 
-            /* LEFT SECTION - stays as normal block */
             .art-section {
                 min-height: 50vh;
                 max-height: none;
@@ -356,20 +408,20 @@
             }
 
             .art-content {
-                padding: 20px;
+                padding: 16px;
                 margin: 0 auto;
                 z-index: 10;
+                max-width: 90%;
             }
 
-            .art-title {
-                font-size: 1.8rem;
-            }
-
-            .art-features {
+            /* On mobile, show only last 2 messages */
+            .message {
                 display: none;
             }
+            .message:nth-last-child(-n+2) {
+                display: flex;
+            }
 
-            /* Image stays at bottom-left of art section */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
@@ -379,7 +431,6 @@
                 z-index: 3;
             }
 
-            /* RIGHT SECTION - EMPTY SPACE (kept but invisible content) */
             .login-section {
                 min-height: 50vh;
                 position: relative;
@@ -388,14 +439,12 @@
                 visibility: visible;
             }
 
-            /* Hide the original login card content in the right section */
             .login-section .login-card {
                 visibility: hidden;
                 opacity: 0;
                 pointer-events: none;
             }
 
-            /* FLOATING LOGIN BOX - independent layer over everything */
             .floating-login-box {
                 position: fixed;
                 top: 65%;
@@ -430,10 +479,6 @@
                 opacity: 0.7;
             }
 
-            .art-title {
-                font-size: 1.4rem;
-            }
-
             .floating-login-box .login-card {
                 padding: 20px 16px;
             }
@@ -454,22 +499,10 @@
                 max-width: 120px;
                 min-width: 80px;
             }
-
-            .art-title {
-                font-size: 1.2rem;
-            }
         }
 
-        /* Tablet optimization - keep original layout */
+        /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
-            .art-title {
-                font-size: 2.5rem;
-            }
-
-            .art-features li {
-                font-size: 0.9rem;
-            }
-
             .login-card {
                 padding: 40px 32px;
                 margin: 20px;
@@ -528,20 +561,10 @@
     </div>
 
     <div class="split-container">
-        <!-- LEFT SIDE - Art / Design (TOTALLY BLACK) -->
+        <!-- LEFT SIDE - Conversation Section -->
         <div class="art-section">
             <div class="art-content">
-                <h1 class="art-title">
-                    <span class="prime">PRIME</span>
-                    <span class="signal">SIGNAL</span>
-                    <span class="ai">AI</span>
-                </h1>
-                <ul class="art-features">
-                    <li>Real-time market scanning (100+ assets)</li>
-                    <li>AI-powered entry, stop & take-profit</li>
-                    <li>Crypto · Forex · Stocks</li>
-                    <li>Live charts with technical indicators</li>
-                </ul>
+                <div class="conversation-container" id="conversationContainer"></div>
             </div>
 
             <!-- BOTTOM-LEFT IMAGE -->
@@ -553,7 +576,6 @@
         <!-- RIGHT SIDE - Empty section (kept for structure) -->
         <div class="login-section">
             <div class="login-card">
-                <!-- Original content is hidden on mobile, kept for desktop -->
                 <div class="logo">
                     <h1>⚡ PRIMESIGNAL</h1>
                     <p>AI-Powered Trading Signals</p>
@@ -639,9 +661,157 @@
     </div>
 
     <script>
+        // Conversation messages
+        const conversationMessages = [
+            { type: 'user', text: 'Hey, I\'m losing money on trading. How can you help me?' },
+            { type: 'bot', text: 'Hi! That happens. Many traders in our community now use AI to analyze the market and get precise entry prices before trading.' },
+            { type: 'user', text: 'How can I do that?' },
+            { type: 'bot', text: 'Just use PRIME SIGNAL AI by logging in, Stu...' }
+        ];
+
+        let currentMessageIndex = 0;
+        let currentCharIndex = 0;
+        let isTyping = false;
+        let correctionTimeout = null;
+        let currentBotText = '';
+        let botMessageElement = null;
+        let messageElements = [];
+
+        function addMessage(type, text, isTypingMessage = false) {
+            const container = document.getElementById('conversationContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = type === 'user' ? 'You' : 'PrimeSignal AI';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            if (isTypingMessage && type === 'bot') {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+                bubble.appendChild(typingDiv);
+            } else {
+                bubble.textContent = text;
+            }
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(bubble);
+            container.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+            
+            return { element: messageDiv, bubble };
+        }
+
+        async function typeText(bubble, text, onComplete) {
+            bubble.innerHTML = '';
+            let i = 0;
+            
+            function addChar() {
+                if (i < text.length) {
+                    bubble.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(addChar, 40 + Math.random() * 30);
+                } else {
+                    if (onComplete) onComplete();
+                }
+            }
+            
+            addChar();
+        }
+
+        function animateCorrection() {
+            const lastMessage = messageElements[messageElements.length - 1];
+            if (!lastMessage) return;
+            
+            const bubble = lastMessage.bubble;
+            const fullText = currentBotText;
+            
+            // Find the position of "Stu"
+            const stuIndex = fullText.indexOf('Stu');
+            if (stuIndex === -1) return;
+            
+            // Create highlight effect
+            let step = 0;
+            const correctionInterval = setInterval(() => {
+                if (step === 0) {
+                    // Highlight "Stu" in red
+                    const beforeStu = fullText.substring(0, stuIndex);
+                    const afterStu = fullText.substring(stuIndex + 3);
+                    bubble.innerHTML = beforeStu + '<span class="correction-highlight" style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
+                    step = 1;
+                } else if (step === 1) {
+                    // Replace with "Sir"
+                    const beforeStu = fullText.substring(0, stuIndex);
+                    const afterStu = fullText.substring(stuIndex + 3);
+                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
+                    step = 2;
+                } else if (step === 2) {
+                    // Add blinking cursor effect
+                    const beforeStu = fullText.substring(0, stuIndex);
+                    const afterStu = fullText.substring(stuIndex + 3);
+                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
+                    step = 3;
+                } else {
+                    clearInterval(correctionInterval);
+                    // Remove cursor
+                    const beforeStu = fullText.substring(0, stuIndex);
+                    const afterStu = fullText.substring(stuIndex + 3);
+                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
+                }
+            }, 800);
+        }
+
+        async function startConversation() {
+            const container = document.getElementById('conversationContainer');
+            container.innerHTML = '';
+            messageElements = [];
+            
+            for (let i = 0; i < conversationMessages.length; i++) {
+                const msg = conversationMessages[i];
+                
+                if (msg.type === 'user') {
+                    // Add user message immediately
+                    const messageData = addMessage(msg.type, msg.text);
+                    messageElements.push(messageData);
+                    await new Promise(r => setTimeout(r, 800));
+                } else if (msg.type === 'bot') {
+                    // Add typing indicator first
+                    const typingData = addMessage('bot', '', true);
+                    messageElements.push(typingData);
+                    await new Promise(r => setTimeout(r, 1200));
+                    
+                    // Remove typing indicator
+                    typingData.element.remove();
+                    messageElements.pop();
+                    
+                    // Add actual bot message with typing animation
+                    const botMessageData = addMessage('bot', '');
+                    messageElements.push(botMessageData);
+                    currentBotText = msg.text;
+                    
+                    await typeText(botMessageData.bubble, msg.text, () => {
+                        // After typing complete, if this is the last message (the one with "Stu"), animate correction
+                        if (i === conversationMessages.length - 1) {
+                            setTimeout(() => animateCorrection(), 300);
+                        }
+                    });
+                    
+                    await new Promise(r => setTimeout(r, 500));
+                }
+                
+                // Auto-scroll
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
         // Fake market data for ticker
         const tickerData = [
-            // CRYPTO
             { symbol: "BTC/USDT", price: 68420, change: 2.4 },
             { symbol: "ETH/USDT", price: 3520, change: 1.8 },
             { symbol: "SOL/USDT", price: 168, change: -0.5 },
@@ -650,29 +820,18 @@
             { symbol: "ADA/USDT", price: 0.45, change: 3.1 },
             { symbol: "DOGE/USDT", price: 0.13, change: 5.2 },
             { symbol: "AVAX/USDT", price: 38, change: -0.8 },
-            // FOREX
             { symbol: "EUR/USD", price: 1.0892, change: 0.15 },
             { symbol: "GBP/USD", price: 1.2745, change: -0.08 },
             { symbol: "USD/JPY", price: 148.32, change: 0.22 },
-            { symbol: "AUD/USD", price: 0.6615, change: -0.12 },
-            { symbol: "USD/CAD", price: 1.3580, change: 0.05 },
-            // STOCKS
             { symbol: "AAPL", price: 192.45, change: 1.2 },
             { symbol: "MSFT", price: 425.30, change: 0.8 },
             { symbol: "NVDA", price: 890.15, change: 2.5 },
-            { symbol: "GOOGL", price: 152.60, change: -0.3 },
-            { symbol: "AMZN", price: 184.25, change: 1.1 },
-            { symbol: "META", price: 498.50, change: -0.7 },
-            { symbol: "TSLA", price: 175.80, change: -1.5 },
-            { symbol: "SPY", price: 520.35, change: 0.4 }
+            { symbol: "TSLA", price: 175.80, change: -1.5 }
         ];
 
-        // Duplicate data for seamless loop
         function initTicker() {
             const tickerTrack = document.getElementById('tickerTrack');
             let html = '';
-            
-            // Create 2 loops of data for seamless animation
             for (let repeat = 0; repeat < 2; repeat++) {
                 for (const item of tickerData) {
                     const changeClass = item.change >= 0 ? 'up' : 'down';
@@ -680,59 +839,46 @@
                     const priceFormatted = item.price < 1 ? item.price.toFixed(4) : 
                                           (item.price < 10 ? item.price.toFixed(3) : 
                                           item.price.toFixed(2));
-                    
-                    html += `
-                        <div class="ticker-item">
-                            <span class="ticker-symbol">${item.symbol}</span>
-                            <span class="ticker-price">$${priceFormatted}</span>
-                            <span class="ticker-change ${changeClass}">${changeSign} ${Math.abs(item.change).toFixed(2)}%</span>
-                        </div>
-                    `;
+                    html += `<div class="ticker-item">
+                        <span class="ticker-symbol">${item.symbol}</span>
+                        <span class="ticker-price">$${priceFormatted}</span>
+                        <span class="ticker-change ${changeClass}">${changeSign} ${Math.abs(item.change).toFixed(2)}%</span>
+                    </div>`;
                 }
             }
-            
             tickerTrack.innerHTML = html;
         }
 
-        // Simulate price updates every 3 seconds (like live market)
         function updateTickerPrices() {
             for (const item of tickerData) {
-                // Random small price movement
                 const movement = (Math.random() - 0.5) * 0.01;
-                const percentMove = movement * 100;
-                
                 let newPrice = item.price * (1 + movement);
-                // Keep prices realistic
                 if (item.symbol.includes('BTC')) newPrice = Math.max(60000, Math.min(75000, newPrice));
                 if (item.symbol.includes('ETH')) newPrice = Math.max(3000, Math.min(4000, newPrice));
-                if (item.symbol.includes('USD/JPY')) newPrice = Math.max(145, Math.min(155, newPrice));
                 if (item.price < 1) newPrice = Math.max(0.5, Math.min(1.5, newPrice));
-                
                 item.price = parseFloat(newPrice.toFixed(item.price < 1 ? 4 : 2));
-                
-                // Update change percentage with momentum
                 let newChange = item.change + (Math.random() - 0.5) * 0.8;
                 newChange = Math.max(-8, Math.min(8, newChange));
                 item.change = parseFloat(newChange.toFixed(1));
             }
-            
-            // Refresh ticker display
             initTicker();
         }
 
-        // Initialize ticker
         initTicker();
-        
-        // Update prices every 3 seconds (simulate live market)
         setInterval(updateTickerPrices, 3000);
 
-        // Hide loading animation after page loads
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
                 loading.classList.add('hidden');
+                startConversation();
             }, 500);
         });
+
+        // Restart conversation every 30 seconds (loop)
+        setInterval(() => {
+            startConversation();
+        }, 30000);
 
         document.getElementById('loginBtn').addEventListener('click', function() {
             console.log('Opening PrimeSignal bot...');
