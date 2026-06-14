@@ -89,12 +89,13 @@
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            padding: 20px 20px 0 20px;
+            padding: 20px 20px 20px 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
             overflow-y: auto;
             background: transparent;
+            height: 100%;
         }
 
         .conversation-container::-webkit-scrollbar {
@@ -398,7 +399,7 @@
                 position: relative;
                 width: 100%;
                 z-index: 1;
-                padding-top: 10px;
+                padding-top: 0;
                 padding-bottom: 0;
             }
 
@@ -412,6 +413,7 @@
                 max-height: none;
                 flex: 1;
                 min-height: 0;
+                padding: 16px 16px 16px 16px;
             }
 
             .bottom-left-image {
@@ -475,6 +477,10 @@
             
             .art-section {
                 height: 65vh;
+            }
+
+            .conversation-container {
+                padding: 12px 12px 12px 12px;
             }
         }
 
@@ -648,7 +654,7 @@
                     const loginBoxTop = boxRect.top;
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    const availableHeight = loginBoxTop - artTop - 20;
+                    const availableHeight = loginBoxTop - artTop;
                     
                     if (availableHeight > 100) {
                         conversationContainer.style.maxHeight = availableHeight + 'px';
@@ -752,13 +758,10 @@
                     const botMsg = addMessage('bot', '');
                     
                     if (i === messages.length - 1) {
-                        // Type "Just use PRIME SIGNAL AI by logging in, Stu"
                         await typeText(botMsg.bubble, "Just use PRIME SIGNAL AI by logging in, Stu");
                         await new Promise(r => setTimeout(r, 800));
-                        // Delete "Stu" (3 letters)
                         await deleteText(botMsg.bubble, 3);
                         await new Promise(r => setTimeout(r, 200));
-                        // Type "Sir"
                         await typeText(botMsg.bubble, "Sir");
                     } else {
                         await typeText(botMsg.bubble, msg.text);
