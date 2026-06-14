@@ -96,12 +96,13 @@
             overflow-y: auto;
             background: transparent;
             position: relative;
+            scroll-behavior: smooth;
         }
 
-        /* Gradient fade at the top - makes text disappear when scrolling up */
+        /* Gradient fade at the top - STATIC DESIGN ELEMENT */
         .conversation-container::before {
             content: '';
-            position: sticky;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -109,8 +110,19 @@
             background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
             pointer-events: none;
             z-index: 5;
-            display: block;
-            margin-bottom: -40px;
+        }
+
+        /* Optional: gradient at the bottom for smooth fade out */
+        .conversation-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to top, #000000 0%, rgba(0,0,0,0) 100%);
+            pointer-events: none;
+            z-index: 5;
         }
 
         .conversation-container::-webkit-scrollbar {
@@ -130,6 +142,18 @@
             gap: 8px;
             flex-wrap: wrap;
             max-width: 95%;
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.user {
@@ -400,7 +424,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization - Section stays solid, conversation container sized by JS */
+        /* Mobile optimization */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -433,17 +457,18 @@
                 height: 100%;
             }
 
-            /* Default max-height, will be overridden by JS */
             .conversation-container {
                 max-height: none;
                 flex: 1;
                 min-height: 0;
             }
 
-            /* Smaller gradient on mobile */
             .conversation-container::before {
                 height: 30px;
-                margin-bottom: -30px;
+            }
+
+            .conversation-container::after {
+                height: 20px;
             }
 
             .bottom-left-image {
@@ -511,7 +536,6 @@
 
             .conversation-container::before {
                 height: 25px;
-                margin-bottom: -25px;
             }
         }
 
@@ -680,16 +704,11 @@
                 const artSection = document.querySelector('.art-section');
                 
                 if (floatingBox && conversationContainer && artSection) {
-                    // Get the top position of the floating login box
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
-                    
-                    // Get the top position of the art section
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    
-                    // Calculate available height: from art section top to login box top
-                    const availableHeight = loginBoxTop - artTop - 20; // 20px padding
+                    const availableHeight = loginBoxTop - artTop - 20;
                     
                     if (availableHeight > 100) {
                         conversationContainer.style.maxHeight = availableHeight + 'px';
@@ -700,7 +719,6 @@
                     }
                 }
             } else {
-                // Desktop: remove constraints
                 if (container) {
                     container.style.maxHeight = '';
                     container.style.flex = '';
@@ -708,12 +726,20 @@
             }
         }
         
-        // Run on load and resize
+        // Auto-scroll to bottom when new messages appear
+        function scrollToBottom() {
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+        
         window.addEventListener('load', adjustConversationHeight);
         window.addEventListener('resize', adjustConversationHeight);
         
-        // Also run when conversation updates (new messages)
-        const observer = new MutationObserver(adjustConversationHeight);
+        const observer = new MutationObserver(() => {
+            adjustConversationHeight();
+            scrollToBottom();
+        });
         observer.observe(container, { childList: true, subtree: true });
 
         // Conversation messages
@@ -746,7 +772,7 @@
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
-            container.scrollTop = container.scrollHeight;
+            scrollToBottom();
             
             return { element: messageDiv, bubble };
         }
@@ -755,6 +781,7 @@
             bubble.innerHTML = '';
             for (let i = 0; i < text.length; i++) {
                 bubble.innerHTML += text[i];
+                scrollToBottom();
                 await new Promise(r => setTimeout(r, 40 + Math.random() * 25));
             }
         }
@@ -772,16 +799,13 @@
                     addMessage('user', msg.text);
                     await new Promise(r => setTimeout(r, 600));
                 } else {
-                    // Show typing
                     const typingMsg = addMessage('bot', '', true);
                     await new Promise(r => setTimeout(r, 1000));
                     typingMsg.element.remove();
                     
-                    // Real message
                     const botMsg = addMessage('bot', '');
                     await typeText(botMsg.bubble, msg.text);
                     
-                    // If last message, do the Stu -> Sir correction
                     if (i === messages.length - 1) {
                         await new Promise(r => setTimeout(r, 700));
                         const fullText = msg.text;
@@ -801,8 +825,7 @@
                     
                     await new Promise(r => setTimeout(r, 400));
                 }
-                container.scrollTop = container.scrollHeight;
-                adjustConversationHeight(); // Re-adjust after adding messages
+                scrollToBottom();
             }
             
             isAnimating = false;
