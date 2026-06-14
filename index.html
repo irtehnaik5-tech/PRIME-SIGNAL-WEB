@@ -97,14 +97,6 @@
             background: transparent;
         }
 
-        /* Desktop: conversation takes available space */
-        .art-section .art-content {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
         .conversation-container::-webkit-scrollbar {
             width: 3px;
         }
@@ -209,7 +201,7 @@
             padding-top: 40px;
         }
 
-        /* LEFT SIDE - Conversation Section */
+        /* LEFT SIDE - Conversation Section - FIXED SOLID SIZE */
         .art-section {
             flex: 1;
             background: #000000;
@@ -231,6 +223,12 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Conversation container - will be set by JavaScript on mobile */
+        .conversation-container {
+            flex: 1;
+            min-height: 0;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -386,7 +384,7 @@
             margin-top: 4px;
         }
 
-        /* Mobile optimization - Conversation respects floating login box */
+        /* Mobile optimization - Section stays solid, conversation container sized by JS */
         @media (max-width: 768px) {
             .split-container {
                 flex-direction: column;
@@ -404,8 +402,7 @@
 
             .art-section {
                 flex: none;
-                min-height: 0;
-                height: auto;
+                height: 65vh;
                 justify-content: flex-start;
                 position: relative;
                 width: 100%;
@@ -417,23 +414,14 @@
             .art-content {
                 padding: 0 16px;
                 max-width: 95%;
-                height: auto;
-                max-height: none;
+                height: 100%;
             }
 
-            /* Conversation container: dynamically sized, stops at floating login box */
+            /* Default max-height, will be overridden by JS */
             .conversation-container {
-                max-height: calc(65vh - 60px);
-                padding: 12px 16px 0 16px;
-                gap: 8px;
-            }
-
-            .message-bubble {
-                font-size: 12px;
-            }
-
-            .message-avatar {
-                font-size: 10px;
+                max-height: none;
+                flex: 1;
+                min-height: 0;
             }
 
             .bottom-left-image {
@@ -446,18 +434,7 @@
             }
 
             .login-section {
-                min-height: 0;
-                height: auto;
-                position: relative;
-                background: #0a0c10;
-                z-index: 1;
-                visibility: visible;
-            }
-
-            .login-section .login-card {
-                visibility: hidden;
-                opacity: 0;
-                pointer-events: none;
+                display: none;
             }
 
             .floating-login-box {
@@ -506,8 +483,8 @@
                 font-size: 18px;
             }
             
-            .conversation-container {
-                max-height: calc(65vh - 70px);
+            .art-section {
+                height: 65vh;
             }
         }
 
@@ -515,10 +492,6 @@
             .bottom-left-image {
                 max-width: 100px;
                 min-width: 70px;
-            }
-            
-            .conversation-container {
-                max-height: calc(65vh - 80px);
             }
         }
 
@@ -672,6 +645,50 @@
     <script>
         const container = document.getElementById('conversationContainer');
         
+        // Function to adjust conversation container height based on login box position
+        function adjustConversationHeight() {
+            if (window.innerWidth <= 768) {
+                const floatingBox = document.querySelector('.floating-login-box');
+                const conversationContainer = document.getElementById('conversationContainer');
+                const artSection = document.querySelector('.art-section');
+                
+                if (floatingBox && conversationContainer && artSection) {
+                    // Get the top position of the floating login box
+                    const boxRect = floatingBox.getBoundingClientRect();
+                    const loginBoxTop = boxRect.top;
+                    
+                    // Get the top position of the art section
+                    const artRect = artSection.getBoundingClientRect();
+                    const artTop = artRect.top;
+                    
+                    // Calculate available height: from art section top to login box top
+                    const availableHeight = loginBoxTop - artTop - 20; // 20px padding
+                    
+                    if (availableHeight > 100) {
+                        conversationContainer.style.maxHeight = availableHeight + 'px';
+                        conversationContainer.style.flex = 'none';
+                        conversationContainer.style.height = 'auto';
+                    } else {
+                        conversationContainer.style.maxHeight = '200px';
+                    }
+                }
+            } else {
+                // Desktop: remove constraints
+                if (container) {
+                    container.style.maxHeight = '';
+                    container.style.flex = '';
+                }
+            }
+        }
+        
+        // Run on load and resize
+        window.addEventListener('load', adjustConversationHeight);
+        window.addEventListener('resize', adjustConversationHeight);
+        
+        // Also run when conversation updates (new messages)
+        const observer = new MutationObserver(adjustConversationHeight);
+        observer.observe(container, { childList: true, subtree: true });
+
         // Conversation messages
         const messages = [
             { type: 'user', text: "Hey, I'm losing money on trading. How can you help me?" },
@@ -758,6 +775,7 @@
                     await new Promise(r => setTimeout(r, 400));
                 }
                 container.scrollTop = container.scrollHeight;
+                adjustConversationHeight(); // Re-adjust after adding messages
             }
             
             isAnimating = false;
