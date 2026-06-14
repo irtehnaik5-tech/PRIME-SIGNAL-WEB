@@ -87,18 +87,17 @@
         /* CONVERSATION STYLES */
         .conversation-container {
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            min-height: 300px;
+            min-height: 350px;
             max-height: 400px;
             overflow-y: auto;
         }
 
-        /* Custom scrollbar */
         .conversation-container::-webkit-scrollbar {
             width: 4px;
         }
@@ -115,16 +114,6 @@
             display: flex;
             flex-direction: column;
             max-width: 85%;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: messageAppear 0.3s ease forwards;
-        }
-
-        @keyframes messageAppear {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .message.user {
@@ -166,6 +155,7 @@
             display: inline-flex;
             gap: 4px;
             align-items: center;
+            padding: 8px 12px;
         }
 
         .typing-dot {
@@ -200,11 +190,6 @@
             51%, 100% { opacity: 0; }
         }
 
-        .correction-highlight {
-            display: inline-block;
-            position: relative;
-        }
-
         /* Adjust split container to account for ticker */
         .split-container {
             display: flex;
@@ -214,7 +199,7 @@
             padding-top: 40px;
         }
 
-        /* LEFT SIDE - Art / Image section - TOTALLY BLACK */
+        /* LEFT SIDE - Conversation Section */
         .art-section {
             flex: 1;
             background: #000000;
@@ -226,19 +211,12 @@
             overflow: hidden;
         }
 
-        /* Art content with conversation */
         .art-content {
             position: relative;
             z-index: 20;
-            text-align: center;
             width: 100%;
             max-width: 600px;
             padding: 20px;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -294,14 +272,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .logo p {
             font-size: 12px;
             color: #9ca3af;
             margin-top: 8px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text {
@@ -313,16 +289,13 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text p {
             font-size: 14px;
             color: #9ca3af;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
-        /* Telegram login button */
         .telegram-login-btn {
             display: flex;
             align-items: center;
@@ -340,7 +313,6 @@
             transition: all 0.3s ease;
             text-decoration: none;
             margin-bottom: 24px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .telegram-login-btn:hover {
@@ -356,7 +328,6 @@
             fill: currentColor;
         }
 
-        /* Divider */
         .divider {
             display: flex;
             align-items: center;
@@ -377,7 +348,6 @@
             padding: 0 12px;
         }
 
-        /* Stats section */
         .stats {
             display: flex;
             justify-content: space-around;
@@ -394,14 +364,12 @@
             font-size: 24px;
             font-weight: 800;
             color: #38b6ff;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .stat-label {
             font-size: 11px;
             color: #9ca3af;
             margin-top: 4px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         /* Mobile optimization */
@@ -431,19 +399,12 @@
 
             .art-content {
                 padding: 16px;
-                margin: 0 auto;
-                z-index: 10;
                 max-width: 95%;
             }
 
             .conversation-container {
                 max-height: 280px;
                 padding: 12px;
-            }
-
-            /* On mobile, show only last 2 messages */
-            .message {
-                display: flex !important;
             }
 
             .bottom-left-image {
@@ -495,7 +456,6 @@
             }
         }
 
-        /* Small mobile */
         @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 150px;
@@ -517,7 +477,6 @@
             }
         }
 
-        /* Extra small mobile */
         @media (max-width: 380px) {
             .bottom-left-image {
                 max-width: 120px;
@@ -525,7 +484,6 @@
             }
         }
 
-        /* Tablet optimization */
         @media (min-width: 769px) and (max-width: 1024px) {
             .login-card {
                 padding: 40px 32px;
@@ -538,7 +496,6 @@
             }
         }
 
-        /* Loading animation */
         .loading {
             position: fixed;
             top: 0;
@@ -574,40 +531,24 @@
 </head>
 <body>
 
-    <!-- Loading animation -->
     <div id="loading" class="loading">
         <div class="spinner"></div>
     </div>
 
-    <!-- TICKER / MARQUEE -->
     <div class="ticker-wrapper">
         <div class="ticker-track" id="tickerTrack"></div>
     </div>
 
     <div class="split-container">
-        <!-- LEFT SIDE - Conversation Section -->
         <div class="art-section">
             <div class="art-content">
-                <div class="conversation-container" id="conversationContainer">
-                    <!-- Messages will appear here -->
-                    <div style="text-align: center; color: #9ca3af; padding: 40px;">
-                        <div class="typing-indicator">
-                            <span class="typing-dot"></span>
-                            <span class="typing-dot"></span>
-                            <span class="typing-dot"></span>
-                        </div>
-                        <div style="margin-top: 12px; font-size: 12px;">Loading conversation...</div>
-                    </div>
-                </div>
+                <div class="conversation-container" id="conversationContainer"></div>
             </div>
-
-            <!-- BOTTOM-LEFT IMAGE -->
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
         </div>
 
-        <!-- RIGHT SIDE - Empty section (kept for structure) -->
         <div class="login-section">
             <div class="login-card">
                 <div class="logo">
@@ -619,8 +560,8 @@
                     <p>Access your dashboard in Telegram</p>
                 </div>
                 <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.6-1.38-.97-2.23-1.56-.99-.69-.35-1.07.22-1.69.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.09-.2-.1-.06-.24-.04-.35-.02-.16.03-2.6 1.65-3.35 2.11-.32.21-.6.32-.86.32-.28 0-.82-.16-1.22-.29-.5-.16-1.01-.33-1.46-.35-.48-.03-.95.12-1.4.36-.45.24-.77.59-.97.94l-.02.01c-.19.34-.29.72-.27 1.1.02.38.16.73.4 1.04.24.31.54.53.88.64 1.06.35 2.48.45 3.73.09.82-.24 2.43-.96 4.04-1.88 1.75-1 3.45-2.16 4.49-3.66.2-.28.33-.6.4-.94.07-.34.06-.7-.03-1.04-.09-.34-.25-.65-.48-.91-.23-.26-.52-.45-.84-.56-.65-.23-1.29-.21-1.94-.19-.28.01-.56.04-.84.1-.63.13-1.24.37-1.8.71-1.2.73-2.23 1.73-3 2.92-.2.3-.35.63-.43.98-.08.35-.1.71-.05 1.07.05.36.17.7.35 1.01.18.31.42.58.7.79.19.15.4.26.63.33.13.04.26.06.39.06.34 0 .68-.09.99-.27.31-.18.57-.42.78-.71.42-.58.7-1.24.83-1.94.13-.7.1-1.42-.09-2.11-.19-.69-.53-1.32-1-1.87-.47-.55-1.05-.99-1.71-1.3-.65-.31-1.36-.48-2.08-.5-.39-.01-.78.03-1.17.12-.38.09-.75.23-1.1.42l-.02.01c-.66.35-1.24.85-1.7 1.45-.46.6-.8 1.3-1 2.05-.2.75-.25 1.54-.15 2.31.1.77.35 1.5.74 2.16.39.66.91 1.23 1.54 1.68.62.45 1.33.78 2.08.97.65.16 1.32.22 1.99.18.67-.04 1.33-.18 1.96-.42.95-.36 1.83-.86 2.62-1.48.79-.62 1.47-1.35 2.03-2.17.55-.82.98-1.72 1.27-2.68.29-.96.44-1.97.44-2.99 0-1.02-.16-2.03-.48-3-.32-.97-.79-1.88-1.4-2.7-.61-.82-1.35-1.53-2.19-2.1-.84-.57-1.78-1-2.78-1.27-.99-.27-2.03-.4-3.07-.38-1.04.02-2.07.18-3.06.48-.99.3-1.92.74-2.77 1.3-.85.56-1.61 1.24-2.26 2.02-.65.78-1.18 1.65-1.59 2.59-.41.94-.69 1.94-.84 2.97-.15 1.03-.16 2.08-.03 3.12.13 1.04.4 2.04.8 2.99.4.95.93 1.83 1.57 2.63.64.8 1.39 1.5 2.22 2.09.83.59 1.74 1.06 2.7 1.39.96.33 1.97.52 3 .56 1.03.04 2.06-.07 3.06-.33 1-.26 1.94-.66 2.82-1.18.88-.52 1.68-1.15 2.39-1.87.71-.72 1.31-1.54 1.79-2.43.48-.89.84-1.85 1.06-2.85.22-1 .3-2.04.24-3.08-.06-1.04-.27-2.06-.62-3.03-.35-.97-.84-1.88-1.45-2.71-.61-.83-1.34-1.56-2.17-2.18-.83-.62-1.75-1.12-2.73-1.49-.98-.37-2.01-.6-3.05-.69-1.04-.09-2.09-.03-3.11.18-1.02.21-1.99.56-2.89 1.03-.9.47-1.72 1.05-2.44 1.73-.72.68-1.33 1.45-1.81 2.3-.48.85-.83 1.77-1.03 2.73-.2.96-.25 1.95-.16 2.93.09.98.32 1.93.68 2.84.36.91.84 1.76 1.42 2.53.58.77 1.26 1.45 2.02 2.02.76.57 1.59 1.03 2.47 1.37.88.34 1.8.55 2.73.63.93.08 1.87.03 2.78-.16.91-.19 1.78-.5 2.6-.93.82-.43 1.57-.96 2.25-1.58.68-.62 1.27-1.33 1.77-2.11.5-.78.9-1.63 1.19-2.52.29-.89.46-1.82.51-2.76.05-.94-.02-1.88-.21-2.8z"/>
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                     </svg>
                     Continue with Telegram
                 </a>
@@ -643,15 +584,12 @@
                 </div>
                 <div class="divider"></div>
                 <div style="text-align: center; margin-top: 16px;">
-                    <span style="font-size: 11px; color: #6b7280;">
-                        🔐 No passwords • No email • Telegram only
-                    </span>
+                    <span style="font-size: 11px; color: #6b7280;">🔐 No passwords • No email • Telegram only</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FLOATING LOGIN BOX - Independent layer on mobile -->
     <div class="floating-login-box">
         <div class="login-card">
             <div class="logo">
@@ -663,8 +601,8 @@
                 <p>Access your dashboard in Telegram</p>
             </div>
             <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtn" target="_blank">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.6-1.38-.97-2.23-1.56-.99-.69-.35-1.07.22-1.69.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.09-.2-.1-.06-.24-.04-.35-.02-.16.03-2.6 1.65-3.35 2.11-.32.21-.6.32-.86.32-.28 0-.82-.16-1.22-.29-.5-.16-1.01-.33-1.46-.35-.48-.03-.95.12-1.4.36-.45.24-.77.59-.97.94l-.02.01c-.19.34-.29.72-.27 1.1.02.38.16.73.4 1.04.24.31.54.53.88.64 1.06.35 2.48.45 3.73.09.82-.24 2.43-.96 4.04-1.88 1.75-1 3.45-2.16 4.49-3.66.2-.28.33-.6.4-.94.07-.34.06-.7-.03-1.04-.09-.34-.25-.65-.48-.91-.23-.26-.52-.45-.84-.56-.65-.23-1.29-.21-1.94-.19-.28.01-.56.04-.84.1-.63.13-1.24.37-1.8.71-1.2.73-2.23 1.73-3 2.92-.2.3-.35.63-.43.98-.08.35-.1.71-.05 1.07.05.36.17.7.35 1.01.18.31.42.58.7.79.19.15.4.26.63.33.13.04.26.06.39.06.34 0 .68-.09.99-.27.31-.18.57-.42.78-.71.42-.58.7-1.24.83-1.94.13-.7.1-1.42-.09-2.11-.19-.69-.53-1.32-1-1.87-.47-.55-1.05-.99-1.71-1.3-.65-.31-1.36-.48-2.08-.5-.39-.01-.78.03-1.17.12-.38.09-.75.23-1.1.42l-.02.01c-.66.35-1.24.85-1.7 1.45-.46.6-.8 1.3-1 2.05-.2.75-.25 1.54-.15 2.31.1.77.35 1.5.74 2.16.39.66.91 1.23 1.54 1.68.62.45 1.33.78 2.08.97.65.16 1.32.22 1.99.18.67-.04 1.33-.18 1.96-.42.95-.36 1.83-.86 2.62-1.48.79-.62 1.47-1.35 2.03-2.17.55-.82.98-1.72 1.27-2.68.29-.96.44-1.97.44-2.99 0-1.02-.16-2.03-.48-3-.32-.97-.79-1.88-1.4-2.7-.61-.82-1.35-1.53-2.19-2.1-.84-.57-1.78-1-2.78-1.27-.99-.27-2.03-.4-3.07-.38-1.04.02-2.07.18-3.06.48-.99.3-1.92.74-2.77 1.3-.85.56-1.61 1.24-2.26 2.02-.65.78-1.18 1.65-1.59 2.59-.41.94-.69 1.94-.84 2.97-.15 1.03-.16 2.08-.03 3.12.13 1.04.4 2.04.8 2.99.4.95.93 1.83 1.57 2.63.64.8 1.39 1.5 2.22 2.09.83.59 1.74 1.06 2.7 1.39.96.33 1.97.52 3 .56 1.03.04 2.06-.07 3.06-.33 1-.26 1.94-.66 2.82-1.18.88-.52 1.68-1.15 2.39-1.87.71-.72 1.31-1.54 1.79-2.43.48-.89.84-1.85 1.06-2.85.22-1 .3-2.04.24-3.08-.06-1.04-.27-2.06-.62-3.03-.35-.97-.84-1.88-1.45-2.71-.61-.83-1.34-1.56-2.17-2.18-.83-.62-1.75-1.12-2.73-1.49-.98-.37-2.01-.6-3.05-.69-1.04-.09-2.09-.03-3.11.18-1.02.21-1.99.56-2.89 1.03-.9.47-1.72 1.05-2.44 1.73-.72.68-1.33 1.45-1.81 2.3-.48.85-.83 1.77-1.03 2.73-.2.96-.25 1.95-.16 2.93.09.98.32 1.93.68 2.84.36.91.84 1.76 1.42 2.53.58.77 1.26 1.45 2.02 2.02.76.57 1.59 1.03 2.47 1.37.88.34 1.8.55 2.73.63.93.08 1.87.03 2.78-.16.91-.19 1.78-.5 2.6-.93.82-.43 1.57-.96 2.25-1.58.68-.62 1.27-1.33 1.77-2.11.5-.78.9-1.63 1.19-2.52.29-.89.46-1.82.51-2.76.05-.94-.02-1.88-.21-2.8z"/>
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                 </svg>
                 Continue with Telegram
             </a>
@@ -687,31 +625,35 @@
             </div>
             <div class="divider"></div>
             <div style="text-align: center; margin-top: 16px;">
-                <span style="font-size: 11px; color: #6b7280;">
-                    🔐 No passwords • No email • Telegram only
-                </span>
+                <span style="font-size: 11px; color: #6b7280;">🔐 No passwords • No email • Telegram only</span>
             </div>
         </div>
     </div>
 
     <script>
+        // SIMPLE TEST - First add a test message to verify it works
+        const container = document.getElementById('conversationContainer');
+        if (container) {
+            // Add a test message to prove it works
+            const testDiv = document.createElement('div');
+            testDiv.className = 'message bot';
+            testDiv.innerHTML = '<div class="message-avatar">PrimeSignal AI</div><div class="message-bubble">Loading conversation...</div>';
+            container.appendChild(testDiv);
+        }
+
         // Conversation messages
-        const conversationMessages = [
-            { type: 'user', text: 'Hey, I\'m losing money on trading. How can you help me?' },
-            { type: 'bot', text: 'Hi! That happens. Many traders in our community now use AI to analyze the market and get precise entry prices before trading.' },
-            { type: 'user', text: 'How can I do that?' },
-            { type: 'bot', text: 'Just use PRIME SIGNAL AI by logging in, Stu...' }
+        const messages = [
+            { type: 'user', text: "Hey, I'm losing money on trading. How can you help me?" },
+            { type: 'bot', text: "Hi! That happens. Many traders in our community now use AI to analyze the market and get precise entry prices before trading." },
+            { type: 'user', text: "How can I do that?" },
+            { type: 'bot', text: "Just use PRIME SIGNAL AI by logging in, Stu..." }
         ];
 
-        let messageElements = [];
+        let msgIndex = 0;
+        let isAnimating = false;
 
         function addMessage(type, text, isTyping = false) {
             const container = document.getElementById('conversationContainer');
-            
-            // Clear loading indicator if present
-            if (container.children.length === 1 && container.children[0].innerHTML.includes('Loading conversation')) {
-                container.innerHTML = '';
-            }
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
@@ -723,11 +665,8 @@
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble';
             
-            if (isTyping && type === 'bot') {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
-                typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-                bubble.appendChild(typingDiv);
+            if (isTyping) {
+                bubble.innerHTML = '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
             } else {
                 bubble.textContent = text;
             }
@@ -735,173 +674,130 @@
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
-            
-            // Auto-scroll to bottom
             container.scrollTop = container.scrollHeight;
             
             return { element: messageDiv, bubble };
         }
 
-        async function typeText(bubble, text, onComplete) {
+        async function typeText(bubble, text) {
             bubble.innerHTML = '';
-            let i = 0;
-            
-            function addChar() {
-                if (i < text.length) {
-                    bubble.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(addChar, 45 + Math.random() * 35);
-                } else {
-                    if (onComplete) onComplete();
-                }
+            for (let i = 0; i < text.length; i++) {
+                bubble.innerHTML += text[i];
+                await new Promise(r => setTimeout(r, 45 + Math.random() * 30));
             }
-            
-            addChar();
-        }
-
-        function animateCorrection(bubble, fullText) {
-            const stuIndex = fullText.indexOf('Stu');
-            if (stuIndex === -1) return;
-            
-            let step = 0;
-            const correctionInterval = setInterval(() => {
-                if (step === 0) {
-                    const beforeStu = fullText.substring(0, stuIndex);
-                    const afterStu = fullText.substring(stuIndex + 3);
-                    bubble.innerHTML = beforeStu + '<span class="correction-highlight" style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
-                    step = 1;
-                } else if (step === 1) {
-                    const beforeStu = fullText.substring(0, stuIndex);
-                    const afterStu = fullText.substring(stuIndex + 3);
-                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
-                    step = 2;
-                } else if (step === 2) {
-                    const beforeStu = fullText.substring(0, stuIndex);
-                    const afterStu = fullText.substring(stuIndex + 3);
-                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
-                    step = 3;
-                } else {
-                    clearInterval(correctionInterval);
-                    const beforeStu = fullText.substring(0, stuIndex);
-                    const afterStu = fullText.substring(stuIndex + 3);
-                    bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
-                }
-            }, 700);
         }
 
         async function startConversation() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
             const container = document.getElementById('conversationContainer');
             container.innerHTML = '';
-            messageElements = [];
             
-            for (let i = 0; i < conversationMessages.length; i++) {
-                const msg = conversationMessages[i];
+            for (let i = 0; i < messages.length; i++) {
+                const msg = messages[i];
                 
                 if (msg.type === 'user') {
-                    addMessage(msg.type, msg.text);
+                    addMessage('user', msg.text);
                     await new Promise(r => setTimeout(r, 800));
-                } else if (msg.type === 'bot') {
-                    // Show typing indicator
-                    const typingData = addMessage('bot', '', true);
+                } else {
+                    // Show typing
+                    const typingMsg = addMessage('bot', '', true);
                     await new Promise(r => setTimeout(r, 1200));
+                    typingMsg.element.remove();
                     
-                    // Remove typing indicator
-                    typingData.element.remove();
-                    
-                    // Add actual bot message
+                    // Real message
                     const botMsg = addMessage('bot', '');
-                    const fullText = msg.text;
+                    await typeText(botMsg.bubble, msg.text);
                     
-                    await typeText(botMsg.bubble, fullText, () => {
-                        if (i === conversationMessages.length - 1) {
-                            setTimeout(() => animateCorrection(botMsg.bubble, fullText), 300);
+                    // If last message, do the Stu -> Sir correction
+                    if (i === messages.length - 1) {
+                        await new Promise(r => setTimeout(r, 800));
+                        const fullText = msg.text;
+                        const stuIndex = fullText.indexOf('Stu');
+                        if (stuIndex !== -1) {
+                            const beforeStu = fullText.substring(0, stuIndex);
+                            const afterStu = fullText.substring(stuIndex + 3);
+                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
+                            await new Promise(r => setTimeout(r, 600));
+                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
+                            await new Promise(r => setTimeout(r, 400));
+                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
+                            await new Promise(r => setTimeout(r, 600));
+                            botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
                         }
-                    });
+                    }
                     
                     await new Promise(r => setTimeout(r, 500));
                 }
-                
                 container.scrollTop = container.scrollHeight;
             }
+            
+            isAnimating = false;
         }
 
-        // Fake market data for ticker
+        // Ticker data
         const tickerData = [
             { symbol: "BTC/USDT", price: 68420, change: 2.4 },
             { symbol: "ETH/USDT", price: 3520, change: 1.8 },
             { symbol: "SOL/USDT", price: 168, change: -0.5 },
-            { symbol: "BNB/USDT", price: 585, change: 0.3 },
-            { symbol: "XRP/USDT", price: 0.62, change: -1.2 },
-            { symbol: "ADA/USDT", price: 0.45, change: 3.1 },
-            { symbol: "DOGE/USDT", price: 0.13, change: 5.2 },
-            { symbol: "AVAX/USDT", price: 38, change: -0.8 },
             { symbol: "EUR/USD", price: 1.0892, change: 0.15 },
             { symbol: "GBP/USD", price: 1.2745, change: -0.08 },
-            { symbol: "USD/JPY", price: 148.32, change: 0.22 },
             { symbol: "AAPL", price: 192.45, change: 1.2 },
-            { symbol: "MSFT", price: 425.30, change: 0.8 },
             { symbol: "NVDA", price: 890.15, change: 2.5 },
             { symbol: "TSLA", price: 175.80, change: -1.5 }
         ];
 
         function initTicker() {
-            const tickerTrack = document.getElementById('tickerTrack');
-            if (!tickerTrack) return;
+            const track = document.getElementById('tickerTrack');
+            if (!track) return;
             let html = '';
-            for (let repeat = 0; repeat < 2; repeat++) {
+            for (let r = 0; r < 2; r++) {
                 for (const item of tickerData) {
-                    const changeClass = item.change >= 0 ? 'up' : 'down';
-                    const changeSign = item.change >= 0 ? '▲' : '▼';
-                    const priceFormatted = item.price < 1 ? item.price.toFixed(4) : 
-                                          (item.price < 10 ? item.price.toFixed(3) : 
-                                          item.price.toFixed(2));
+                    const cls = item.change >= 0 ? 'up' : 'down';
+                    const sign = item.change >= 0 ? '▲' : '▼';
+                    const price = item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2);
                     html += `<div class="ticker-item">
                         <span class="ticker-symbol">${item.symbol}</span>
-                        <span class="ticker-price">$${priceFormatted}</span>
-                        <span class="ticker-change ${changeClass}">${changeSign} ${Math.abs(item.change).toFixed(2)}%</span>
+                        <span class="ticker-price">$${price}</span>
+                        <span class="ticker-change ${cls}">${sign} ${Math.abs(item.change).toFixed(2)}%</span>
                     </div>`;
                 }
             }
-            tickerTrack.innerHTML = html;
+            track.innerHTML = html;
         }
 
-        function updateTickerPrices() {
+        function updatePrices() {
             for (const item of tickerData) {
-                const movement = (Math.random() - 0.5) * 0.008;
-                let newPrice = item.price * (1 + movement);
+                const move = (Math.random() - 0.5) * 0.01;
+                let newPrice = item.price * (1 + move);
                 if (item.symbol.includes('BTC')) newPrice = Math.max(60000, Math.min(75000, newPrice));
-                if (item.symbol.includes('ETH')) newPrice = Math.max(3000, Math.min(4000, newPrice));
                 if (item.price < 1) newPrice = Math.max(0.5, Math.min(1.5, newPrice));
                 item.price = parseFloat(newPrice.toFixed(item.price < 1 ? 4 : 2));
-                let newChange = item.change + (Math.random() - 0.5) * 0.6;
+                let newChange = item.change + (Math.random() - 0.5) * 0.8;
                 newChange = Math.max(-8, Math.min(8, newChange));
                 item.change = parseFloat(newChange.toFixed(1));
             }
             initTicker();
         }
 
-        // Initialize everything
         initTicker();
-        setInterval(updateTickerPrices, 4000);
+        setInterval(updatePrices, 5000);
 
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
-            setTimeout(function() {
+            setTimeout(() => {
                 loading.classList.add('hidden');
-                // Start conversation after loading screen disappears
-                setTimeout(() => {
-                    startConversation();
-                }, 500);
-            }, 800);
+                startConversation();
+            }, 500);
         });
 
-        // Restart conversation every 35 seconds
-        let conversationInterval = setInterval(() => {
-            startConversation();
+        setInterval(() => {
+            if (!isAnimating) startConversation();
         }, 35000);
 
         document.getElementById('loginBtn').addEventListener('click', function() {
-            console.log('Opening PrimeSignal bot...');
+            window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
     </script>
 </body>
