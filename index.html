@@ -723,8 +723,50 @@
         ];
 
         let isAnimating = false;
+        let resetTimeout = null;
 
-        function addMessage(type, text, isTyping = false) {
+        // Helper function for random delay (25-65ms for realistic typing)
+        function randomDelay() {
+            return 25 + Math.random() * 40;
+        }
+
+        // Pause between words (like human thinking)
+        async function pauseBetweenWords() {
+            await new Promise(r => setTimeout(r, 120 + Math.random() * 80));
+        }
+
+        async function typeTextLikeHuman(bubble, text) {
+            bubble.innerHTML = '';
+            const words = text.split(' ');
+            
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i];
+                // Type each character of the word
+                for (let j = 0; j < word.length; j++) {
+                    bubble.innerHTML += word[j];
+                    scrollToBottom();
+                    await new Promise(r => setTimeout(r, randomDelay()));
+                }
+                // Add space after word (except last word)
+                if (i < words.length - 1) {
+                    bubble.innerHTML += ' ';
+                    scrollToBottom();
+                    // Pause between words (like thinking)
+                    await pauseBetweenWords();
+                }
+            }
+        }
+
+        async function deleteLastChars(bubble, count) {
+            for (let i = 0; i < count; i++) {
+                bubble.innerHTML = bubble.innerHTML.slice(0, -1);
+                scrollToBottom();
+                // Faster deletion (30-50ms per char)
+                await new Promise(r => setTimeout(r, 30 + Math.random() * 20));
+            }
+        }
+
+        async function addMessageWithTyping(type, text, isLastMessage = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             
@@ -735,70 +777,69 @@
             const bubble = document.createElement('span');
             bubble.className = 'message-bubble';
             
-            if (isTyping) {
-                bubble.innerHTML = '<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
-            } else {
-                bubble.textContent = text;
-            }
-            
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
             scrollToBottom();
             
-            return { element: messageDiv, bubble };
-        }
-
-        async function typeText(bubble, text) {
-            bubble.innerHTML = '';
-            for (let i = 0; i < text.length; i++) {
-                bubble.innerHTML += text[i];
-                scrollToBottom();
-                await new Promise(r => setTimeout(r, 40 + Math.random() * 25));
+            // Show thinking indicator for AI messages
+            if (type === 'bot') {
+                bubble.innerHTML = '<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+                // Random thinking time (800-1500ms) like real AI
+                await new Promise(r => setTimeout(r, 800 + Math.random() * 700));
             }
-        }
-
-        async function deleteText(bubble, count) {
-            for (let i = 0; i < count; i++) {
-                bubble.innerHTML = bubble.innerHTML.slice(0, -1);
-                scrollToBottom();
-                await new Promise(r => setTimeout(r, 80));
+            
+            if (isLastMessage) {
+                // Type the message without "Stu..."
+                const textWithoutStu = "Just use PRIME SIGNAL AI by logging in, ";
+                await typeTextLikeHuman(bubble, textWithoutStu);
+                await new Promise(r => setTimeout(r, 300));
+                
+                // Type "Stu"
+                await typeTextLikeHuman(bubble, "Stu");
+                await new Promise(r => setTimeout(r, 600));
+                
+                // Delete "Stu" (3 chars)
+                await deleteLastChars(bubble, 3);
+                await new Promise(r => setTimeout(r, 150));
+                
+                // Type "Sir"
+                await typeTextLikeHuman(bubble, "Sir");
+            } else {
+                await typeTextLikeHuman(bubble, text);
             }
+            
+            return messageDiv;
         }
 
         async function startConversation() {
             if (isAnimating) return;
             isAnimating = true;
             
+            // Clear reset timeout if exists
+            if (resetTimeout) clearTimeout(resetTimeout);
+            
             container.innerHTML = '';
             
-            for (let i = 0; i < messages.length; i++) {
-                const msg = messages[i];
-                
-                if (msg.type === 'user') {
-                    addMessage('user', msg.text);
-                    await new Promise(r => setTimeout(r, 600));
-                } else {
-                    const typingMsg = addMessage('bot', '', true);
-                    await new Promise(r => setTimeout(r, 1000));
-                    typingMsg.element.remove();
-                    
-                    const botMsg = addMessage('bot', '');
-                    
-                    if (i === messages.length - 1) {
-                        await typeText(botMsg.bubble, "Just use PRIME SIGNAL AI by logging in, Stu");
-                        await new Promise(r => setTimeout(r, 800));
-                        await deleteText(botMsg.bubble, 3);
-                        await new Promise(r => setTimeout(r, 200));
-                        await typeText(botMsg.bubble, "Sir");
-                    } else {
-                        await typeText(botMsg.bubble, msg.text);
-                    }
-                    
-                    await new Promise(r => setTimeout(r, 400));
-                }
-                scrollToBottom();
-            }
+            // Message 1: User
+            await addMessageWithTyping('user', messages[0].text);
+            await new Promise(r => setTimeout(r, 800));
+            
+            // Message 2: Bot
+            await addMessageWithTyping('bot', messages[1].text);
+            await new Promise(r => setTimeout(r, 700));
+            
+            // Message 3: User
+            await addMessageWithTyping('user', messages[2].text);
+            await new Promise(r => setTimeout(r, 800));
+            
+            // Message 4: Bot with correction
+            await addMessageWithTyping('bot', messages[3].text, true);
+            
+            // After conversation ends, schedule reset in 4 seconds
+            resetTimeout = setTimeout(() => {
+                startConversation();
+            }, 4000);
             
             isAnimating = false;
         }
@@ -858,10 +899,6 @@
                 startConversation();
             }, 500);
         });
-
-        setInterval(() => {
-            if (!isAnimating) startConversation();
-        }, 35000);
 
         document.getElementById('loginBtn').addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
