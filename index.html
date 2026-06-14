@@ -87,12 +87,28 @@
         /* CONVERSATION STYLES */
         .conversation-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Custom scrollbar */
+        .conversation-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .conversation-container::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+        .conversation-container::-webkit-scrollbar-thumb {
+            background: #38b6ff;
+            border-radius: 4px;
         }
 
         .message {
@@ -101,12 +117,14 @@
             max-width: 85%;
             opacity: 0;
             transform: translateY(10px);
-            transition: all 0.3s ease;
+            animation: messageAppear 0.3s ease forwards;
         }
 
-        .message.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes messageAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.user {
@@ -214,12 +232,16 @@
             z-index: 20;
             text-align: center;
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
             padding: 20px;
             pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* BOTTOM-LEFT IMAGE - LOWER Z-INDEX SO TEXT STAYS IN FRONT */
+        /* BOTTOM-LEFT IMAGE */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -411,15 +433,17 @@
                 padding: 16px;
                 margin: 0 auto;
                 z-index: 10;
-                max-width: 90%;
+                max-width: 95%;
+            }
+
+            .conversation-container {
+                max-height: 280px;
+                padding: 12px;
             }
 
             /* On mobile, show only last 2 messages */
             .message {
-                display: none;
-            }
-            .message:nth-last-child(-n+2) {
-                display: flex;
+                display: flex !important;
             }
 
             .bottom-left-image {
@@ -555,7 +579,7 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- TICKER / MARQUEE - Crypto, Forex, Stocks -->
+    <!-- TICKER / MARQUEE -->
     <div class="ticker-wrapper">
         <div class="ticker-track" id="tickerTrack"></div>
     </div>
@@ -564,7 +588,17 @@
         <!-- LEFT SIDE - Conversation Section -->
         <div class="art-section">
             <div class="art-content">
-                <div class="conversation-container" id="conversationContainer"></div>
+                <div class="conversation-container" id="conversationContainer">
+                    <!-- Messages will appear here -->
+                    <div style="text-align: center; color: #9ca3af; padding: 40px;">
+                        <div class="typing-indicator">
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                        </div>
+                        <div style="margin-top: 12px; font-size: 12px;">Loading conversation...</div>
+                    </div>
+                </div>
             </div>
 
             <!-- BOTTOM-LEFT IMAGE -->
@@ -669,16 +703,16 @@
             { type: 'bot', text: 'Just use PRIME SIGNAL AI by logging in, Stu...' }
         ];
 
-        let currentMessageIndex = 0;
-        let currentCharIndex = 0;
-        let isTyping = false;
-        let correctionTimeout = null;
-        let currentBotText = '';
-        let botMessageElement = null;
         let messageElements = [];
 
-        function addMessage(type, text, isTypingMessage = false) {
+        function addMessage(type, text, isTyping = false) {
             const container = document.getElementById('conversationContainer');
+            
+            // Clear loading indicator if present
+            if (container.children.length === 1 && container.children[0].innerHTML.includes('Loading conversation')) {
+                container.innerHTML = '';
+            }
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             
@@ -689,7 +723,7 @@
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble';
             
-            if (isTypingMessage && type === 'bot') {
+            if (isTyping && type === 'bot') {
                 const typingDiv = document.createElement('div');
                 typingDiv.className = 'typing-indicator';
                 typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
@@ -702,7 +736,7 @@
             messageDiv.appendChild(bubble);
             container.appendChild(messageDiv);
             
-            // Scroll to bottom
+            // Auto-scroll to bottom
             container.scrollTop = container.scrollHeight;
             
             return { element: messageDiv, bubble };
@@ -716,7 +750,7 @@
                 if (i < text.length) {
                     bubble.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(addChar, 40 + Math.random() * 30);
+                    setTimeout(addChar, 45 + Math.random() * 35);
                 } else {
                     if (onComplete) onComplete();
                 }
@@ -725,46 +759,34 @@
             addChar();
         }
 
-        function animateCorrection() {
-            const lastMessage = messageElements[messageElements.length - 1];
-            if (!lastMessage) return;
-            
-            const bubble = lastMessage.bubble;
-            const fullText = currentBotText;
-            
-            // Find the position of "Stu"
+        function animateCorrection(bubble, fullText) {
             const stuIndex = fullText.indexOf('Stu');
             if (stuIndex === -1) return;
             
-            // Create highlight effect
             let step = 0;
             const correctionInterval = setInterval(() => {
                 if (step === 0) {
-                    // Highlight "Stu" in red
                     const beforeStu = fullText.substring(0, stuIndex);
                     const afterStu = fullText.substring(stuIndex + 3);
                     bubble.innerHTML = beforeStu + '<span class="correction-highlight" style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
                     step = 1;
                 } else if (step === 1) {
-                    // Replace with "Sir"
                     const beforeStu = fullText.substring(0, stuIndex);
                     const afterStu = fullText.substring(stuIndex + 3);
                     bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
                     step = 2;
                 } else if (step === 2) {
-                    // Add blinking cursor effect
                     const beforeStu = fullText.substring(0, stuIndex);
                     const afterStu = fullText.substring(stuIndex + 3);
                     bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
                     step = 3;
                 } else {
                     clearInterval(correctionInterval);
-                    // Remove cursor
                     const beforeStu = fullText.substring(0, stuIndex);
                     const afterStu = fullText.substring(stuIndex + 3);
                     bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
                 }
-            }, 800);
+            }, 700);
         }
 
         async function startConversation() {
@@ -776,36 +798,29 @@
                 const msg = conversationMessages[i];
                 
                 if (msg.type === 'user') {
-                    // Add user message immediately
-                    const messageData = addMessage(msg.type, msg.text);
-                    messageElements.push(messageData);
+                    addMessage(msg.type, msg.text);
                     await new Promise(r => setTimeout(r, 800));
                 } else if (msg.type === 'bot') {
-                    // Add typing indicator first
+                    // Show typing indicator
                     const typingData = addMessage('bot', '', true);
-                    messageElements.push(typingData);
                     await new Promise(r => setTimeout(r, 1200));
                     
                     // Remove typing indicator
                     typingData.element.remove();
-                    messageElements.pop();
                     
-                    // Add actual bot message with typing animation
-                    const botMessageData = addMessage('bot', '');
-                    messageElements.push(botMessageData);
-                    currentBotText = msg.text;
+                    // Add actual bot message
+                    const botMsg = addMessage('bot', '');
+                    const fullText = msg.text;
                     
-                    await typeText(botMessageData.bubble, msg.text, () => {
-                        // After typing complete, if this is the last message (the one with "Stu"), animate correction
+                    await typeText(botMsg.bubble, fullText, () => {
                         if (i === conversationMessages.length - 1) {
-                            setTimeout(() => animateCorrection(), 300);
+                            setTimeout(() => animateCorrection(botMsg.bubble, fullText), 300);
                         }
                     });
                     
                     await new Promise(r => setTimeout(r, 500));
                 }
                 
-                // Auto-scroll
                 container.scrollTop = container.scrollHeight;
             }
         }
@@ -831,6 +846,7 @@
 
         function initTicker() {
             const tickerTrack = document.getElementById('tickerTrack');
+            if (!tickerTrack) return;
             let html = '';
             for (let repeat = 0; repeat < 2; repeat++) {
                 for (const item of tickerData) {
@@ -851,34 +867,38 @@
 
         function updateTickerPrices() {
             for (const item of tickerData) {
-                const movement = (Math.random() - 0.5) * 0.01;
+                const movement = (Math.random() - 0.5) * 0.008;
                 let newPrice = item.price * (1 + movement);
                 if (item.symbol.includes('BTC')) newPrice = Math.max(60000, Math.min(75000, newPrice));
                 if (item.symbol.includes('ETH')) newPrice = Math.max(3000, Math.min(4000, newPrice));
                 if (item.price < 1) newPrice = Math.max(0.5, Math.min(1.5, newPrice));
                 item.price = parseFloat(newPrice.toFixed(item.price < 1 ? 4 : 2));
-                let newChange = item.change + (Math.random() - 0.5) * 0.8;
+                let newChange = item.change + (Math.random() - 0.5) * 0.6;
                 newChange = Math.max(-8, Math.min(8, newChange));
                 item.change = parseFloat(newChange.toFixed(1));
             }
             initTicker();
         }
 
+        // Initialize everything
         initTicker();
-        setInterval(updateTickerPrices, 3000);
+        setInterval(updateTickerPrices, 4000);
 
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
                 loading.classList.add('hidden');
-                startConversation();
-            }, 500);
+                // Start conversation after loading screen disappears
+                setTimeout(() => {
+                    startConversation();
+                }, 500);
+            }, 800);
         });
 
-        // Restart conversation every 30 seconds (loop)
-        setInterval(() => {
+        // Restart conversation every 35 seconds
+        let conversationInterval = setInterval(() => {
             startConversation();
-        }, 30000);
+        }, 35000);
 
         document.getElementById('loginBtn').addEventListener('click', function() {
             console.log('Opening PrimeSignal bot...');
