@@ -85,6 +85,13 @@
         }
 
         /* CONVERSATION STYLES */
+        .conversation-wrapper {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
         .conversation-container {
             width: 100%;
             max-width: 500px;
@@ -107,6 +114,18 @@
         .conversation-container::-webkit-scrollbar-thumb {
             background: #38b6ff;
             border-radius: 3px;
+        }
+
+        /* GRADIENT OVERLAY - black fade effect at top */
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
+            pointer-events: none;
+            z-index: 20;
         }
 
         .message {
@@ -206,7 +225,7 @@
             flex-direction: column;
         }
 
-        .conversation-container {
+        .conversation-wrapper {
             flex: 1;
             min-height: 0;
         }
@@ -416,6 +435,10 @@
                 padding: 16px 16px 16px 16px;
             }
 
+            .gradient-overlay {
+                height: 40px;
+            }
+
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
@@ -481,6 +504,10 @@
 
             .conversation-container {
                 padding: 12px 12px 12px 12px;
+            }
+
+            .gradient-overlay {
+                height: 35px;
             }
         }
 
@@ -551,7 +578,10 @@
         <div class="art-section">
             <div class="full-transparent-overlay"></div>
             <div class="art-content">
-                <div class="conversation-container" id="conversationContainer"></div>
+                <div class="conversation-wrapper">
+                    <div class="gradient-overlay"></div>
+                    <div class="conversation-container" id="conversationContainer"></div>
+                </div>
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
@@ -646,10 +676,10 @@
         function adjustConversationHeight() {
             if (window.innerWidth <= 768) {
                 const floatingBox = document.querySelector('.floating-login-box');
-                const conversationContainer = document.getElementById('conversationContainer');
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
                 const artSection = document.querySelector('.art-section');
                 
-                if (floatingBox && conversationContainer && artSection) {
+                if (floatingBox && conversationWrapper && artSection) {
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
                     const artRect = artSection.getBoundingClientRect();
@@ -657,17 +687,15 @@
                     const availableHeight = loginBoxTop - artTop;
                     
                     if (availableHeight > 100) {
-                        conversationContainer.style.maxHeight = availableHeight + 'px';
-                        conversationContainer.style.flex = 'none';
-                        conversationContainer.style.height = 'auto';
+                        conversationWrapper.style.maxHeight = availableHeight + 'px';
                     } else {
-                        conversationContainer.style.maxHeight = '200px';
+                        conversationWrapper.style.maxHeight = '200px';
                     }
                 }
             } else {
-                if (container) {
-                    container.style.maxHeight = '';
-                    container.style.flex = '';
+                const conversationWrapper = document.querySelector('.conversation-wrapper');
+                if (conversationWrapper) {
+                    conversationWrapper.style.maxHeight = '';
                 }
             }
         }
