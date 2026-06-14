@@ -17,10 +17,10 @@
             font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0c10;
             color: #e6e9f0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto;
+            height: 100vh;
+            overflow: hidden;
         }
+
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -263,9 +263,14 @@
         }
 
         /* RIGHT SIDE - Login section */
-              /* RIGHT SIDE - Login section - HIDDEN (floating box is used instead) */
         .login-section {
-            display: none;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #CDD9DF;
+            position: relative;
+            z-index: 2;
         }
 
         .login-card {
@@ -419,12 +424,15 @@
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 800px;
-                min-width: 480px;
-                opacity: 0.85;
+                max-width: 200px;
+                min-width: 120px;
+                opacity: 0.7;
                 z-index: 3;
             }
 
+            .login-section {
+                display: none;
+            }
 
             .floating-login-box {
                 position: fixed;
@@ -624,17 +632,6 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-                /* Mobile background spacer - makes page scrollable with #CDD9DF background */
-        @media (max-width: 768px) {
-            .mobile-bg-spacer {
-                display: block !important;
-                width: 100%;
-                min-height: 35vh;
-                background: #CDD9DF;
-                position: relative;
-                z-index: 1;
-            }
         }
     </style>
 </head>
