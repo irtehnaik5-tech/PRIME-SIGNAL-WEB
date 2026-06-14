@@ -284,7 +284,7 @@
 
         .logo {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .logo h1 {
@@ -296,13 +296,6 @@
             -webkit-background-clip: unset;
             background-clip: unset;
             color: white;
-        }
-
-        .logo p {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-top: 8px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text {
@@ -339,7 +332,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            margin-bottom: 24px;
+            margin-bottom: 0;
             font-family: 'Libre Franklin', sans-serif;
         }
 
@@ -354,52 +347,6 @@
             width: 24px;
             height: 24px;
             fill: currentColor;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #4a5568;
-            font-size: 12px;
-            margin: 24px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #2a2f3c;
-        }
-
-        .divider span {
-            padding: 0 12px;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid #2a2f3c;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: 800;
-            color: #38b6ff;
-            font-family: 'Libre Franklin', sans-serif;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 4px;
-            font-family: 'Libre Franklin', sans-serif;
         }
 
         /* Mobile optimization */
@@ -487,6 +434,10 @@
             .logo h1 {
                 font-size: 22px;
             }
+            
+            .login-card {
+                padding: 32px 24px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -505,10 +456,6 @@
                 font-size: 14px;
             }
 
-            .stat-number {
-                font-size: 18px;
-            }
-            
             .art-section {
                 height: 65vh;
             }
@@ -523,6 +470,10 @@
             
             .logo h1 {
                 font-size: 18px;
+            }
+            
+            .login-card {
+                padding: 24px 20px;
             }
         }
 
@@ -690,7 +641,6 @@
                     <h1>
                         PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
                     </h1>
-                    <p>AI-Powered Trading Signals</p>
                 </div>
                 <div class="welcome-text">
                     <h2>Welcome back, trader</h2>
@@ -702,27 +652,6 @@
                     </svg>
                     Continue with Telegram
                 </a>
-                <div class="divider">
-                    <span>Free • Secure • Instant</span>
-                </div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number">100+</div>
-                        <div class="stat-label">Assets</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">⚡5s</div>
-                        <div class="stat-label">Scan Rate</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Live</div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <div style="text-align: center; margin-top: 16px;">
-                    <span style="font-size: 11px; color: #6b7280;">🔐 No passwords • No email • Telegram only</span>
-                </div>
             </div>
         </div>
     </div>
@@ -733,7 +662,6 @@
                 <h1>
                     PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
                 </h1>
-                <p>AI-Powered Trading Signals</p>
             </div>
             <div class="welcome-text">
                 <h2>Welcome back, trader</h2>
@@ -745,27 +673,6 @@
                 </svg>
                 Continue with Telegram
             </a>
-            <div class="divider">
-                <span>Free • Secure • Instant</span>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Assets</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">⚡5s</div>
-                    <div class="stat-label">Scan Rate</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Live</div>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <div style="text-align: center; margin-top: 16px;">
-                <span style="font-size: 11px; color: #6b7280;">🔐 No passwords • No email • Telegram only</span>
-            </div>
         </div>
     </div>
 
