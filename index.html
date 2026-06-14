@@ -602,6 +602,17 @@ body {
             }
         }
 
+        /* FIX FOR DESKTOP - Hide floating box, show normal login section */
+        @media (min-width: 769px) {
+            .floating-login-box {
+                display: none;
+            }
+            
+            .login-section {
+                display: flex !important;
+            }
+        }
+
         .loading {
             position: fixed;
             top: 0;
