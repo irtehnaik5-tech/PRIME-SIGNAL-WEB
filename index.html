@@ -89,46 +89,59 @@
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 20px 20px 0 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            min-height: 350px;
-            max-height: 400px;
+            gap: 12px;
+            max-height: 320px;
             overflow-y: auto;
+            background: transparent;
         }
 
         .conversation-container::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         .conversation-container::-webkit-scrollbar-track {
-            background: #1a1a1a;
-            border-radius: 4px;
+            background: transparent;
         }
         .conversation-container::-webkit-scrollbar-thumb {
             background: #38b6ff;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .message {
             display: flex;
-            flex-direction: column;
-            max-width: 85%;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 95%;
         }
 
         .message.user {
-            align-self: flex-end;
+            justify-content: flex-end;
         }
 
         .message.bot {
-            align-self: flex-start;
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            font-size: 11px;
+            font-weight: 600;
+            color: #38b6ff;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            color: #9ca3af;
         }
 
         .message-bubble {
-            padding: 12px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            line-height: 1.5;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.45;
+            word-break: break-word;
         }
 
         .message.user .message-bubble {
@@ -138,29 +151,21 @@
         }
 
         .message.bot .message-bubble {
-            background: #1e222d;
-            border: 1px solid #2a2f3c;
-            border-bottom-left-radius: 4px;
+            background: transparent;
+            border: none;
             color: #cbd5e1;
-        }
-
-        .message-avatar {
-            font-size: 10px;
-            margin-bottom: 4px;
-            padding-left: 8px;
-            color: #9ca3af;
+            padding: 6px 0;
         }
 
         .typing-indicator {
             display: inline-flex;
             gap: 4px;
             align-items: center;
-            padding: 8px 12px;
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: #9ca3af;
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
@@ -172,13 +177,13 @@
 
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-6px); opacity: 1; }
+            30% { transform: translateY(-4px); opacity: 1; }
         }
 
         .cursor-blink {
             display: inline-block;
             width: 2px;
-            height: 16px;
+            height: 14px;
             background: #38b6ff;
             margin-left: 2px;
             animation: blink 1s infinite;
@@ -207,8 +212,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             overflow: hidden;
+            padding-top: 20px;
         }
 
         .art-content {
@@ -216,7 +222,7 @@
             z-index: 20;
             width: 100%;
             max-width: 600px;
-            padding: 20px;
+            padding: 0 20px;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -389,35 +395,45 @@
             }
 
             .art-section {
-                min-height: 50vh;
+                min-height: 45vh;
                 max-height: none;
-                justify-content: center;
+                justify-content: flex-start;
                 position: relative;
                 width: 100%;
                 z-index: 1;
+                padding-top: 10px;
             }
 
             .art-content {
-                padding: 16px;
+                padding: 0 16px;
                 max-width: 95%;
             }
 
             .conversation-container {
-                max-height: 280px;
-                padding: 12px;
+                max-height: 250px;
+                padding: 12px 16px 0 16px;
+                gap: 8px;
+            }
+
+            .message-bubble {
+                font-size: 12px;
+            }
+
+            .message-avatar {
+                font-size: 10px;
             }
 
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
-                max-width: 250px;
-                min-width: 150px;
-                opacity: 0.8;
+                max-width: 200px;
+                min-width: 120px;
+                opacity: 0.7;
                 z-index: 3;
             }
 
             .login-section {
-                min-height: 50vh;
+                min-height: 55vh;
                 position: relative;
                 background: #0a0c10;
                 z-index: 1;
@@ -458,9 +474,9 @@
 
         @media (max-width: 480px) {
             .bottom-left-image {
-                max-width: 150px;
-                min-width: 100px;
-                opacity: 0.7;
+                max-width: 120px;
+                min-width: 80px;
+                opacity: 0.6;
             }
 
             .floating-login-box .login-card {
@@ -475,12 +491,16 @@
             .stat-number {
                 font-size: 18px;
             }
+            
+            .conversation-container {
+                max-height: 220px;
+            }
         }
 
         @media (max-width: 380px) {
             .bottom-left-image {
-                max-width: 120px;
-                min-width: 80px;
+                max-width: 100px;
+                min-width: 70px;
             }
         }
 
@@ -491,8 +511,8 @@
             }
 
             .bottom-left-image {
-                max-width: 350px;
-                min-width: 250px;
+                max-width: 300px;
+                min-width: 200px;
             }
         }
 
@@ -631,16 +651,8 @@
     </div>
 
     <script>
-        // SIMPLE TEST - First add a test message to verify it works
         const container = document.getElementById('conversationContainer');
-        if (container) {
-            // Add a test message to prove it works
-            const testDiv = document.createElement('div');
-            testDiv.className = 'message bot';
-            testDiv.innerHTML = '<div class="message-avatar">PrimeSignal AI</div><div class="message-bubble">Loading conversation...</div>';
-            container.appendChild(testDiv);
-        }
-
+        
         // Conversation messages
         const messages = [
             { type: 'user', text: "Hey, I'm losing money on trading. How can you help me?" },
@@ -653,20 +665,18 @@
         let isAnimating = false;
 
         function addMessage(type, text, isTyping = false) {
-            const container = document.getElementById('conversationContainer');
-            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             
-            const avatar = document.createElement('div');
+            const avatar = document.createElement('span');
             avatar.className = 'message-avatar';
-            avatar.textContent = type === 'user' ? 'You' : 'PrimeSignal AI';
+            avatar.textContent = type === 'user' ? 'You:' : 'AI:';
             
-            const bubble = document.createElement('div');
+            const bubble = document.createElement('span');
             bubble.className = 'message-bubble';
             
             if (isTyping) {
-                bubble.innerHTML = '<div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+                bubble.innerHTML = '<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
             } else {
                 bubble.textContent = text;
             }
@@ -683,7 +693,7 @@
             bubble.innerHTML = '';
             for (let i = 0; i < text.length; i++) {
                 bubble.innerHTML += text[i];
-                await new Promise(r => setTimeout(r, 45 + Math.random() * 30));
+                await new Promise(r => setTimeout(r, 40 + Math.random() * 25));
             }
         }
 
@@ -691,7 +701,6 @@
             if (isAnimating) return;
             isAnimating = true;
             
-            const container = document.getElementById('conversationContainer');
             container.innerHTML = '';
             
             for (let i = 0; i < messages.length; i++) {
@@ -699,11 +708,11 @@
                 
                 if (msg.type === 'user') {
                     addMessage('user', msg.text);
-                    await new Promise(r => setTimeout(r, 800));
+                    await new Promise(r => setTimeout(r, 600));
                 } else {
                     // Show typing
                     const typingMsg = addMessage('bot', '', true);
-                    await new Promise(r => setTimeout(r, 1200));
+                    await new Promise(r => setTimeout(r, 1000));
                     typingMsg.element.remove();
                     
                     // Real message
@@ -712,23 +721,23 @@
                     
                     // If last message, do the Stu -> Sir correction
                     if (i === messages.length - 1) {
-                        await new Promise(r => setTimeout(r, 800));
+                        await new Promise(r => setTimeout(r, 700));
                         const fullText = msg.text;
                         const stuIndex = fullText.indexOf('Stu');
                         if (stuIndex !== -1) {
                             const beforeStu = fullText.substring(0, stuIndex);
                             const afterStu = fullText.substring(stuIndex + 3);
                             botMsg.bubble.innerHTML = beforeStu + '<span style="color:#ef4444; text-decoration:line-through;">Stu</span>' + afterStu;
-                            await new Promise(r => setTimeout(r, 600));
+                            await new Promise(r => setTimeout(r, 500));
                             botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
-                            await new Promise(r => setTimeout(r, 400));
+                            await new Promise(r => setTimeout(r, 300));
                             botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu + '<span class="cursor-blink"></span>';
-                            await new Promise(r => setTimeout(r, 600));
+                            await new Promise(r => setTimeout(r, 500));
                             botMsg.bubble.innerHTML = beforeStu + '<span style="color:#22c55e; font-weight:bold;">Sir</span>' + afterStu;
                         }
                     }
                     
-                    await new Promise(r => setTimeout(r, 500));
+                    await new Promise(r => setTimeout(r, 400));
                 }
                 container.scrollTop = container.scrollHeight;
             }
