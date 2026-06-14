@@ -85,24 +85,6 @@
         }
 
         /* CONVERSATION STYLES */
-        .art-content {
-            position: relative;
-            z-index: 20;
-            width: 100%;
-            max-width: 600px;
-            padding: 0 20px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        /* Hide scrollbar but keep functionality */
-        .art-content::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
         .conversation-container {
             width: 100%;
             max-width: 500px;
@@ -113,17 +95,15 @@
             gap: 12px;
             background: transparent;
             position: relative;
-            flex: 1;
-            min-height: 0;
         }
 
-        /* SIMPLE GRADIENT OVERLAY - FIXED AT TOP */
+        /* GRADIENT OVERLAY - FIXED AT TOP */
         .gradient-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 60px;
+            height: 50px;
             background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
             pointer-events: none;
             z-index: 10;
@@ -245,6 +225,29 @@
             justify-content: flex-start;
             overflow: hidden;
             height: 100%;
+        }
+
+        .art-content {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .art-content::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        .conversation-container {
+            flex: 1;
+            min-height: 0;
         }
 
         /* BOTTOM-LEFT IMAGE */
@@ -434,7 +437,7 @@
             }
 
             .gradient-overlay {
-                height: 50px;
+                height: 40px;
             }
 
             .bottom-left-image {
@@ -501,7 +504,7 @@
             }
 
             .gradient-overlay {
-                height: 40px;
+                height: 35px;
             }
         }
 
@@ -673,16 +676,11 @@
                 const artSection = document.querySelector('.art-section');
                 
                 if (floatingBox && conversationContainer && artSection) {
-                    // Get the top position of the floating login box
                     const boxRect = floatingBox.getBoundingClientRect();
                     const loginBoxTop = boxRect.top;
-                    
-                    // Get the top position of the art section
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    
-                    // Calculate available height: from art section top to login box top
-                    const availableHeight = loginBoxTop - artTop - 20; // 20px padding
+                    const availableHeight = loginBoxTop - artTop - 20;
                     
                     if (availableHeight > 100) {
                         conversationContainer.style.maxHeight = availableHeight + 'px';
@@ -693,7 +691,6 @@
                     }
                 }
             } else {
-                // Desktop: remove constraints
                 if (container) {
                     container.style.maxHeight = '';
                     container.style.flex = '';
@@ -708,11 +705,9 @@
             }
         }
         
-        // Run on load and resize
         window.addEventListener('load', adjustConversationHeight);
         window.addEventListener('resize', adjustConversationHeight);
         
-        // Also run when conversation updates (new messages)
         const observer = new MutationObserver(() => {
             adjustConversationHeight();
             scrollToBottom();
