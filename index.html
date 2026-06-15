@@ -445,13 +445,13 @@
                 display: none !important;
             }
 
-            /* Floating login box - normal position (scrolls with page) */
+            /* Floating login box - positioned inside black section */
             .floating-login-box {
                 position: relative;
                 width: 90%;
                 max-width: 400px;
-                margin: -90px auto 80px auto;
-                z-index: 1000;
+                margin: 20px auto;
+                z-index: 15;
                 pointer-events: none;
             }
             .floating-login-box .login-card {
@@ -674,6 +674,30 @@
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
+            <!-- Floating login box moved inside art-section -->
+            <div class="floating-login-box">
+                <div class="login-card">
+                    <div class="logo">
+                        <h1>
+                            PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
+                        </h1>
+                        <p>AI-Powered Trading Signals</p>
+                    </div>
+                    <div class="welcome-text">
+                        <h2>Welcome back, trader</h2>
+                        <p>Log in to continue to your dashboard</p>
+                    </div>
+                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtnMobile" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                        </svg>
+                        Log in with Telegram
+                    </a>
+                    <div class="divider">
+                        <span>Free • Secure • Instant</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="login-section">
@@ -701,29 +725,7 @@
         </div>
     </div>
 
-    <div class="floating-login-box">
-        <div class="login-card">
-            <div class="logo">
-                <h1>
-                    PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
-                </h1>
-                <p>AI-Powered Trading Signals</p>
-            </div>
-            <div class="welcome-text">
-                <h2>Welcome back, trader</h2>
-                <p>Log in to continue to your dashboard</p>
-            </div>
-            <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtn" target="_blank">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                </svg>
-                Log in with Telegram
-            </a>
-            <div class="divider">
-                <span>Free • Secure • Instant</span>
-            </div>
-        </div>
-    </div>
+
 
     <script>
         const container = document.getElementById('conversationContainer');
@@ -946,7 +948,13 @@
                 startConversation();
             }, 500);
         });
-
+        // Handle both login buttons (desktop and mobile)
+        document.getElementById('loginBtn')?.addEventListener('click', function() {
+            window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
+        });
+        document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
+            window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
+        });
         document.getElementById('loginBtn').addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
