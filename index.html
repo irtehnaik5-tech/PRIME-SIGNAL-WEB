@@ -84,12 +84,12 @@
         }
 
         /* CONVERSATION STYLES */
-        .conversation-wrapper {
-            position: relative;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
-        }
+            .conversation-wrapper {
+                position: relative;
+                flex: 1;
+                min-height: 200px;
+                overflow-y: auto;
+            }
 
         .conversation-container {
             width: 100%;
@@ -420,7 +420,8 @@
                 padding: 0 16px;
                 max-width: 95%;
                 flex: 1;
-                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
                 min-height: 0;
             }
             .conversation-container {
@@ -929,29 +930,18 @@
         const container = document.getElementById('conversationContainer');
         
         function adjustConversationHeight() {
+            // On mobile, remove any height restrictions so content expands naturally
             if (window.innerWidth <= 768) {
-                const floatingBox = document.querySelector('.floating-login-box');
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
-                const artSection = document.querySelector('.art-section');
-                
-                if (floatingBox && conversationWrapper && artSection) {
-                    const boxRect = floatingBox.getBoundingClientRect();
-                    const loginBoxTop = boxRect.top;
-                    const artRect = artSection.getBoundingClientRect();
-                    const artTop = artRect.top;
-                    // Subtract 15px to give more space to the conversation text
-                    const availableHeight = (loginBoxTop - artTop) - 45;
-                    
-                    if (availableHeight > 100) {
-                        conversationWrapper.style.maxHeight = availableHeight + 'px';
-                    } else {
-                        conversationWrapper.style.maxHeight = '200px';
-                    }
+                if (conversationWrapper) {
+                    conversationWrapper.style.maxHeight = '';
+                    conversationWrapper.style.height = 'auto';
                 }
             } else {
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
                 if (conversationWrapper) {
                     conversationWrapper.style.maxHeight = '';
+                    conversationWrapper.style.height = '';
                 }
             }
         }
