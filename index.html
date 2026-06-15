@@ -404,13 +404,14 @@
 
             .art-section {
                 flex: none;
-                height: 65vh;
+                height: auto;
+                min-height: 85vh;
                 justify-content: space-between;
                 position: relative;
                 width: 100%;
                 z-index: 1;
                 padding-top: 0;
-                padding-bottom: 0;
+                padding-bottom: 20px;
                 display: flex;
                 flex-direction: column;
             }
@@ -843,28 +844,11 @@
                     <div class="gradient-overlay"></div>
                     <div class="conversation-container" id="conversationContainer"></div>
                 </div>
-                <!-- Professional Trust Boxes -->
-                <div class="trust-boxes">
-                    <div class="trust-box">
-                        <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
-                        <div>
-                            <h3 class="trust-title">1M+ users' choice</h3>
-                            <p class="trust-text">Learned new skills</p>
-                        </div>
-                    </div>
-                    <div class="trust-box">
-                        <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Frame%20rated%20on%20trustpilot-1.webp" alt="icon">
-                        <div>
-                            <h3 class="trust-title">Rated on Trustpilot</h3>
-                            <p class="trust-text">4.6 Satisfaction score</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
-            <!-- Floating login box moved inside art-section -->
+            <!-- Floating login box -->
             <div class="floating-login-box">
                 <div class="login-card">
                     <div class="logo">
@@ -885,6 +869,23 @@
                     </a>
                     <div class="divider">
                         <span>Free • Secure • Instant</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Professional Trust Boxes (moved after login box) -->
+            <div class="trust-boxes">
+                <div class="trust-box">
+                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
+                    <div>
+                        <h3 class="trust-title">1M+ users' choice</h3>
+                        <p class="trust-text">Learned new skills</p>
+                    </div>
+                </div>
+                <div class="trust-box">
+                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Frame%20rated%20on%20trustpilot-1.webp" alt="icon">
+                    <div>
+                        <h3 class="trust-title">Rated on Trustpilot</h3>
+                        <p class="trust-text">4.6 Satisfaction score</p>
                     </div>
                 </div>
             </div>
