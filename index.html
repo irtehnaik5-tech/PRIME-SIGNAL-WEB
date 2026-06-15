@@ -295,8 +295,8 @@
             position: relative;
             z-index: 1;
             padding: 48px 40px;
-            background: rgba(30, 34, 45, 0.7);
-            backdrop-filter: blur(10px);
+            background: transparent;
+            backdrop-filter: blur(0px);
             border: 1px solid rgba(56, 182, 255, 0.3);
             border-radius: 32px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -330,6 +330,7 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
+            color: white;
         }
 
         .welcome-text p {
@@ -343,7 +344,7 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            background: #2a2f3c;
+            background: rgba(42, 47, 60, 0.8);
             border: 1px solid #38b6ff;
             color: white;
             padding: 14px 24px;
@@ -387,6 +388,7 @@
 
         .divider span {
             padding: 0 12px;
+            color: #9ca3af;
         }
 
         /* Floating login box for mobile */
@@ -394,6 +396,7 @@
             display: none;
         }
 
+        /* Mobile specific styles - FIXED HEIGHT */
         @media (max-width: 768px) {
             body {
                 height: auto;
@@ -421,26 +424,26 @@
 
             .art-section {
                 flex: none;
-                height: 85vh;
-                min-height: 75vh;
+                height: auto;
+                min-height: auto;
                 width: 100%;
                 z-index: 1;
                 display: flex;
                 flex-direction: column;
+                padding-bottom: 20px;
             }
 
             .art-content {
                 padding: 0 16px;
                 max-width: 95%;
-                flex: 1;
-                overflow-y: auto;
-                min-height: 0;
+                height: auto;
+                min-height: auto;
             }
             
             .conversation-container {
-                max-height: none;
-                flex: 1;
-                min-height: 0;
+                max-height: 280px;
+                min-height: 200px;
+                flex: none;
                 padding: 16px 16px 16px 16px;
             }
 
@@ -449,12 +452,13 @@
             }
 
             .bottom-left-image {
-                bottom: 0;
-                left: 0;
-                max-width: 400px;
-                min-width: 240px;
-                opacity: 0.85;
-                z-index: 3;
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin: 10px auto;
+                max-width: 280px;
+                min-width: 200px;
+                opacity: 0.7;
             }
 
             .login-section {
@@ -466,7 +470,7 @@
                 position: relative;
                 width: 90%;
                 max-width: 400px;
-                margin: 15px auto 1px auto;
+                margin: 10px auto 20px auto;
                 z-index: 15;
                 pointer-events: none;
                 flex-shrink: 0;
@@ -485,9 +489,13 @@
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-                background: rgba(30, 34, 45, 0.7);
-                backdrop-filter: blur(10px);
+                background: transparent;
+                backdrop-filter: blur(0px);
                 border: 1px solid rgba(56, 182, 255, 0.3);
+            }
+            
+            .trust-boxes {
+                margin: 10px auto 20px auto;
             }
         }
 
@@ -514,8 +522,8 @@
             flex: 1;
             align-items: center;
             gap: 8px;
-            background: transparent;
-            backdrop-filter: blur(10px);
+            background: rgba(30, 34, 45, 0.5);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(56, 182, 255, 0.3);
             border-radius: 12px;
             padding: 12px 16px;
@@ -525,7 +533,7 @@
         
         .trust-box:hover {
             border-color: #38b6ff;
-            background: rgba(30, 34, 45, 1);
+            background: rgba(30, 34, 45, 0.8);
             transform: translateY(-2px);
         }
 
@@ -554,7 +562,7 @@
 
         @media (max-width: 768px) {
             .trust-boxes {
-                margin: 15px 1px auto;
+                margin: 10px auto;
                 gap: 8px;
                 padding-left: 15px;
                 padding-right: 15px;
@@ -562,7 +570,7 @@
             }
             
             .trust-box {
-                padding: 10px 15px;
+                padding: 10px 12px;
             }
             
             .trust-icon {
@@ -840,7 +848,7 @@
                 this.ctx = this.canvas.getContext('2d');
                 this.candles = [];
                 this.lastPrice = 50000;
-                this.candlesCount = 8;
+                this.candlesCount = 12;
                 this.spacing = 2;
                 this.candleWidth = 0;
                 this.animateInterval = null;
@@ -1047,9 +1055,8 @@
             draw() {
                 if (!this.ctx || this.chartWidth === 0 || this.chartHeight === 0) return;
                 
-                // Clear canvas with dark background (matches login card)
-                this.ctx.fillStyle = '#0a0c10';
-                this.ctx.fillRect(0, 0, this.chartWidth, this.chartHeight);
+                // Clear canvas with transparent background (matches login card)
+                this.ctx.clearRect(0, 0, this.chartWidth, this.chartHeight);
                 
                 if (this.candles.length === 0) return;
                 
@@ -1114,22 +1121,9 @@
         
         function adjustConversationHeight() {
             if (window.innerWidth <= 768) {
-                const floatingBox = document.querySelector('.floating-login-box');
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
-                const artSection = document.querySelector('.art-section');
-                
-                if (floatingBox && conversationWrapper && artSection) {
-                    const boxRect = floatingBox.getBoundingClientRect();
-                    const loginBoxTop = boxRect.top;
-                    const artRect = artSection.getBoundingClientRect();
-                    const artTop = artRect.top;
-                    const availableHeight = (loginBoxTop - artTop) - 15;
-                    
-                    if (availableHeight > 100) {
-                        conversationWrapper.style.maxHeight = availableHeight + 'px';
-                    } else {
-                        conversationWrapper.style.maxHeight = '200px';
-                    }
+                if (conversationWrapper) {
+                    conversationWrapper.style.maxHeight = '280px';
                 }
             } else {
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
