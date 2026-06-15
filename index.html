@@ -19,7 +19,6 @@
             height: 100vh;
             overflow: hidden;
         }
-
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
             position: fixed;
@@ -116,6 +115,7 @@
             border-radius: 3px;
         }
 
+        /* GRADIENT OVERLAY - black fade effect at top */
         .gradient-overlay {
             position: absolute;
             top: 0;
@@ -135,6 +135,7 @@
             max-width: 100%;
         }
 
+        /* Prevent avatar from wrapping to new line */
         .message-avatar {
             font-size: 11px;
             font-weight: 600;
@@ -190,19 +191,19 @@
             30% { transform: translateY(-4px); opacity: 1; }
         }
 
+        /* Adjust split container to account for ticker */
         .split-container {
             display: flex;
             width: 100%;
             height: 100%;
             flex-direction: row;
             padding-top: 40px;
-            position: relative;
-            z-index: 1;
         }
 
+        /* LEFT SIDE - Conversation Section */
         .art-section {
             flex: 1;
-            background: transparent;
+            background: #000000;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -223,6 +224,12 @@
             flex-direction: column;
         }
 
+        .conversation-wrapper {
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* FULL TRANSPARENT OVERLAY */
         .full-transparent-overlay {
             position: absolute;
             top: 0;
@@ -234,6 +241,8 @@
             cursor: default;
         }
 
+        /* BOTTOM-LEFT IMAGE */
+        /* BOTTOM-LEFT IMAGE - Desktop (smaller) */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -251,52 +260,26 @@
             border-radius: 0;
         }
 
+        /* RIGHT SIDE - Login section */
+        /* RIGHT SIDE - Login section */
         .login-section {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: transparent;
+            background: #000000;
             position: relative;
             z-index: 2;
             padding: 20px;
         }
 
-        /* LOGIN CARD CONTAINER - Relative position for canvas overlay */
-        .login-card-container {
-            position: relative;
+        .login-card {
             max-width: 420px;
             width: 90%;
-            margin: 0 auto;
-        }
-
-        /* CANVAS BACKGROUND - Exactly behind the login card */
-        .login-chart-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 32px;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .login-chart-canvas canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            border-radius: 32px;
-        }
-
-        .login-card {
-            position: relative;
-            z-index: 1;
             padding: 48px 40px;
-            background: transparent;
-            backdrop-filter: blur(0px);
+            background: rgba(30, 34, 45, 0.7);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(56, 182, 255, 0.3);
             border-radius: 32px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -312,6 +295,9 @@
             font-weight: 800;
             letter-spacing: -0.5px;
             font-family: 'Libre Franklin', sans-serif;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
             color: white;
         }
 
@@ -319,6 +305,7 @@
             font-size: 12px;
             color: #9ca3af;
             margin-top: 8px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text {
@@ -330,12 +317,13 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: white;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .welcome-text p {
             font-size: 14px;
             color: #9ca3af;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .telegram-login-btn {
@@ -344,7 +332,7 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            background: rgba(42, 47, 60, 0.8);
+            background: #2a2f3c;
             border: 1px solid #38b6ff;
             color: white;
             padding: 14px 24px;
@@ -355,6 +343,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
             margin-bottom: 24px;
+            font-family: 'Libre Franklin', sans-serif;
         }
 
         .telegram-login-btn:hover {
@@ -388,16 +377,11 @@
 
         .divider span {
             padding: 0 12px;
-            color: #9ca3af;
         }
 
-        /* Floating login box for mobile */
-        .floating-login-box {
-            display: none;
-        }
-
-        /* Mobile specific styles - FIXED HEIGHT */
+        /* Mobile optimization - ONLY FOR PHONES */
         @media (max-width: 768px) {
+            /* Allow body to scroll on mobile */
             body {
                 height: auto;
                 min-height: 100vh;
@@ -424,26 +408,29 @@
 
             .art-section {
                 flex: none;
-                height: auto;
-                min-height: auto;
+                height: 85vh;
+                min-height: 75vh;
+                justify-content: space-between;
+                position: relative;
                 width: 100%;
                 z-index: 1;
+                padding-top: 0;
+                padding-bottom: 20px;
                 display: flex;
                 flex-direction: column;
-                padding-bottom: 20px;
             }
 
             .art-content {
                 padding: 0 16px;
                 max-width: 95%;
-                height: auto;
-                min-height: auto;
+                flex: 1;
+                overflow-y: auto;
+                min-height: 0;
             }
-            
             .conversation-container {
-                max-height: 280px;
-                min-height: 200px;
-                flex: none;
+                max-height: none;
+                flex: 1;
+                min-height: 0;
                 padding: 16px 16px 16px 16px;
             }
 
@@ -451,36 +438,32 @@
                 height: 40px;
             }
 
+            /* Image 4x bigger on phones */
             .bottom-left-image {
-                position: relative;
-                bottom: auto;
-                left: auto;
-                margin: 10px auto;
-                max-width: 280px;
-                min-width: 200px;
-                opacity: 0.7;
+                bottom: 0;
+                left: 0;
+                max-width: 400px;
+                min-width: 240px;
+                opacity: 0.85;
+                z-index: 3;
             }
 
+            /* Hide the normal login section on mobile */
             .login-section {
                 display: none !important;
             }
 
+            /* Floating login box - positioned inside black section */
+            /* Floating login box - stays at bottom of black section */
             .floating-login-box {
-                display: block;
                 position: relative;
                 width: 90%;
                 max-width: 400px;
-                margin: 10px auto 20px auto;
+                margin: 15px auto 1px auto;
                 z-index: 15;
                 pointer-events: none;
                 flex-shrink: 0;
             }
-            
-            .floating-login-box .login-card-container {
-                width: 100%;
-                margin: 0;
-            }
-            
             .floating-login-box .login-card {
                 pointer-events: auto;
                 padding: 24px 20px;
@@ -489,22 +472,84 @@
                 visibility: visible;
                 opacity: 1;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-                background: transparent;
-                backdrop-filter: blur(0px);
+                background: rgba(30, 34, 45, 0.7);
+                backdrop-filter: blur(10px);
                 border: 1px solid rgba(56, 182, 255, 0.3);
             }
+
+            /* Add spacing at bottom so content doesn't hide behind floating box */
+
+            .welcome-text h2 {
+                font-size: 20px;
+                color: #ffffff;
+            }
             
+            .logo h1 {
+                font-size: 26px;
+            }
+            
+            .logo p {
+                font-size: 11px;
+            }
+        }
+
+                @media (max-width: 480px) {
+            .bottom-left-image {
+                max-width: 360px;
+                min-width: 240px;
+                opacity: 0.6;
+            }
+
+            .floating-login-box .login-card {
+                padding: 20px 16px;
+            }
+
+            .telegram-login-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .art-section {
+                height: 65vh;
+            }
+
+            .conversation-container {
+                padding: 12px 12px 12px 12px;
+            }
+
+            .gradient-overlay {
+                height: 35px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+            
+            /* Keep boxes horizontal on small phones */
             .trust-boxes {
-                margin: 10px auto 20px auto;
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .trust-box {
+                padding: 8px 10px;
+            }
+            
+            .trust-icon {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+            }
+            
+            .trust-title {
+                font-size: 7px;
+            }
+            
+            .trust-text {
+                font-size: 9px;
             }
         }
-
-        @media (min-width: 769px) {
-            .floating-login-box {
-                display: none;
-            }
-        }
-
+        /* Trust Boxes Styles - Professional Cards */
         .trust-boxes {
             display: flex;
             align-items: stretch;
@@ -522,18 +567,17 @@
             flex: 1;
             align-items: center;
             gap: 8px;
-            background: rgba(30, 34, 45, 0.5);
-            backdrop-filter: blur(5px);
+            background: transparent;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(56, 182, 255, 0.3);
             border-radius: 12px;
             padding: 12px 16px;
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        
         .trust-box:hover {
             border-color: #38b6ff;
-            background: rgba(30, 34, 45, 0.8);
+            background: rgba(30, 34, 45, 1);
             transform: translateY(-2px);
         }
 
@@ -560,9 +604,10 @@
             line-height: 1.3;
         }
 
+        /* Mobile adjustments */
         @media (max-width: 768px) {
             .trust-boxes {
-                margin: 10px auto;
+                margin: 15px 1px auto;
                 gap: 8px;
                 padding-left: 15px;
                 padding-right: 15px;
@@ -570,7 +615,7 @@
             }
             
             .trust-box {
-                padding: 10px 12px;
+                padding: 10px 15px;
             }
             
             .trust-icon {
@@ -588,6 +633,200 @@
             }
         }
 
+        /* Small phones - keep horizontal */
+        /* Small phones - keep horizontal */
+        /* Small phones - keep horizontal */
+        @media (max-width: 480px) {
+            .trust-boxes {
+                flex-direction: row;
+                gap: 8px;
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+            
+            .trust-box {
+                padding: 10px 10px;
+            }
+            
+            .trust-icon {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+            }
+            
+            .trust-title {
+                font-size: 7px;
+            }
+            
+            .trust-text {
+                font-size: 9px;
+            }
+        }
+
+        /* Desktop adjustments */
+        @media (min-width: 769px) {
+            .trust-boxes {
+                margin: 30px auto;
+                max-width: 500px;
+            }
+            
+            .trust-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+            }
+            
+            .trust-title {
+                font-size: 11px;
+            }
+            
+            .trust-text {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 380px) {
+            .bottom-left-image {
+                max-width: 400px;
+                min-width: 260px;
+            }
+            
+            .logo h1 {
+                font-size: 22px;
+            }
+        }
+
+        /* Tablet and Desktop optimization */
+        /* Tablet and Desktop optimization */
+        @media (min-width: 769px) {
+            .art-section {
+                justify-content: center;
+            }
+            
+            .art-content {
+                justify-content: center;
+            }
+            
+            .conversation-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .conversation-container {
+                max-width: 600px;
+                padding: 40px 30px 40px 30px;
+                gap: 20px;
+            }
+            
+            .message-avatar {
+                font-size: 14px;
+            }
+            
+            .message-bubble {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            
+            .gradient-overlay {
+                height: 80px;
+            }
+            
+            .conversation-container div:first-child {
+                height: 50px !important;
+            }
+            
+            /* Hide floating login box on desktop */
+            .floating-login-box {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .conversation-container {
+                max-width: 700px;
+                padding: 50px 40px 50px 40px;
+                gap: 24px;
+            }
+            
+            .message-avatar {
+                font-size: 16px;
+            }
+            
+            .message-bubble {
+                font-size: 18px;
+                line-height: 1.55;
+            }
+            
+            .gradient-overlay {
+                height: 100px;
+            }
+            
+            .conversation-container div:first-child {
+                height: 60px !important;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .conversation-container {
+                max-width: 800px;
+                padding: 60px 50px 60px 50px;
+                gap: 28px;
+            }
+            
+            .message-avatar {
+                font-size: 18px;
+            }
+            
+            .message-bubble {
+                font-size: 20px;
+                line-height: 1.6;
+            }
+            
+            .gradient-overlay {
+                height: 120px;
+            }
+            
+            .conversation-container div:first-child {
+                height: 70px !important;
+            }
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0c10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2a2f3c;
+            border-top-color: #38b6ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+                /* Partner Ticker - Desktop only */
+        /* Partner Ticker - Desktop only */
+        /* Partner Ticker - Desktop only */
+        /* Partner Ticker - Desktop only */
+        /* Partner Ticker - Desktop only */
         .partner-ticker {
             width: 100%;
             max-width: 520px;
@@ -626,12 +865,13 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* Hide on mobile */
         @media (max-width: 768px) {
             .partner-ticker {
                 display: none;
             }
         }
-
+                /* Mobile Partner Section - New section below first section */
         .mobile-partner-section {
             display: none;
             width: 100%;
@@ -645,6 +885,10 @@
             display: inline-block;
             white-space: nowrap;
             animation: mobile-partner-scroll 20s linear infinite;
+        }
+
+        .mobile-partner-track:hover {
+            animation-play-state: paused;
         }
 
         .mobile-partner-name {
@@ -662,42 +906,11 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* Show on mobile only */
         @media (max-width: 768px) {
             .mobile-partner-section {
                 display: block;
             }
-        }
-
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0c10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.5s;
-        }
-
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #2a2f3c;
-            border-top-color: #38b6ff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -719,90 +932,25 @@
                     <div class="gradient-overlay"></div>
                     <div class="conversation-container" id="conversationContainer"></div>
                 </div>
+              
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
+            <!-- Floating login box moved inside art-section -->
             <div class="floating-login-box">
-                <div class="login-card-container">
-                    <div class="login-chart-canvas">
-                        <canvas id="mobileCandleCanvas"></canvas>
-                    </div>
-                    <div class="login-card">
-                        <div class="logo">
-                            <h1>PRIME <span style="color: #38b6ff;">SIGNAL</span> AI</h1>
-                            <p>AI-Powered Trading Signals</p>
-                        </div>
-                        <div class="welcome-text">
-                            <h2>Welcome back, trader</h2>
-                            <p>Log in to continue to your dashboard</p>
-                        </div>
-                        <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtnMobile" target="_blank">
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                            </svg>
-                            Log in with Telegram
-                        </a>
-                        <div class="divider">
-                            <span>Free • Secure • Instant</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="trust-boxes">
-                <div class="trust-box">
-                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
-                    <div>
-                        <h3 class="trust-title">1M+ users' choice</h3>
-                        <p class="trust-text">Learned new skills</p>
-                    </div>
-                </div>
-                <div class="trust-box">
-                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Frame%20rated%20on%20trustpilot-1.webp" alt="icon">
-                    <div>
-                        <h3 class="trust-title">Rated on Trustpilot</h3>
-                        <p class="trust-text">4.6 Satisfaction score</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mobile-partner-section">
-            <div class="mobile-partner-track">
-                <span class="mobile-partner-name">BINANCE</span>
-                <span class="mobile-partner-name">AWS AGENTIC AI</span>
-                <span class="mobile-partner-name">BYBIT</span>
-                <span class="mobile-partner-name">POCKET OPTION</span>
-                <span class="mobile-partner-name">PAYONEER</span>
-                <span class="mobile-partner-name">CRYPTOBOT</span>
-                <span class="mobile-partner-name">GEMINI</span>
-                <span class="mobile-partner-name">REDOTPAY</span>
-                <span class="mobile-partner-name">BINANCE</span>
-                <span class="mobile-partner-name">AWS AGENTIC AI</span>
-                <span class="mobile-partner-name">BYBIT</span>
-                <span class="mobile-partner-name">POCKET OPTION</span>
-                <span class="mobile-partner-name">PAYONEER</span>
-                <span class="mobile-partner-name">CRYPTOBOT</span>
-                <span class="mobile-partner-name">GEMINI</span>
-                <span class="mobile-partner-name">REDOTPAY</span>
-            </div>
-        </div>
-
-        <div class="login-section">
-            <div class="login-card-container">
-                <div class="login-chart-canvas">
-                    <canvas id="desktopCandleCanvas"></canvas>
-                </div>
                 <div class="login-card">
                     <div class="logo">
-                        <h1>PRIME <span style="color: #38b6ff;">SIGNAL</span> AI</h1>
+                        <h1>
+                            PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
+                        </h1>
                         <p>AI-Powered Trading Signals</p>
                     </div>
                     <div class="welcome-text">
                         <h2>Welcome back, trader</h2>
                         <p>Log in to continue to your dashboard</p>
                     </div>
-                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank">
+                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtnMobile" target="_blank">
                         <svg viewBox="0 0 24 24" width="20" height="20">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                         </svg>
@@ -813,6 +961,70 @@
                     </div>
                 </div>
             </div>
+              <!-- Professional Trust Boxes -->
+                <div class="trust-boxes">
+                    <div class="trust-box">
+                        <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
+                        <div>
+                            <h3 class="trust-title">1M+ users' choice</h3>
+                            <p class="trust-text">Learned new skills</p>
+                        </div>
+                    </div>
+                    <div class="trust-box">
+                        <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Frame%20rated%20on%20trustpilot-1.webp" alt="icon">
+                        <div>
+                            <h3 class="trust-title">Rated on Trustpilot</h3>
+                            <p class="trust-text">4.6 Satisfaction score</p>
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+    <!-- Mobile Partner Section - New section below first section (visible only on mobile) -->
+    <div class="mobile-partner-section">
+        <div class="mobile-partner-track">
+            <span class="mobile-partner-name">BINANCE</span>
+            <span class="mobile-partner-name">AWS AGENTIC AI</span>
+            <span class="mobile-partner-name">BYBIT</span>
+            <span class="mobile-partner-name">POCKET OPTION</span>
+            <span class="mobile-partner-name">PAYONEER</span>
+            <span class="mobile-partner-name">CRYPTOBOT</span>
+            <span class="mobile-partner-name">GEMINI</span>
+            <span class="mobile-partner-name">REDOTPAY</span>
+            <span class="mobile-partner-name">BINANCE</span>
+            <span class="mobile-partner-name">AWS AGENTIC AI</span>
+            <span class="mobile-partner-name">BYBIT</span>
+            <span class="mobile-partner-name">POCKET OPTION</span>
+            <span class="mobile-partner-name">PAYONEER</span>
+            <span class="mobile-partner-name">CRYPTOBOT</span>
+            <span class="mobile-partner-name">GEMINI</span>
+            <span class="mobile-partner-name">REDOTPAY</span>
+        </div>
+    </div>
+
+    <div class="login-section">
+            <div class="login-card">
+                <div class="logo">
+                    <h1>
+                        PRIME <span style="color: #38b6ff;">SIGNAL</span> AI
+                    </h1>
+                    <p>AI-Powered Trading Signals</p>
+                </div>
+                <div class="welcome-text">
+                    <h2>Welcome back, trader</h2>
+                    <p>Log in to continue to your dashboard</p>
+                </div>
+                <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                    </svg>
+                    Log in with Telegram
+                </a>
+                <div class="divider">
+                    <span>Free • Secure • Instant</span>
+                </div>
+            </div>
+            <!-- Partner Ticker - BELOW the login card -->
             <div class="partner-ticker">
                 <div class="partner-track">
                     <span class="partner-name">BINANCE</span>
@@ -836,294 +1048,30 @@
         </div>
     </div>
 
+
+
     <script>
-        // ============================================
-        // ANIMATED CANDLESTICK CHART - INSIDE LOGIN BOX
-        // ============================================
-        
-        class CandleChart {
-            constructor(canvasId) {
-                this.canvas = document.getElementById(canvasId);
-                if (!this.canvas) return;
-                this.ctx = this.canvas.getContext('2d');
-                this.candles = [];
-                this.lastPrice = 50000;
-                this.candlesCount = 12;
-                this.spacing = 2;
-                this.candleWidth = 0;
-                this.animateInterval = null;
-                this.shiftInterval = null;
-                this.resizeObserver = null;
-                
-                this.init();
-            }
-            
-            init() {
-                this.resizeCanvas();
-                this.initCandles();
-                this.startAnimation();
-                this.startShiftInterval();
-                
-                // Watch for container resize
-                const container = this.canvas.parentElement;
-                if (container) {
-                    this.resizeObserver = new ResizeObserver(() => {
-                        this.resizeCanvas();
-                        this.draw();
-                    });
-                    this.resizeObserver.observe(container);
-                }
-                
-                window.addEventListener('resize', () => {
-                    this.resizeCanvas();
-                    this.draw();
-                });
-            }
-            
-            resizeCanvas() {
-                const container = this.canvas.parentElement;
-                if (!container) return;
-                
-                const rect = container.getBoundingClientRect();
-                this.canvas.width = rect.width;
-                this.canvas.height = rect.height;
-                this.chartWidth = rect.width;
-                this.chartHeight = rect.height;
-                
-                // Calculate candle width
-                const totalSpacing = this.spacing * (this.candlesCount - 1);
-                this.candleWidth = (this.chartWidth - totalSpacing) / this.candlesCount;
-                if (this.candleWidth < 2) this.candleWidth = 2;
-            }
-            
-            getRandomPriceMove(currentPrice, isMajorMove = false) {
-                if (isMajorMove) {
-                    const movePercent = (Math.random() - 0.5) * 0.02;
-                    return currentPrice * (1 + movePercent);
-                } else {
-                    const movePercent = (Math.random() - 0.5) * 0.002;
-                    return currentPrice * (1 + movePercent);
-                }
-            }
-            
-            generateCandle(prevClose) {
-                const direction = Math.random() > 0.5 ? 'up' : 'down';
-                const bodySize = prevClose * (0.002 + Math.random() * 0.008);
-                
-                let close, open;
-                if (direction === 'up') {
-                    open = prevClose;
-                    close = prevClose + bodySize;
-                } else {
-                    open = prevClose;
-                    close = prevClose - bodySize;
-                }
-                
-                const wickPercent = 0.1 + Math.random() * 0.3;
-                const wickSize = bodySize * wickPercent;
-                
-                let high = Math.max(open, close) + (Math.random() * wickSize);
-                let low = Math.min(open, close) - (Math.random() * wickSize);
-                
-                high = Math.max(high, low + 0.01);
-                low = Math.max(low, 0.01);
-                
-                return { open, high, low, close };
-            }
-            
-            initCandles() {
-                this.candles = [];
-                let currentPrice = this.lastPrice;
-                
-                for (let i = 0; i < this.candlesCount; i++) {
-                    const candle = this.generateCandle(currentPrice);
-                    this.candles.push(candle);
-                    currentPrice = candle.close;
-                }
-                
-                this.lastPrice = this.candles[this.candlesCount - 1].close;
-            }
-            
-            shiftCandles() {
-                this.candles.shift();
-                const lastCandle = this.candles[this.candlesCount - 2];
-                const newCandle = this.generateCandle(lastCandle.close);
-                this.candles.push(newCandle);
-                this.lastPrice = newCandle.close;
-                this.draw();
-            }
-            
-            animateLastCandle() {
-                if (!this.candles.length) return;
-                
-                const lastCandle = this.candles[this.candlesCount - 1];
-                
-                if (Math.random() < 0.7) {
-                    const movePercent = (Math.random() - 0.5) * 0.0015;
-                    const newClose = lastCandle.close * (1 + movePercent);
-                    
-                    if (newClose > lastCandle.high) {
-                        lastCandle.high = newClose;
-                    }
-                    if (newClose < lastCandle.low) {
-                        lastCandle.low = newClose;
-                    }
-                    
-                    lastCandle.close = newClose;
-                    this.lastPrice = newClose;
-                    
-                    if (movePercent > 0 && lastCandle.close < lastCandle.open) {
-                        lastCandle.open = lastCandle.close - (lastCandle.high - lastCandle.low) * 0.3;
-                    } else if (movePercent < 0 && lastCandle.close > lastCandle.open) {
-                        lastCandle.open = lastCandle.close + (lastCandle.high - lastCandle.low) * 0.3;
-                    }
-                }
-                
-                this.draw();
-            }
-            
-            drawCandle(x, candle, maxPrice, minPrice, chartTop, chartBottom) {
-                const priceRange = maxPrice - minPrice;
-                if (priceRange === 0) return;
-                
-                const candleHeight = (chartBottom - chartTop);
-                
-                const openY = chartBottom - ((candle.open - minPrice) / priceRange) * candleHeight;
-                const closeY = chartBottom - ((candle.close - minPrice) / priceRange) * candleHeight;
-                const highY = chartBottom - ((candle.high - minPrice) / priceRange) * candleHeight;
-                const lowY = chartBottom - ((candle.low - minPrice) / priceRange) * candleHeight;
-                
-                const isBullish = candle.close >= candle.open;
-                
-                // Draw wick
-                this.ctx.beginPath();
-                this.ctx.moveTo(x + this.candleWidth / 2, highY);
-                this.ctx.lineTo(x + this.candleWidth / 2, lowY);
-                this.ctx.strokeStyle = '#9ca3af';
-                this.ctx.lineWidth = 1;
-                this.ctx.stroke();
-                
-                // Draw body
-                const bodyTop = Math.min(openY, closeY);
-                const bodyBottom = Math.max(openY, closeY);
-                const bodyHeight = Math.max(1, bodyBottom - bodyTop);
-                
-                if (isBullish) {
-                    this.ctx.fillStyle = '#22c55e';
-                    this.ctx.fillRect(x, bodyTop, this.candleWidth, bodyHeight);
-                    this.ctx.strokeStyle = '#22c55e';
-                    this.ctx.strokeRect(x, bodyTop, this.candleWidth, bodyHeight);
-                } else {
-                    this.ctx.fillStyle = '#ef4444';
-                    this.ctx.fillRect(x, bodyTop, this.candleWidth, bodyHeight);
-                    this.ctx.strokeStyle = '#ef4444';
-                    this.ctx.strokeRect(x, bodyTop, this.candleWidth, bodyHeight);
-                }
-            }
-            
-            drawGrid() {
-                const gridColor = 'rgba(56, 182, 255, 0.08)';
-                this.ctx.strokeStyle = gridColor;
-                this.ctx.lineWidth = 0.5;
-                
-                // Horizontal grid lines
-                for (let i = 0; i <= 4; i++) {
-                    const y = (this.chartHeight / 4) * i;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(0, y);
-                    this.ctx.lineTo(this.chartWidth, y);
-                    this.ctx.stroke();
-                }
-                
-                // Vertical grid lines
-                if (this.candles.length > 0) {
-                    const totalSpacing = this.spacing * (this.candlesCount - 1);
-                    const candleW = (this.chartWidth - totalSpacing) / this.candlesCount;
-                    let currentX = 0;
-                    for (let i = 0; i <= this.candlesCount; i++) {
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(currentX, 0);
-                        this.ctx.lineTo(currentX, this.chartHeight);
-                        this.ctx.stroke();
-                        if (i < this.candlesCount) {
-                            currentX += candleW + this.spacing;
-                        }
-                    }
-                }
-            }
-            
-            draw() {
-                if (!this.ctx || this.chartWidth === 0 || this.chartHeight === 0) return;
-                
-                // Clear canvas with transparent background (matches login card)
-                this.ctx.clearRect(0, 0, this.chartWidth, this.chartHeight);
-                
-                if (this.candles.length === 0) return;
-                
-                // Find min/max prices
-                let maxPrice = Math.max(...this.candles.map(c => c.high));
-                let minPrice = Math.min(...this.candles.map(c => c.low));
-                
-                const padding = (maxPrice - minPrice) * 0.05;
-                maxPrice += padding;
-                minPrice = Math.max(0, minPrice - padding);
-                
-                this.drawGrid();
-                
-                const chartTop = 20;
-                const chartBottom = this.chartHeight - 20;
-                let currentX = 0;
-                
-                for (let i = 0; i < this.candles.length; i++) {
-                    this.drawCandle(currentX, this.candles[i], maxPrice, minPrice, chartTop, chartBottom);
-                    currentX += this.candleWidth + this.spacing;
-                }
-                
-                // Draw current price line
-                if (this.candles.length > 0) {
-                    const currentPrice = this.candles[this.candlesCount - 1].close;
-                    const priceRange = maxPrice - minPrice;
-                    const candleHeight = (chartBottom - chartTop);
-                    const currentY = chartBottom - ((currentPrice - minPrice) / priceRange) * candleHeight;
-                    
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(0, currentY);
-                    this.ctx.lineTo(this.chartWidth, currentY);
-                    this.ctx.strokeStyle = 'rgba(56, 182, 255, 0.4)';
-                    this.ctx.lineWidth = 1;
-                    this.ctx.stroke();
-                }
-            }
-            
-            startAnimation() {
-                if (this.animateInterval) clearInterval(this.animateInterval);
-                this.animateInterval = setInterval(() => {
-                    this.animateLastCandle();
-                }, 700 + Math.random() * 300);
-            }
-            
-            startShiftInterval() {
-                if (this.shiftInterval) clearInterval(this.shiftInterval);
-                this.shiftInterval = setInterval(() => {
-                    this.shiftCandles();
-                }, 15000);
-            }
-        }
-        
-        // Initialize both charts (desktop and mobile)
-        let desktopChart, mobileChart;
-        
-        // ============================================
-        // EXISTING CONVERSATION AND TICKER CODE
-        // ============================================
-        
         const container = document.getElementById('conversationContainer');
         
         function adjustConversationHeight() {
             if (window.innerWidth <= 768) {
+                const floatingBox = document.querySelector('.floating-login-box');
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
-                if (conversationWrapper) {
-                    conversationWrapper.style.maxHeight = '280px';
+                const artSection = document.querySelector('.art-section');
+                
+                if (floatingBox && conversationWrapper && artSection) {
+                    const boxRect = floatingBox.getBoundingClientRect();
+                    const loginBoxTop = boxRect.top;
+                    const artRect = artSection.getBoundingClientRect();
+                    const artTop = artRect.top;
+                    // Subtract 15px to give more space to the conversation text
+                    const availableHeight = (loginBoxTop - artTop) - 15;
+                    
+                    if (availableHeight > 100) {
+                        conversationWrapper.style.maxHeight = availableHeight + 'px';
+                    } else {
+                        conversationWrapper.style.maxHeight = '200px';
+                    }
                 }
             } else {
                 const conversationWrapper = document.querySelector('.conversation-wrapper');
@@ -1132,7 +1080,6 @@
                 }
             }
         }
-        
         function scrollToBottom() {
             container.scrollTop = container.scrollHeight;
         }
@@ -1145,21 +1092,21 @@
             scrollToBottom();
         });
         observer.observe(container, { childList: true, subtree: true });
-        
+
         const messages = [
             { type: 'user', text: "Hey, I'm losing money on trading. How can you help me?" },
             { type: 'bot', text: "Hi! That happens. Many traders in our community now use AI to analyze the market and get precise entry prices before trading." },
             { type: 'user', text: "How can I do that?" },
             { type: 'bot', text: "Just use PRIME SIGNAL AI by logging in, Stu..." }
         ];
-        
+
         let isAnimating = false;
         let resetTimeout = null;
-        
+
         function randomDelay() {
             return 25 + Math.random() * 40;
         }
-        
+
         async function typeTextLikeHuman(bubble, text) {
             const words = text.split(' ');
             const numberOfBreaks = Math.floor(Math.random() * 3) + 1;
@@ -1191,7 +1138,7 @@
                 }
             }
         }
-        
+
         async function deleteLastChars(bubble, count) {
             for (let i = 0; i < count; i++) {
                 bubble.innerHTML = bubble.innerHTML.slice(0, -1);
@@ -1199,7 +1146,7 @@
                 await new Promise(r => setTimeout(r, 30 + Math.random() * 20));
             }
         }
-        
+
         async function addMessageWithTyping(type, text, isLastMessage = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
@@ -1237,7 +1184,7 @@
             
             return messageDiv;
         }
-        
+
         async function startConversation() {
             if (isAnimating) return;
             isAnimating = true;
@@ -1269,7 +1216,7 @@
             
             isAnimating = false;
         }
-        
+
         const tickerData = [
             { symbol: "BTC/USDT", price: 68420, change: 2.4 },
             { symbol: "ETH/USDT", price: 3520, change: 1.8 },
@@ -1280,7 +1227,7 @@
             { symbol: "NVDA", price: 890.15, change: 2.5 },
             { symbol: "TSLA", price: 175.80, change: -1.5 }
         ];
-        
+
         function initTicker() {
             const track = document.getElementById('tickerTrack');
             if (!track) return;
@@ -1299,7 +1246,7 @@
             }
             track.innerHTML = html;
         }
-        
+
         function updatePrices() {
             for (const item of tickerData) {
                 const move = (Math.random() - 0.5) * 0.01;
@@ -1313,28 +1260,25 @@
             }
             initTicker();
         }
-        
+
         initTicker();
         setInterval(updatePrices, 5000);
-        
+
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(() => {
                 loading.classList.add('hidden');
                 startConversation();
-                
-                // Initialize charts after a short delay to ensure DOM is ready
-                setTimeout(() => {
-                    desktopChart = new CandleChart('desktopCandleCanvas');
-                    mobileChart = new CandleChart('mobileCandleCanvas');
-                }, 100);
             }, 500);
         });
-        
+        // Handle both login buttons (desktop and mobile)
         document.getElementById('loginBtn')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
+            window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
+        });
+        document.getElementById('loginBtn').addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
     </script>
