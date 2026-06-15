@@ -487,7 +487,7 @@
             }
         }
 
-        @media (max-width: 480px) {
+                @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 360px;
                 min-width: 240px;
@@ -517,6 +517,30 @@
             
             .logo h1 {
                 font-size: 24px;
+            }
+            
+            /* Keep boxes horizontal on small phones */
+            .trust-boxes {
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .trust-box {
+                padding: 8px 10px;
+            }
+            
+            .trust-icon {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+            }
+            
+            .trust-title {
+                font-size: 7px;
+            }
+            
+            .trust-text {
+                font-size: 9px;
             }
         }
         /* Trust Boxes Styles - Professional Cards */
@@ -598,6 +622,46 @@
             
             .trust-text {
                 font-size: 10px;
+            }
+        }
+
+        /* Medium screens - stack boxes vertically */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .trust-boxes {
+                flex-direction: column;
+                gap: 12px;
+                max-width: 350px;
+            }
+            
+            .trust-box {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* Small phones - keep horizontal */
+        @media (max-width: 480px) {
+            .trust-boxes {
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .trust-box {
+                padding: 8px 10px;
+            }
+            
+            .trust-icon {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+            }
+            
+            .trust-title {
+                font-size: 7px;
+            }
+            
+            .trust-text {
+                font-size: 9px;
             }
         }
 
