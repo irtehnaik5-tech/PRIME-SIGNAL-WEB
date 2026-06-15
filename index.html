@@ -940,7 +940,7 @@
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
                     // Subtract 15px to give more space to the conversation text
-                    const availableHeight = (loginBoxTop - artTop) - 30;
+                    const availableHeight = (loginBoxTop - artTop) - 45;
                     
                     if (availableHeight > 100) {
                         conversationWrapper.style.maxHeight = availableHeight + 'px';
@@ -1069,7 +1069,7 @@
             container.innerHTML = '';
             
             const spacer = document.createElement('div');
-            spacer.style.height = '5px';
+            spacer.style.height = '30px';
             spacer.style.opacity = '0';
             spacer.style.pointerEvents = 'none';
             container.appendChild(spacer);
