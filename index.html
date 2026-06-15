@@ -546,8 +546,10 @@
             }
         }
         /* Trust Boxes Styles - Professional Cards */
+        /* Trust Boxes Styles - Professional Cards */
         .trust-boxes {
             display: flex;
+            flex-direction: row;
             align-items: stretch;
             justify-content: center;
             gap: 12px;
@@ -570,6 +572,7 @@
             padding: 12px 16px;
             transition: all 0.3s ease;
             cursor: pointer;
+            min-width: 0;
         }
         .trust-box:hover {
             border-color: #38b6ff;
@@ -607,11 +610,13 @@
                 gap: 8px;
                 padding-left: 16px;
                 padding-right: 16px;
+                flex-direction: row;
                 width: calc(100% - 0px);
             }
             
             .trust-box {
                 padding: 8px 12px;
+                flex: 1;
             }
             
             .trust-icon {
