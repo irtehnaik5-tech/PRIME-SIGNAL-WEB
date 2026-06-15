@@ -446,13 +446,12 @@
             }
 
             /* Floating login box - stays centered while scrolling (fixed) */
+            /* Floating login box - normal position (scrolls with page) */
             .floating-login-box {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                position: relative;
                 width: 90%;
                 max-width: 400px;
+                margin: 20px auto;
                 z-index: 1000;
                 pointer-events: none;
             }
