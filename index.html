@@ -939,7 +939,8 @@
                     const loginBoxTop = boxRect.top;
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    const availableHeight = loginBoxTop - artTop;
+                    // Subtract 15px to give more space to the conversation text
+                    const availableHeight = (loginBoxTop - artTop) - 15;
                     
                     if (availableHeight > 100) {
                         conversationWrapper.style.maxHeight = availableHeight + 'px';
@@ -954,7 +955,6 @@
                 }
             }
         }
-        
         function scrollToBottom() {
             container.scrollTop = container.scrollHeight;
         }
