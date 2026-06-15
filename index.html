@@ -870,6 +870,47 @@
                 display: none;
             }
         }
+                /* Mobile Partner Section - New section below first section */
+        .mobile-partner-section {
+            display: none;
+            width: 100%;
+            background: #000000;
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .mobile-partner-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: mobile-partner-scroll 20s linear infinite;
+        }
+
+        .mobile-partner-track:hover {
+            animation-play-state: paused;
+        }
+
+        .mobile-partner-name {
+            display: inline-block;
+            margin: 0 20px;
+            font-family: 'Libre Franklin', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #38b6ff;
+            letter-spacing: 1px;
+        }
+
+        @keyframes mobile-partner-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Show on mobile only */
+        @media (max-width: 768px) {
+            .mobile-partner-section {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -936,9 +977,31 @@
                         </div>
                     </div>
                 </div>
-        </div>
+    </div>
 
-        <div class="login-section">
+    <!-- Mobile Partner Section - New section below first section (visible only on mobile) -->
+    <div class="mobile-partner-section">
+        <div class="mobile-partner-track">
+            <span class="mobile-partner-name">BINANCE</span>
+            <span class="mobile-partner-name">AWS AGENTIC AI</span>
+            <span class="mobile-partner-name">BYBIT</span>
+            <span class="mobile-partner-name">POCKET OPTION</span>
+            <span class="mobile-partner-name">PAYONEER</span>
+            <span class="mobile-partner-name">CRYPTOBOT</span>
+            <span class="mobile-partner-name">GEMINI</span>
+            <span class="mobile-partner-name">REDOTPAY</span>
+            <span class="mobile-partner-name">BINANCE</span>
+            <span class="mobile-partner-name">AWS AGENTIC AI</span>
+            <span class="mobile-partner-name">BYBIT</span>
+            <span class="mobile-partner-name">POCKET OPTION</span>
+            <span class="mobile-partner-name">PAYONEER</span>
+            <span class="mobile-partner-name">CRYPTOBOT</span>
+            <span class="mobile-partner-name">GEMINI</span>
+            <span class="mobile-partner-name">REDOTPAY</span>
+        </div>
+    </div>
+
+    <div class="login-section">
             <div class="login-card">
                 <div class="logo">
                     <h1>
