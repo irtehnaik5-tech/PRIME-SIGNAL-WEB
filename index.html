@@ -818,6 +818,48 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+                /* Partner Ticker - Desktop only */
+        .partner-ticker {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: transparent;
+            padding: 20px 0 0 0;
+            margin-top: 30px;
+        }
+
+        .partner-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: partner-scroll 20s linear infinite;
+        }
+
+        .partner-track:hover {
+            animation-play-state: paused;
+        }
+
+        .partner-name {
+            display: inline-block;
+            margin: 0 20px;
+            font-family: 'Libre Franklin', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #38b6ff;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        @keyframes partner-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Hide on mobile */
+        @media (max-width: 768px) {
+            .partner-ticker {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -906,6 +948,27 @@
                 </a>
                 <div class="divider">
                     <span>Free • Secure • Instant</span>
+                </div>
+            </div>
+            <!-- Partner Ticker - inside right section -->
+            <div class="partner-ticker">
+                <div class="partner-track">
+                    <span class="partner-name">BINANCE</span>
+                    <span class="partner-name">AWS AGENTIC AI</span>
+                    <span class="partner-name">BYBIT</span>
+                    <span class="partner-name">POCKET OPTION</span>
+                    <span class="partner-name">PAYONEER</span>
+                    <span class="partner-name">CRYPTOBOT</span>
+                    <span class="partner-name">GEMINI</span>
+                    <span class="partner-name">REDOTPAY</span>
+                    <span class="partner-name">BINANCE</span>
+                    <span class="partner-name">AWS AGENTIC AI</span>
+                    <span class="partner-name">BYBIT</span>
+                    <span class="partner-name">POCKET OPTION</span>
+                    <span class="partner-name">PAYONEER</span>
+                    <span class="partner-name">CRYPTOBOT</span>
+                    <span class="partner-name">GEMINI</span>
+                    <span class="partner-name">REDOTPAY</span>
                 </div>
             </div>
         </div>
