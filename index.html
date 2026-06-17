@@ -1538,22 +1538,39 @@
         
         window.addEventListener('load', function() {
             adjustConversationHeight();
-            // Initialize charts
+            // Initialize charts after a short delay
             setTimeout(function() {
-                initCharts();
-                
-                document.getElementById('analyzeBtn')?.addEventListener('click', function() {
-                    startScan('chartCanvas', 'chartPrice', 'scanLine', 'analyzeBtn');
-                });
-                document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
-                    startScan('chartCanvasMobile', 'chartPriceMobile', 'scanLineMobile', 'analyzeBtnMobile');
-                });
-            }, 200);
+                try {
+                    initCharts();
+                    
+                    document.getElementById('analyzeBtn')?.addEventListener('click', function() {
+                        startScan('chartCanvas', 'chartPrice', 'scanLine', 'analyzeBtn');
+                    });
+                    document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
+                        startScan('chartCanvasMobile', 'chartPriceMobile', 'scanLineMobile', 'analyzeBtnMobile');
+                    });
+                } catch(e) {
+                    console.log('Chart init error:', e);
+                }
+            }, 300);
+            
+            // Hide loading and start conversation
+            setTimeout(function() {
+                const loading = document.getElementById('loading');
+                if (loading) loading.classList.add('hidden');
+                try {
+                    startConversation();
+                } catch(e) {
+                    console.log('Conversation error:', e);
+                }
+            }, 500);
         });
         
         window.addEventListener('resize', function() {
             adjustConversationHeight();
-            handleResize();
+            try {
+                handleResize();
+            } catch(e) {}
         });
         
         const observer = new MutationObserver(() => {
@@ -1732,11 +1749,6 @@
 
         initTicker();
         setInterval(updatePrices, 5000);
-
-        // Start conversation after charts are ready
-        setTimeout(function() {
-            startConversation();
-        }, 600);
         
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
