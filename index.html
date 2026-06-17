@@ -16,9 +16,9 @@
             font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #000000;
             color: #e6e9f0;
-            height: auto;  /* CHANGED: was 100vh */
+            height: auto;
             min-height: 100vh;
-            overflow-y: auto;  /* CHANGED: was hidden */
+            overflow-y: auto;
             overflow-x: hidden;
         }
         /* TICKER / MARQUEE STYLES */
@@ -137,7 +137,6 @@
             max-width: 100%;
         }
 
-        /* Prevent avatar from wrapping to new line */
         .message-avatar {
             font-size: 11px;
             font-weight: 600;
@@ -193,7 +192,6 @@
             30% { transform: translateY(-4px); opacity: 1; }
         }
 
-        /* Adjust split container to account for ticker */
         .split-container {
             display: flex;
             width: 100%;
@@ -201,7 +199,6 @@
             padding-top: 40px;
         }
 
-        /* Desktop: first section full viewport height */
         @media (min-width: 769px) {
             .split-container {
                 height: 100vh;
@@ -209,7 +206,6 @@
             }
         }
 
-        /* LEFT SIDE - Conversation Section */
         .art-section {
             flex: 1;
             background: #000000;
@@ -238,7 +234,6 @@
             min-height: 0;
         }
 
-        /* FULL TRANSPARENT OVERLAY */
         .full-transparent-overlay {
             position: absolute;
             top: 0;
@@ -250,8 +245,6 @@
             cursor: default;
         }
 
-        /* BOTTOM-LEFT IMAGE */
-        /* BOTTOM-LEFT IMAGE - Desktop (smaller) */
         .bottom-left-image {
             position: absolute;
             bottom: 0;
@@ -269,7 +262,6 @@
             border-radius: 0;
         }
 
-        /* RIGHT SIDE - Login section */
         .login-section {
             flex: 1;
             display: flex;
@@ -282,7 +274,6 @@
             padding: 20px;
         }
 
-        /* LOGIN CARD CONTAINER - For desktop background image */
         .login-card-container {
             position: relative;
             max-width: 420px;
@@ -292,7 +283,6 @@
             overflow: hidden;
         }
 
-        /* Background image inside login card (desktop only) */
         .login-bg-image {
             position: absolute;
             top: 0;
@@ -359,31 +349,31 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-.telegram-login-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    background: transparent;
-    color: white;
-    padding: 14px 24px;
-    border: 2px solid #38b6ff;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    margin-bottom: 24px;
-    box-shadow: 0 0 10px rgba(56,182,255,0.3);
-    font-family: 'Libre Franklin', sans-serif;
-}
+        .telegram-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            color: white;
+            padding: 14px 24px;
+            border: 2px solid #38b6ff;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 24px;
+            box-shadow: 0 0 10px rgba(56,182,255,0.3);
+            font-family: 'Libre Franklin', sans-serif;
+        }
 
-.telegram-login-btn:hover {
-    background: #38b6ff;
-    box-shadow: 0 0 20px rgba(56,182,255,0.6);
-}
+        .telegram-login-btn:hover {
+            background: #38b6ff;
+            box-shadow: 0 0 20px rgba(56,182,255,0.6);
+        }
         .telegram-login-btn svg {
             width: 24px;
             height: 24px;
@@ -411,9 +401,7 @@
             color: #9ca3af;
         }
 
-        /* Mobile optimization - ONLY FOR PHONES */
         @media (max-width: 768px) {
-            /* Allow body to scroll on mobile */
             body {
                 height: auto;
                 min-height: 100vh;
@@ -470,7 +458,6 @@
                 height: 40px;
             }
 
-            /* Image 4x bigger on phones */
             .bottom-left-image {
                 bottom: 0;
                 left: 0;
@@ -480,12 +467,10 @@
                 z-index: 3;
             }
 
-            /* Hide the normal login section on mobile */
             .login-section {
                 display: none !important;
             }
 
-            /* Floating login box - positioned inside black section */
             .floating-login-box {
                 position: relative;
                 width: 90%;
@@ -508,7 +493,6 @@
                 border: 1px solid rgba(56, 182, 255, 0.3);
             }
             
-            /* No background image on mobile login box */
             .floating-login-box .login-bg-image {
                 display: none;
             }
@@ -559,7 +543,6 @@
                 font-size: 24px;
             }
             
-            /* Keep boxes horizontal on small phones */
             .trust-boxes {
                 flex-direction: row;
                 gap: 8px;
@@ -584,7 +567,6 @@
             }
         }
 
-        /* Trust Boxes Styles - Professional Cards */
         .trust-boxes {
             display: flex;
             align-items: stretch;
@@ -639,7 +621,6 @@
             line-height: 1.3;
         }
 
-        /* Mobile adjustments */
         @media (max-width: 768px) {
             .trust-boxes {
                 margin: 15px 1px auto;
@@ -668,7 +649,6 @@
             }
         }
 
-        /* Small phones - keep horizontal */
         @media (max-width: 480px) {
             .trust-boxes {
                 flex-direction: row;
@@ -696,7 +676,6 @@
             }
         }
 
-        /* Desktop adjustments */
         @media (min-width: 769px) {
             .trust-boxes {
                 margin: 30px auto;
@@ -729,7 +708,6 @@
             }
         }
 
-        /* Tablet and Desktop optimization */
         @media (min-width: 769px) {
             .art-section {
                 justify-content: center;
@@ -768,7 +746,6 @@
                 height: 50px !important;
             }
             
-            /* Hide floating login box on desktop */
             .floating-login-box {
                 display: none;
             }
@@ -856,7 +833,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Partner Ticker - Desktop only */
         .partner-ticker {
             width: 100%;
             max-width: 520px;
@@ -895,14 +871,12 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Hide on mobile */
         @media (max-width: 768px) {
             .partner-ticker {
                 display: none;
             }
         }
         
-        /* Mobile Partner Section - New section below first section */
         .mobile-partner-section {
             display: none;
             width: 100%;
@@ -937,16 +911,13 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Show on mobile only */
         @media (max-width: 768px) {
             .mobile-partner-section {
                 display: block;
             }
         }
 
-        /* ===== NEW SECTIONS - ADDED ===== */
-        
-        /* NEW SECTION - Desktop (2 columns, same size as top) */
+        /* ===== NEW SECTIONS ===== */
         .new-section-desktop {
             display: flex;
             width: 100%;
@@ -964,46 +935,215 @@
             flex: 1;
             background: #000000;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
-            padding-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* NEW SECTION - Mobile (full height, same as top section) */
         .new-section-mobile {
             display: none;
             width: 100%;
             height: 85vh;
             min-height: 75vh;
             background: #000000;
-            display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
-            padding-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .new-section-mobile .end-text {
-            color: #2a2f3c;
-            font-size: 12px;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #1a1a1a;
-            width: 90%;
-            max-width: 400px;
-            font-family: 'Libre Franklin', monospace;
-            letter-spacing: 2px;
+        /* ===== FUTURISTIC GREEN FLASH EFFECT ===== */
+        .flash-container {
+            position: relative;
+            width: 70%;
+            height: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .new-section-desktop .end-text {
-            color: #2a2f3c;
-            font-size: 12px;
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #1a1a1a;
-            width: 90%;
-            max-width: 420px;
-            font-family: 'Libre Franklin', monospace;
-            letter-spacing: 2px;
+        .flash-orb {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.3) 30%, rgba(34, 197, 94, 0.05) 60%, transparent 80%);
+            position: relative;
+            animation: orb-pulse 3s ease-in-out infinite;
+            box-shadow: 0 0 60px rgba(34, 197, 94, 0.3), 0 0 120px rgba(34, 197, 94, 0.1);
+        }
+
+        .flash-line {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to top, #22c55e, transparent);
+            transform: translateX(-50%);
+            animation: line-grow 4s ease-in-out infinite;
+        }
+
+        .flash-line::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 20px #22c55e, 0 0 40px rgba(34, 197, 94, 0.5);
+            animation: dot-glow 2s ease-in-out infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #22c55e;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 5s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { top: -20px; left: 30%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: -10px; right: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { bottom: -10px; left: 10%; animation-delay: 2s; }
+        .particle:nth-child(4) { bottom: -20px; right: 10%; animation-delay: 0.5s; }
+        .particle:nth-child(5) { top: 40%; left: -20px; animation-delay: 1.5s; }
+        .particle:nth-child(6) { top: 50%; right: -20px; animation-delay: 2.5s; }
+
+        .glow-ring {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            animation: ring-spin 8s linear infinite;
+        }
+
+        .glow-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #22c55e;
+        }
+
+        .glow-ring:nth-child(2) {
+            width: 220px;
+            height: 220px;
+            animation-direction: reverse;
+            animation-duration: 12s;
+            border-color: rgba(34, 197, 94, 0.08);
+        }
+
+        .glow-ring:nth-child(3) {
+            width: 140px;
+            height: 140px;
+            animation-duration: 6s;
+            border-color: rgba(34, 197, 94, 0.1);
+        }
+
+        /* Animations */
+        @keyframes orb-pulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes line-grow {
+            0%, 100% { height: 0; opacity: 0; }
+            20% { height: 100px; opacity: 1; }
+            80% { height: 100px; opacity: 1; }
+            100% { height: 0; opacity: 0; }
+        }
+
+        @keyframes dot-glow {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 0 20px #22c55e, 0 0 40px rgba(34, 197, 94, 0.5);
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.5);
+                box-shadow: 0 0 30px #22c55e, 0 0 60px rgba(34, 197, 94, 0.7);
+            }
+        }
+
+        @keyframes particle-float {
+            0% { 
+                opacity: 0;
+                transform: translate(0, 0) scale(0);
+            }
+            20% { 
+                opacity: 1;
+                transform: translate(10px, -10px) scale(1);
+            }
+            80% { 
+                opacity: 1;
+                transform: translate(30px, -30px) scale(0.5);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(50px, -50px) scale(0);
+            }
+        }
+
+        @keyframes ring-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile version - scaled down */
+        .new-section-mobile .flash-container {
+            width: 70%;
+            height: 70%;
+        }
+
+        .new-section-mobile .flash-orb {
+            width: 80px;
+            height: 80px;
+        }
+
+        .new-section-mobile .glow-ring {
+            width: 130px;
+            height: 130px;
+        }
+
+        .new-section-mobile .glow-ring:nth-child(2) {
+            width: 160px;
+            height: 160px;
+        }
+
+        .new-section-mobile .glow-ring:nth-child(3) {
+            width: 100px;
+            height: 100px;
+        }
+
+        .new-section-mobile .flash-line {
+            animation-duration: 3s;
+        }
+
+        .new-section-mobile .flash-line::before {
+            width: 6px;
+            height: 6px;
+        }
+
+        .new-section-mobile .particle {
+            width: 2px;
+            height: 2px;
         }
 
         @media (max-width: 768px) {
@@ -1035,7 +1175,6 @@
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
-            <!-- Floating login box moved inside art-section (mobile only) -->
             <div class="floating-login-box">
                 <div class="login-card">
                     <div class="logo">
@@ -1057,7 +1196,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Professional Trust Boxes -->
             <div class="trust-boxes">
                 <div class="trust-box">
                     <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
@@ -1076,7 +1214,6 @@
             </div>
         </div>
 
-        <!-- Mobile Partner Section - New section below first section (visible only on mobile) -->
         <div class="mobile-partner-section">
             <div class="mobile-partner-track">
                 <span class="mobile-partner-name">BINANCE</span>
@@ -1098,7 +1235,6 @@
             </div>
         </div>
 
-        <!-- DESKTOP LOGIN SECTION WITH BACKGROUND IMAGE -->
         <div class="login-section">
             <div class="login-card-container">
                 <img class="login-bg-image" src="images/chart-icon.png" alt="Trading chart background">
@@ -1122,7 +1258,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Partner Ticker - BELOW the login card -->
             <div class="partner-ticker">
                 <div class="partner-track">
                     <span class="partner-name">BINANCE</span>
@@ -1146,17 +1281,43 @@
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Desktop (2 columns, same size as top) ===== -->
+    <!-- ===== NEW SECTION - Desktop with Green Flash ===== -->
     <div class="new-section-desktop">
         <div class="new-left"></div>
         <div class="new-right">
-            <div class="end-text">END OF PAGE · PRIME SIGNAL AI</div>
+            <div class="flash-container">
+                <div class="glow-ring"></div>
+                <div class="glow-ring"></div>
+                <div class="glow-ring"></div>
+                <div class="flash-orb">
+                    <div class="flash-line"></div>
+                </div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Mobile (full height, same as top section) ===== -->
+    <!-- ===== NEW SECTION - Mobile with Green Flash ===== -->
     <div class="new-section-mobile">
-        <div class="end-text">END OF PAGE · PRIME SIGNAL AI</div>
+        <div class="flash-container">
+            <div class="glow-ring"></div>
+            <div class="glow-ring"></div>
+            <div class="glow-ring"></div>
+            <div class="flash-orb">
+                <div class="flash-line"></div>
+            </div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
     </div>
 
     <script>
@@ -1173,7 +1334,6 @@
                     const loginBoxTop = boxRect.top;
                     const artRect = artSection.getBoundingClientRect();
                     const artTop = artRect.top;
-                    // Subtract 15px to give more space to the conversation text
                     const availableHeight = (loginBoxTop - artTop) - 15;
                     
                     if (availableHeight > 100) {
@@ -1382,12 +1542,10 @@
             }, 500);
         });
         
-        // Handle both login buttons (desktop and mobile)
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
         
-        // Desktop login button
         const desktopLoginBtn = document.querySelector('.login-section .telegram-login-btn');
         if (desktopLoginBtn) {
             desktopLoginBtn.addEventListener('click', function() {
