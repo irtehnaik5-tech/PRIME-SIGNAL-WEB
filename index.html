@@ -16,8 +16,10 @@
             font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #000000;
             color: #e6e9f0;
-            height: 100vh;
-            overflow: hidden;
+            height: auto;  /* CHANGED: was 100vh */
+            min-height: 100vh;
+            overflow-y: auto;  /* CHANGED: was hidden */
+            overflow-x: hidden;
         }
         /* TICKER / MARQUEE STYLES */
         .ticker-wrapper {
@@ -195,9 +197,16 @@
         .split-container {
             display: flex;
             width: 100%;
-            height: 100%;
             flex-direction: row;
             padding-top: 40px;
+        }
+
+        /* Desktop: first section full viewport height */
+        @media (min-width: 769px) {
+            .split-container {
+                height: 100vh;
+                min-height: 100vh;
+            }
         }
 
         /* LEFT SIDE - Conversation Section */
@@ -942,6 +951,7 @@
             display: flex;
             width: 100%;
             height: 100vh;
+            min-height: 100vh;
             background: #000000;
         }
 
@@ -953,6 +963,10 @@
         .new-section-desktop .new-right {
             flex: 1;
             background: #000000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 40px;
         }
 
         /* NEW SECTION - Mobile (full height, same as top section) */
@@ -962,11 +976,39 @@
             height: 85vh;
             min-height: 75vh;
             background: #000000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 40px;
+        }
+
+        .new-section-mobile .end-text {
+            color: #2a2f3c;
+            font-size: 12px;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #1a1a1a;
+            width: 90%;
+            max-width: 400px;
+            font-family: 'Libre Franklin', monospace;
+            letter-spacing: 2px;
+        }
+
+        .new-section-desktop .end-text {
+            color: #2a2f3c;
+            font-size: 12px;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #1a1a1a;
+            width: 90%;
+            max-width: 420px;
+            font-family: 'Libre Franklin', monospace;
+            letter-spacing: 2px;
         }
 
         @media (max-width: 768px) {
             .new-section-mobile {
-                display: block;
+                display: flex !important;
             }
         }
     </style>
@@ -1107,11 +1149,15 @@
     <!-- ===== NEW SECTION - Desktop (2 columns, same size as top) ===== -->
     <div class="new-section-desktop">
         <div class="new-left"></div>
-        <div class="new-right"></div>
+        <div class="new-right">
+            <div class="end-text">END OF PAGE · PRIME SIGNAL AI</div>
+        </div>
     </div>
 
     <!-- ===== NEW SECTION - Mobile (full height, same as top section) ===== -->
-    <div class="new-section-mobile"></div>
+    <div class="new-section-mobile">
+        <div class="end-text">END OF PAGE · PRIME SIGNAL AI</div>
+    </div>
 
     <script>
         const container = document.getElementById('conversationContainer');
