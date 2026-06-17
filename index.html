@@ -934,6 +934,41 @@
                 display: block;
             }
         }
+
+        /* ===== NEW SECTIONS - ADDED ===== */
+        
+        /* NEW SECTION - Desktop (2 columns, same size as top) */
+        .new-section-desktop {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+        }
+
+        .new-section-desktop .new-left {
+            flex: 1;
+            background: #000000;
+        }
+
+        .new-section-desktop .new-right {
+            flex: 1;
+            background: #000000;
+        }
+
+        /* NEW SECTION - Mobile (full height, same as top section) */
+        .new-section-mobile {
+            display: none;
+            width: 100%;
+            height: 85vh;
+            min-height: 75vh;
+            background: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .new-section-mobile {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1068,6 +1103,15 @@
             </div>
         </div>
     </div>
+
+    <!-- ===== NEW SECTION - Desktop (2 columns, same size as top) ===== -->
+    <div class="new-section-desktop">
+        <div class="new-left"></div>
+        <div class="new-right"></div>
+    </div>
+
+    <!-- ===== NEW SECTION - Mobile (full height, same as top section) ===== -->
+    <div class="new-section-mobile"></div>
 
     <script>
         const container = document.getElementById('conversationContainer');
