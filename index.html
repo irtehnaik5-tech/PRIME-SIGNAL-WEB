@@ -1,5 +1,4 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -919,248 +918,207 @@
         }
 
         /* ===== NEW SECTIONS ===== */
-        /* ===== NEW SECTIONS ===== */
-.new-section-desktop {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-    background: #000000;
-}
+        .new-section-desktop {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            min-height: 100vh;
+            background: #000000;
+        }
 
-.new-section-desktop .new-left {
-    flex: 1;
-    background: #000000;
-}
+        .new-section-desktop .new-left {
+            flex: 1;
+            background: #000000;
+        }
 
-.new-section-desktop .new-right {
-    flex: 1;
-    background: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.new-section-mobile {
-    display: none;
-    width: 100%;
-    height: 85vh;
-    min-height: 75vh;
-    background: #000000;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Hide desktop section on mobile */
-@media (max-width: 768px) {
-    .new-section-desktop {
-        display: none !important;
-    }
-    .new-section-mobile {
-        display: flex !important;
-    }
-}
-
-        /* ===== FUTURISTIC GREEN FLASH EFFECT ===== */
-        .flash-container {
-            position: relative;
-            width: 70%;
-            height: 70%;
+        .new-section-desktop .new-right {
+            flex: 1;
+            background: #000000;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .flash-orb {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.3) 30%, rgba(34, 197, 94, 0.05) 60%, transparent 80%);
             position: relative;
-            animation: orb-pulse 3s ease-in-out infinite;
-            box-shadow: 0 0 60px rgba(34, 197, 94, 0.3), 0 0 120px rgba(34, 197, 94, 0.1);
+            overflow: hidden;
+            padding: 20px;
         }
 
-        .flash-line {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 2px;
-            height: 0;
-            background: linear-gradient(to top, #22c55e, transparent);
-            transform: translateX(-50%);
-            animation: line-grow 4s ease-in-out infinite;
-        }
-
-        .flash-line::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 20px #22c55e, 0 0 40px rgba(34, 197, 94, 0.5);
-            animation: dot-glow 2s ease-in-out infinite;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #22c55e;
-            border-radius: 50%;
-            opacity: 0;
-            animation: particle-float 5s ease-in-out infinite;
-        }
-
-        .particle:nth-child(1) { top: -20px; left: 30%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: -10px; right: 20%; animation-delay: 1s; }
-        .particle:nth-child(3) { bottom: -10px; left: 10%; animation-delay: 2s; }
-        .particle:nth-child(4) { bottom: -20px; right: 10%; animation-delay: 0.5s; }
-        .particle:nth-child(5) { top: 40%; left: -20px; animation-delay: 1.5s; }
-        .particle:nth-child(6) { top: 50%; right: -20px; animation-delay: 2.5s; }
-
-        .glow-ring {
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 1px solid rgba(34, 197, 94, 0.15);
-            animation: ring-spin 8s linear infinite;
-        }
-
-        .glow-ring::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #22c55e;
-        }
-
-        .glow-ring:nth-child(2) {
-            width: 220px;
-            height: 220px;
-            animation-direction: reverse;
-            animation-duration: 12s;
-            border-color: rgba(34, 197, 94, 0.08);
-        }
-
-        .glow-ring:nth-child(3) {
-            width: 140px;
-            height: 140px;
-            animation-duration: 6s;
-            border-color: rgba(34, 197, 94, 0.1);
-        }
-
-        /* Animations */
-        @keyframes orb-pulse {
-            0%, 100% { 
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            50% { 
-                transform: scale(1.1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes line-grow {
-            0%, 100% { height: 0; opacity: 0; }
-            20% { height: 100px; opacity: 1; }
-            80% { height: 100px; opacity: 1; }
-            100% { height: 0; opacity: 0; }
-        }
-
-        @keyframes dot-glow {
-            0%, 100% { 
-                transform: translateX(-50%) scale(1);
-                box-shadow: 0 0 20px #22c55e, 0 0 40px rgba(34, 197, 94, 0.5);
-            }
-            50% { 
-                transform: translateX(-50%) scale(1.5);
-                box-shadow: 0 0 30px #22c55e, 0 0 60px rgba(34, 197, 94, 0.7);
-            }
-        }
-
-        @keyframes particle-float {
-            0% { 
-                opacity: 0;
-                transform: translate(0, 0) scale(0);
-            }
-            20% { 
-                opacity: 1;
-                transform: translate(10px, -10px) scale(1);
-            }
-            80% { 
-                opacity: 1;
-                transform: translate(30px, -30px) scale(0.5);
-            }
-            100% { 
-                opacity: 0;
-                transform: translate(50px, -50px) scale(0);
-            }
-        }
-
-        @keyframes ring-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Mobile version - scaled down */
-        .new-section-mobile .flash-container {
-            width: 70%;
-            height: 70%;
-        }
-
-        .new-section-mobile .flash-orb {
-            width: 80px;
-            height: 80px;
-        }
-
-        .new-section-mobile .glow-ring {
-            width: 130px;
-            height: 130px;
-        }
-
-        .new-section-mobile .glow-ring:nth-child(2) {
-            width: 160px;
-            height: 160px;
-        }
-
-        .new-section-mobile .glow-ring:nth-child(3) {
-            width: 100px;
-            height: 100px;
-        }
-
-        .new-section-mobile .flash-line {
-            animation-duration: 3s;
-        }
-
-        .new-section-mobile .flash-line::before {
-            width: 6px;
-            height: 6px;
-        }
-
-        .new-section-mobile .particle {
-            width: 2px;
-            height: 2px;
+        .new-section-mobile {
+            display: none;
+            width: 100%;
+            height: 85vh;
+            min-height: 75vh;
+            background: #000000;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
         }
 
         @media (max-width: 768px) {
+            .new-section-desktop {
+                display: none !important;
+            }
             .new-section-mobile {
                 display: flex !important;
+            }
+        }
+
+        /* ===== CHART CONTAINER ===== */
+        .chart-container {
+            width: 90%;
+            max-width: 500px;
+            height: 70%;
+            max-height: 400px;
+            background: #0a0c10;
+            border: 1px solid rgba(56, 182, 255, 0.2);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(56, 182, 255, 0.1);
+        }
+
+        .chart-symbol {
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: #e6e9f0;
+        }
+
+        .chart-symbol span {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 11px;
+        }
+
+        .chart-price {
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        .chart-body {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-body canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #38b6ff;
+            box-shadow: 0 0 20px #38b6ff, 0 0 60px rgba(56, 182, 255, 0.3);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scan-line.active {
+            animation: scan-move 2.5s ease-in-out forwards;
+        }
+
+        @keyframes scan-move {
+            0% { left: 0; opacity: 1; }
+            80% { left: 90%; opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        .analyze-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid #38b6ff;
+            border-radius: 8px;
+            color: #38b6ff;
+            font-family: 'Libre Franklin', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 12px auto 16px auto;
+            width: auto;
+            min-width: 140px;
+            position: relative;
+        }
+
+        .analyze-btn:hover {
+            background: rgba(56, 182, 255, 0.1);
+            box-shadow: 0 0 20px rgba(56, 182, 255, 0.2);
+        }
+
+        .analyze-btn.scanning {
+            border-color: #22c55e;
+            color: #22c55e;
+            pointer-events: none;
+        }
+
+        .analyze-btn .btn-text {
+            transition: opacity 0.3s;
+        }
+
+        .analyze-btn .btn-loader {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(56, 182, 255, 0.2);
+            border-top-color: #38b6ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .analyze-btn.scanning .btn-loader {
+            display: block;
+        }
+
+        .analyze-btn.scanning .btn-text {
+            display: none;
+        }
+
+        .new-section-mobile .chart-container {
+            width: 95%;
+            max-width: 400px;
+            height: 75%;
+            max-height: 350px;
+        }
+
+        .new-section-mobile .analyze-btn {
+            padding: 8px 20px;
+            font-size: 12px;
+            min-width: 120px;
+            margin: 10px auto 14px auto;
+        }
+
+        @media (max-width: 480px) {
+            .chart-container {
+                height: 60%;
+                max-height: 300px;
+            }
+            .chart-symbol {
+                font-size: 12px;
+            }
+            .chart-price {
+                font-size: 14px;
             }
         }
     </style>
@@ -1293,46 +1251,264 @@
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Desktop with Green Flash ===== -->
+    <!-- ===== NEW SECTION - Desktop with Chart ===== -->
     <div class="new-section-desktop">
         <div class="new-left"></div>
         <div class="new-right">
-            <div class="flash-container">
-                <div class="glow-ring"></div>
-                <div class="glow-ring"></div>
-                <div class="glow-ring"></div>
-                <div class="flash-orb">
-                    <div class="flash-line"></div>
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
+                    <div class="chart-price" id="chartPrice">$2,350.40</div>
                 </div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
+                <div class="chart-body">
+                    <canvas id="chartCanvas"></canvas>
+                    <div class="scan-line" id="scanLine"></div>
+                </div>
+                <button class="analyze-btn" id="analyzeBtn">
+                    <span class="btn-text">🔍 Analyze</span>
+                    <span class="btn-loader"></span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Mobile with Green Flash ===== -->
+    <!-- ===== NEW SECTION - Mobile with Chart ===== -->
     <div class="new-section-mobile">
-        <div class="flash-container">
-            <div class="glow-ring"></div>
-            <div class="glow-ring"></div>
-            <div class="glow-ring"></div>
-            <div class="flash-orb">
-                <div class="flash-line"></div>
+        <div class="chart-container">
+            <div class="chart-header">
+                <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
+                <div class="chart-price" id="chartPriceMobile">$2,350.40</div>
             </div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
+            <div class="chart-body">
+                <canvas id="chartCanvasMobile"></canvas>
+                <div class="scan-line" id="scanLineMobile"></div>
+            </div>
+            <button class="analyze-btn" id="analyzeBtnMobile">
+                <span class="btn-text">🔍 Analyze</span>
+                <span class="btn-loader"></span>
+            </button>
         </div>
     </div>
 
     <script>
+        // ============================================
+        // CHART ANIMATION - Gold (XAU/USD) Demo
+        // ============================================
+
+        // Sample candle data (Gold prices - recent history)
+        const candleData = [
+            { open: 2320.50, high: 2325.80, low: 2318.20, close: 2324.30 },
+            { open: 2324.30, high: 2330.50, low: 2322.10, close: 2328.90 },
+            { open: 2328.90, high: 2335.20, low: 2326.40, close: 2332.70 },
+            { open: 2332.70, high: 2338.60, low: 2330.10, close: 2335.40 },
+            { open: 2335.40, high: 2342.30, low: 2333.80, close: 2339.90 },
+            { open: 2339.90, high: 2345.70, low: 2337.20, close: 2342.50 },
+            { open: 2342.50, high: 2348.40, low: 2340.10, close: 2345.80 },
+            { open: 2345.80, high: 2352.60, low: 2343.90, close: 2349.70 },
+            { open: 2349.70, high: 2355.40, low: 2347.30, close: 2353.20 },
+            { open: 2353.20, high: 2358.90, low: 2351.10, close: 2356.40 },
+            { open: 2356.40, high: 2362.70, low: 2354.60, close: 2359.80 },
+            { open: 2359.80, high: 2365.50, low: 2357.90, close: 2362.30 },
+            { open: 2362.30, high: 2368.20, low: 2360.40, close: 2365.70 },
+            { open: 2365.70, high: 2371.80, low: 2363.90, close: 2369.40 },
+            { open: 2369.40, high: 2375.30, low: 2367.60, close: 2372.90 },
+            { open: 2372.90, high: 2378.70, low: 2371.20, close: 2375.80 },
+            { open: 2375.80, high: 2382.40, low: 2374.10, close: 2379.60 },
+            { open: 2379.60, high: 2385.90, low: 2377.80, close: 2382.70 },
+            { open: 2382.70, high: 2388.60, low: 2380.90, close: 2385.40 },
+            { open: 2385.40, high: 2392.30, low: 2383.80, close: 2389.20 },
+            { open: 2389.20, high: 2395.80, low: 2387.40, close: 2393.10 },
+            { open: 2393.10, high: 2399.50, low: 2391.60, close: 2396.80 },
+            { open: 2396.80, high: 2403.20, low: 2395.10, close: 2400.50 },
+            { open: 2400.50, high: 2406.80, low: 2398.90, close: 2403.70 },
+            { open: 2403.70, high: 2410.40, low: 2402.10, close: 2407.90 },
+            { open: 2407.90, high: 2413.60, low: 2406.20, close: 2410.80 },
+            { open: 2410.80, high: 2417.50, low: 2409.30, close: 2414.20 },
+            { open: 2414.20, high: 2420.80, low: 2412.60, close: 2417.90 },
+            { open: 2417.90, high: 2424.60, low: 2416.10, close: 2421.80 },
+            { open: 2421.80, high: 2428.40, low: 2420.20, close: 2425.30 },
+            { open: 2425.30, high: 2432.10, low: 2423.80, close: 2429.60 },
+            { open: 2429.60, high: 2435.80, low: 2428.20, close: 2432.90 },
+            { open: 2432.90, high: 2439.50, low: 2431.30, close: 2436.70 },
+            { open: 2436.70, high: 2442.80, low: 2435.20, close: 2440.10 },
+            { open: 2440.10, high: 2446.60, low: 2438.70, close: 2443.80 },
+            { open: 2443.80, high: 2450.40, low: 2442.30, close: 2447.60 },
+            { open: 2447.60, high: 2454.20, low: 2446.10, close: 2451.30 },
+            { open: 2451.30, high: 2458.80, low: 2449.70, close: 2455.90 },
+            { open: 2455.90, high: 2462.60, low: 2454.20, close: 2459.80 },
+            { open: 2459.80, high: 2466.40, low: 2458.30, close: 2463.50 },
+            { open: 2463.50, high: 2470.20, low: 2462.10, close: 2467.40 },
+            { open: 2467.40, high: 2474.80, low: 2465.90, close: 2471.20 },
+            { open: 2471.20, high: 2478.60, low: 2469.70, close: 2475.30 },
+            { open: 2475.30, high: 2482.40, low: 2473.80, close: 2479.10 },
+            { open: 2479.10, high: 2486.80, low: 2477.60, close: 2483.20 },
+            { open: 2483.20, high: 2490.60, low: 2481.70, close: 2487.50 },
+            { open: 2487.50, high: 2494.20, low: 2486.10, close: 2491.30 },
+            { open: 2491.30, high: 2498.80, low: 2489.90, close: 2495.60 },
+            { open: 2495.60, high: 2502.40, low: 2494.20, close: 2499.80 },
+            { open: 2499.80, high: 2506.60, low: 2498.50, close: 2503.70 }
+        ];
+
+        let isScanning = false;
+        let priceInterval = null;
+
+        function drawChart(canvasId, priceDisplayId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width || 400;
+            canvas.height = rect.height || 250;
+            
+            const w = canvas.width;
+            const h = canvas.height;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            const visibleCount = Math.min(30, candleData.length);
+            const startIdx = Math.max(0, candleData.length - visibleCount);
+            const displayData = candleData.slice(startIdx);
+            
+            if (displayData.length === 0) return;
+            
+            let maxPrice = Math.max(...displayData.map(d => d.high));
+            let minPrice = Math.min(...displayData.map(d => d.low));
+            const padding = (maxPrice - minPrice) * 0.08;
+            maxPrice += padding;
+            minPrice = Math.max(0, minPrice - padding);
+            
+            const candleWidth = (w - 20) / displayData.length * 0.7;
+            const spacing = (w - 20) / displayData.length * 0.3;
+            const chartTop = 20;
+            const chartBottom = h - 20;
+            const range = maxPrice - minPrice;
+            
+            ctx.strokeStyle = 'rgba(56, 182, 255, 0.05)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i <= 4; i++) {
+                const y = chartTop + (chartBottom - chartTop) * (i / 4);
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+            
+            let currentX = 10;
+            for (let i = 0; i < displayData.length; i++) {
+                const candle = displayData[i];
+                const isBullish = candle.close >= candle.open;
+                
+                const openY = chartBottom - ((candle.open - minPrice) / range) * (chartBottom - chartTop);
+                const closeY = chartBottom - ((candle.close - minPrice) / range) * (chartBottom - chartTop);
+                const highY = chartBottom - ((candle.high - minPrice) / range) * (chartBottom - chartTop);
+                const lowY = chartBottom - ((candle.low - minPrice) / range) * (chartBottom - chartTop);
+                
+                ctx.beginPath();
+                ctx.moveTo(currentX + candleWidth / 2, highY);
+                ctx.lineTo(currentX + candleWidth / 2, lowY);
+                ctx.strokeStyle = '#9ca3af';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                
+                const bodyTop = Math.min(openY, closeY);
+                const bodyBottom = Math.max(openY, closeY);
+                const bodyHeight = Math.max(1, bodyBottom - bodyTop);
+                
+                if (isBullish) {
+                    ctx.fillStyle = '#22c55e';
+                    ctx.fillRect(currentX, bodyTop, candleWidth, bodyHeight);
+                } else {
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fillRect(currentX, bodyTop, candleWidth, bodyHeight);
+                }
+                
+                currentX += candleWidth + spacing;
+            }
+            
+            const lastCandle = displayData[displayData.length - 1];
+            const lastPrice = lastCandle.close;
+            const priceY = chartBottom - ((lastPrice - minPrice) / range) * (chartBottom - chartTop);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, priceY);
+            ctx.lineTo(w, priceY);
+            ctx.strokeStyle = 'rgba(56, 182, 255, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            const priceDisplay = document.getElementById(priceDisplayId);
+            if (priceDisplay) {
+                priceDisplay.textContent = '$' + lastPrice.toFixed(2);
+            }
+        }
+
+        function startScan(canvasId, priceDisplayId, scanLineId, btnId) {
+            if (isScanning) return;
+            isScanning = true;
+            
+            const btn = document.getElementById(btnId);
+            const scanLine = document.getElementById(scanLineId);
+            
+            if (btn) btn.classList.add('scanning');
+            if (scanLine) {
+                scanLine.classList.remove('active');
+                void scanLine.offsetWidth;
+                scanLine.classList.add('active');
+            }
+            
+            let counter = 0;
+            const maxSteps = 8;
+            
+            if (priceInterval) clearInterval(priceInterval);
+            
+            priceInterval = setInterval(() => {
+                if (counter >= maxSteps) {
+                    clearInterval(priceInterval);
+                    if (btn) btn.classList.remove('scanning');
+                    if (scanLine) scanLine.classList.remove('active');
+                    isScanning = false;
+                    return;
+                }
+                
+                const lastCandle = candleData[candleData.length - 1];
+                const move = (Math.random() - 0.45) * 6;
+                const newClose = lastCandle.close + move;
+                const newHigh = Math.max(lastCandle.high + (Math.random() * 3), newClose + Math.random() * 2);
+                const newLow = Math.min(lastCandle.low - (Math.random() * 3), newClose - Math.random() * 2);
+                
+                candleData.push({
+                    open: lastCandle.close,
+                    high: newHigh,
+                    low: newLow,
+                    close: newClose
+                });
+                
+                drawChart(canvasId, priceDisplayId);
+                counter++;
+            }, 300);
+        }
+
+        function initCharts() {
+            try {
+                drawChart('chartCanvas', 'chartPrice');
+                drawChart('chartCanvasMobile', 'chartPriceMobile');
+            } catch(e) {
+                console.log('Chart init error:', e);
+            }
+        }
+
+        function handleResize() {
+            try {
+                drawChart('chartCanvas', 'chartPrice');
+                drawChart('chartCanvasMobile', 'chartPriceMobile');
+            } catch(e) {}
+        }
+
+        // ============================================
+        // EXISTING CONVERSATION AND TICKER CODE
+        // ============================================
+
         const container = document.getElementById('conversationContainer');
         
         function adjustConversationHeight() {
@@ -1365,15 +1541,6 @@
         function scrollToBottom() {
             container.scrollTop = container.scrollHeight;
         }
-        
-        window.addEventListener('load', adjustConversationHeight);
-        window.addEventListener('resize', adjustConversationHeight);
-        
-        const observer = new MutationObserver(() => {
-            adjustConversationHeight();
-            scrollToBottom();
-        });
-        observer.observe(container, { childList: true, subtree: true });
 
         const messages = [
             { type: 'user', text: "Hey, I'm losing money on trading. How can you help me?" },
@@ -1546,13 +1713,57 @@
         initTicker();
         setInterval(updatePrices, 5000);
 
+        // ============================================
+        // MAIN LOAD - FIXED
+        // ============================================
         window.addEventListener('load', function() {
-            const loading = document.getElementById('loading');
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                startConversation();
-            }, 500);
+            // Force hide loading after 2 seconds max
+            setTimeout(function() {
+                const loading = document.getElementById('loading');
+                if (loading) loading.classList.add('hidden');
+            }, 2000);
+            
+            // Initialize charts after a short delay
+            setTimeout(function() {
+                try {
+                    initCharts();
+                    
+                    document.getElementById('analyzeBtn')?.addEventListener('click', function() {
+                        startScan('chartCanvas', 'chartPrice', 'scanLine', 'analyzeBtn');
+                    });
+                    document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
+                        startScan('chartCanvasMobile', 'chartPriceMobile', 'scanLineMobile', 'analyzeBtnMobile');
+                    });
+                } catch(e) {
+                    console.log('Chart init error:', e);
+                }
+            }, 100);
+            
+            // Start conversation
+            setTimeout(function() {
+                try {
+                    startConversation();
+                } catch(e) {
+                    console.log('Conversation error:', e);
+                }
+            }, 300);
+            
+            // Adjust conversation height
+            adjustConversationHeight();
         });
+        
+        window.addEventListener('resize', function() {
+            adjustConversationHeight();
+            try {
+                handleResize();
+            } catch(e) {}
+        });
+        
+        const observer = new MutationObserver(() => {
+            adjustConversationHeight();
+            scrollToBottom();
+        });
+        observer.observe(container, { childList: true, subtree: true });
         
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
