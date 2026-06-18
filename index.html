@@ -42,9 +42,7 @@
             animation: ticker-scroll 30s linear infinite;
         }
 
-        .ticker-track:hover {
-            animation-play-state: paused;
-        }
+
 
         .ticker-item {
             display: inline-block;
@@ -2289,7 +2287,7 @@
             });
         }
 // ============================================
-// REVIEWS SECTION - NO PAGE JUMP
+// REVIEWS SECTION - NO PAGE JUMP (Fixed for Mobile)
 // ============================================
 
 const reviewsList = [
@@ -2344,6 +2342,7 @@ function createReviewCard(review) {
     card.style.transform = 'translateY(20px)';
     card.style.display = 'block';
     card.style.position = 'relative';
+    card.style.minHeight = '100px';
     card.innerHTML = `
         <div class="review-header">
             <span class="review-author">${review.author}</span>
@@ -2358,11 +2357,23 @@ function initializeReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    // Create 2 placeholder cards
+    // Check if container already has cards
+    if (container.children.length > 0) {
+        // Just show them if they exist
+        const cards = container.querySelectorAll('.review-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200 + 100);
+        });
+        return;
+    }
+    
+    // Create 2 cards
     const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, 2);
     
-    container.innerHTML = '';
     selected.forEach((review, index) => {
         const card = createReviewCard(review);
         container.appendChild(card);
@@ -2380,7 +2391,9 @@ function updateReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    const cards = container.querySelectorAll('.review-card');
+    let cards = container.querySelectorAll('.review-card');
+    
+    // If no cards, initialize
     if (cards.length === 0) {
         initializeReviews(containerId);
         return;
@@ -2392,8 +2405,15 @@ function updateReviews(containerId) {
     const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
     const newReviews = shuffled.slice(0, 2);
     
+    // Make sure we have at least 2 cards
+    while (cards.length < 2) {
+        const card = createReviewCard(newReviews[cards.length]);
+        container.appendChild(card);
+        cards = container.querySelectorAll('.review-card');
+    }
+    
     // Fade out all cards
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
     });
@@ -2415,14 +2435,13 @@ function updateReviews(containerId) {
                 // Reset position before fade in
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
+                card.style.display = 'block';
             }
         });
         
-        // If we have more cards than needed, hide extras
-        if (cards.length > newReviews.length) {
-            for (let i = newReviews.length; i < cards.length; i++) {
-                cards[i].style.display = 'none';
-            }
+        // Hide extra cards if more than 2
+        for (let i = newReviews.length; i < cards.length; i++) {
+            cards[i].style.display = 'none';
         }
         
         // Fade in all cards
@@ -2445,7 +2464,7 @@ function updateReviews(containerId) {
 }
 
 function startReviewRotation() {
-    // Initialize both containers
+    // Initialize both containers - desktop and mobile
     initializeReviews('desktopReviewsContainer');
     initializeReviews('mobileReviewsContainer');
 
