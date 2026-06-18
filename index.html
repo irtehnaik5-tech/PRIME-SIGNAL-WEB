@@ -556,12 +556,13 @@
 /* Desktop - FIXED LEFT & RIGHT MARGINS with SQUARE login box */
 /* Desktop - SQUARE login box with ALL FOUR FIXED MARGINS */
 /* Desktop - PERFECT SQUARE with FIXED TOP & BOTTOM MARGINS */
+/* Desktop - DYNAMIC SQUARE with FIXED MARGINS */
 @media (min-width: 769px) {
     .login-section {
         padding: 0;
         display: flex;
-        justify-content: flex-start;  /* Keep left alignment */
-        align-items: center;          /* Vertical centering */
+        justify-content: flex-start;
+        align-items: center;
         background: #000000;
         min-height: 100vh;
         flex: 1;
@@ -571,19 +572,24 @@
     }
     
     .login-card-container {
-        /* PERFECT SQUARE - same width and height */
-        width: 420px;
-        height: 420px;        /* EXACTLY square */
+        /* FIXED MARGINS */
+        margin-top: 80px;     /* FIXED top margin */
+        margin-bottom: 80px;  /* FIXED bottom margin */
+        margin-left: 0;
+        margin-right: 0;
+        
+        /* DYNAMIC SQUARE - uses viewport height */
+        width: min(420px, calc(100vh - 160px));  /* Min of 420px or available space */
+        height: min(420px, calc(100vh - 160px)); /* SAME as width = SQUARE */
+        
         max-width: none;
-        margin: 0;
         border-radius: 32px;
         overflow: hidden;
         flex-shrink: 0;
         position: relative;
         
-        /* FIXED TOP & BOTTOM MARGINS using padding on parent */
-        margin-top: 80px;     /* FIXED top margin */
-        margin-bottom: 80px;  /* FIXED bottom margin */
+        /* Center vertically within available space */
+        align-self: center;
     }
     
     .login-card {
