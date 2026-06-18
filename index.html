@@ -199,7 +199,16 @@
             flex-direction: row;
             padding-top: 40px;
         }
-
+/* Web version only - bigger title */
+@media (min-width: 769px) {
+    .new-section-title .title-container h2 {
+        font-size: 72px;  /* X2 bigger on desktop only */
+    }
+    
+    .new-section-title .title-container p {
+        font-size: 28px;  /* X1.5 bigger on desktop only */
+    }
+}    
         @media (min-width: 769px) {
             .split-container {
                 height: 100vh;
@@ -676,7 +685,13 @@
                 font-size: 9px;
             }
         }
-
+/* Web version only - bigger chart */
+@media (min-width: 769px) {
+    .chart-box {
+        max-height: 930px;  /* X1.5 bigger on desktop only */
+        min-height: 570px;  /* X1.5 bigger on desktop only */
+    }
+}
         @media (min-width: 769px) {
             .trust-boxes {
                 margin: 30px auto;
