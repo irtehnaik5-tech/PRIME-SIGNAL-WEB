@@ -549,7 +549,23 @@
                 font-size: 11px;
             }
         }
-
+   /* Desktop - fix login box margins */
+@media (min-width: 769px) {
+    .login-card-container {
+        max-width: 420px;
+        width: 100%;
+        margin: 0 40px;  /* Fixed left/right margin */
+    }
+    
+    .login-section {
+        padding: 20px 40px;  /* Fixed padding */
+    }
+    
+    .login-card {
+        padding: 48px 40px;
+        width: 100%;
+    }
+}     
         @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 360px;
