@@ -338,7 +338,7 @@
         .login-card {
             position: relative;
             z-index: 1;
-            padding: 48px 40px;
+            padding: 10px 10px;
             background: transparent;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(56, 182, 255, 0.3);
@@ -557,12 +557,13 @@
         justify-content: center;
     }
     
-    .login-card-container {
-        max-width: 480px;
-        width: 100%;
-        margin: 0 auto;  /* Center horizontally */
-    }
-    
+.login-card-container {
+    max-width: 620px;  /* ← How big the box can get */
+    min-width: 480px;  /* ← How small the box can get */
+    width: 100%;  /* ← Fills available space up to max-width */
+    aspect-ratio: 1 / 1;  /* ← Forces square shape */
+    margin: 0 auto;  /* ← Centers horizontally */
+}
     .login-card {
         padding: 48px 40px;
         width: 100%;
