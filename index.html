@@ -552,26 +552,6 @@
     padding: 20px;
 }
 
-/* Desktop - fix login box margins */
-@media (min-width: 769px) {
-    .login-section {
-        flex: 0 0 auto;  /* Don't stretch */
-        padding: 40px 20px;
-        justify-content: center;
-        width: 50%;  /* Take half the screen */
-    }
-    
-    .login-card-container {
-        max-width: 420px;
-        width: 100%;
-        margin: 0 auto;
-    }
-    
-    .login-card {
-        padding: 48px 40px;
-        width: 100%;
-    }
-}
         @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 360px;
@@ -1197,6 +1177,27 @@
                 padding: 1px 6px;
             }
         }
+        /* Desktop - fix login box margins */
+@media (min-width: 769px) {
+    .login-section {
+        flex: 0 0 50% !important;
+        width: 50% !important;
+        padding: 20px 40px !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .login-card-container {
+        max-width: 420px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    .login-card {
+        padding: 48px 40px !important;
+        width: 100% !important;
+    }
+}
     </style>
 </head>
 <body>
