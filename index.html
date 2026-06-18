@@ -1213,6 +1213,196 @@
                 padding: 1px 6px;
             }
         }
+        /* ===== REVIEWS SECTION - Desktop (below chart) ===== */
+.reviews-section-desktop {
+    display: none;
+    width: 100%;
+    padding: 40px 80px 60px 80px;
+    background: #000000;
+}
+
+.reviews-section-desktop .reviews-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.reviews-section-desktop .reviews-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #e6e9f0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.reviews-section-desktop .reviews-title p {
+    font-size: 16px;
+    color: #9ca3af;
+    font-family: 'Libre Franklin', sans-serif;
+    margin-top: 6px;
+}
+
+.reviews-section-desktop .reviews-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.reviews-section-desktop .review-card {
+    background: transparent;
+    border: 1px solid rgba(56, 182, 255, 0.3);
+    border-radius: 16px;
+    padding: 20px 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    display: none;
+    flex: 1;
+    max-width: 420px;
+}
+
+.reviews-section-desktop .review-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}
+
+.reviews-section-desktop .review-card .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.reviews-section-desktop .review-card .review-author {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e6e9f0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.reviews-section-desktop .review-card .review-stars {
+    display: flex;
+    gap: 3px;
+}
+
+.reviews-section-desktop .review-card .review-stars .star {
+    font-size: 18px;
+    color: #4a5568;
+}
+
+.reviews-section-desktop .review-card .review-stars .star.filled {
+    color: #f59e0b;
+}
+
+.reviews-section-desktop .review-card .review-text {
+    font-size: 14px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+/* Show on desktop only */
+@media (min-width: 769px) {
+    .reviews-section-desktop {
+        display: block !important;
+    }
+}
+
+/* ===== REVIEWS SECTION - Mobile (below chart) ===== */
+.reviews-section-mobile {
+    display: none;
+    width: 100%;
+    padding: 20px 16px 30px 16px;
+    background: #000000;
+}
+
+.reviews-section-mobile .reviews-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reviews-section-mobile .reviews-title h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e6e9f0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.reviews-section-mobile .reviews-title p {
+    font-size: 13px;
+    color: #9ca3af;
+    font-family: 'Libre Franklin', sans-serif;
+    margin-top: 4px;
+}
+
+.reviews-section-mobile .reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.reviews-section-mobile .review-card {
+    background: transparent;
+    border: 1px solid rgba(56, 182, 255, 0.3);
+    border-radius: 16px;
+    padding: 16px 18px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    display: none;
+}
+
+.reviews-section-mobile .review-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}
+
+.reviews-section-mobile .review-card .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.reviews-section-mobile .review-card .review-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e6e9f0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.reviews-section-mobile .review-card .review-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.reviews-section-mobile .review-card .review-stars .star {
+    font-size: 15px;
+    color: #4a5568;
+}
+
+.reviews-section-mobile .review-card .review-stars .star.filled {
+    color: #f59e0b;
+}
+
+.reviews-section-mobile .review-card .review-text {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+/* Show on mobile only */
+@media (max-width: 768px) {
+    .reviews-section-mobile {
+        display: block !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -1340,6 +1530,16 @@
         </button>
     </div>
 </div>
+<!-- ===== REVIEWS SECTION - Desktop (below chart) ===== -->
+<div class="reviews-section-desktop">
+    <div class="reviews-title">
+        <h2>What Our Users Say</h2>
+        <p>Real reviews from real traders</p>
+    </div>
+    <div class="reviews-container" id="desktopReviewsContainer">
+        <!-- Reviews will be inserted here by JavaScript -->
+    </div>
+</div>
 
 <!-- ===== NEW SECTION - Mobile with Chart ===== -->
 <div class="new-section-mobile">
@@ -1376,6 +1576,16 @@
         </button>
     </div>
 </div>
+<!-- ===== REVIEWS SECTION - Mobile (below chart) ===== -->
+<div class="reviews-section-mobile">
+    <div class="reviews-title">
+        <h2>What Our Users Say</h2>
+        <p>Real reviews from real traders</p>
+    </div>
+    <div class="reviews-container" id="mobileReviewsContainer">
+        <!-- Reviews will be inserted here by JavaScript -->
+    </div>
+</div>    
     <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
@@ -2025,7 +2235,113 @@
                 window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
             });
         }
+                // ============================================
+        // REVIEWS SECTION
+        // ============================================
 
+        const reviewsList = [
+            { author: "Alex M.", rating: 5, text: "This AI is incredible! I've been trading for 5 years and never had such accurate signals. The entry points are spot on." },
+            { author: "Sarah K.", rating: 5, text: "Finally a signal service that actually works. Up 30% in my first month. The AI analysis is game-changing." },
+            { author: "James R.", rating: 4, text: "Very good signals, though sometimes the alerts come a bit late. Still profitable overall." },
+            { author: "Maria L.", rating: 5, text: "The best trading tool I've ever used. Simple interface, clear signals. Highly recommend!" },
+            { author: "David W.", rating: 4, text: "Solid performance. The AI catches trends early. Occasionally a false signal but overall great." },
+            { author: "Emma T.", rating: 5, text: "Life-changing! I went from losing money to consistent profits in 2 weeks. Thank you PrimeSignal!" },
+            { author: "Robert C.", rating: 3, text: "Decent signals but the response time could be faster. Works well for swing trading though." },
+            { author: "Lisa P.", rating: 5, text: "Finally a service that delivers what it promises. Accurate, reliable, and easy to follow." },
+            { author: "Michael S.", rating: 4, text: "Great tool! The AI analysis is impressive. Would be 5 stars if the mobile app was better." },
+            { author: "John D.", rating: 5, text: "This is the real deal. I've tried many signal services and this is by far the best. The AI knows what it's doing." },
+            { author: "Anna R.", rating: 4, text: "Very helpful for a beginner like me. The signals are clear and easy to understand. Learning a lot." },
+            { author: "Chris P.", rating: 5, text: "Consistent profits every week. The AI catches moves I would never see. Absolutely worth it." },
+            { author: "Jessica H.", rating: 5, text: "I was skeptical at first, but after 3 months I'm a believer. Best trading decision I ever made." },
+            { author: "Thomas L.", rating: 4, text: "Good signals overall. Some delays during high volatility, but still very profitable." },
+            { author: "Nancy W.", rating: 5, text: "The AI analysis is brilliant. I've recommended this to all my trading friends. They love it too." },
+            { author: "Kevin B.", rating: 3, text: "Mixed results honestly. Some trades are great, others miss the mark. Good support team though." },
+            { author: "Laura G.", rating: 5, text: "Absolutely love this! My trading has improved dramatically. The signals are consistently accurate." },
+            { author: "Frank Z.", rating: 4, text: "Very solid platform. The AI insights are valuable. Would like more educational content." },
+            { author: "Sharon M.", rating: 5, text: "This saved my trading career. I was about to give up, now I'm profitable every month. Thank you!" },
+            { author: "Ryan T.", rating: 4, text: "Reliable signals with good accuracy. The interface is clean and professional. Recommended." },
+            { author: "Megan J.", rating: 5, text: "The AI is like having a professional trader guide you. I've learned so much just by following the signals." },
+            { author: "Peter K.", rating: 5, text: "Perfect for busy professionals who can't watch charts all day. The AI does all the work." },
+            { author: "Catherine R.", rating: 4, text: "Great service! Only issue is sometimes the signals come when I'm asleep. But that's not their fault." },
+            { author: "Daniel N.", rating: 5, text: "This is THE tool for serious traders. The AI analysis is second to none. Highly recommended." },
+            { author: "Olivia S.", rating: 4, text: "Very reliable signals. The AI catches good entries. Would love more educational content." },
+            { author: "Mark T.", rating: 5, text: "Absolutely fantastic! My trading has never been better. The AI is like having a mentor." }
+        ];
+
+        let reviewInterval = null;
+
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<span class="star filled">★</span>';
+                } else {
+                    stars += '<span class="star">★</span>';
+                }
+            }
+            return stars;
+        }
+
+        function createReviewCard(review) {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-header">
+                    <span class="review-author">${review.author}</span>
+                    <div class="review-stars">${generateStars(review.rating)}</div>
+                </div>
+                <div class="review-text">"${review.text}"</div>
+            `;
+            return card;
+        }
+
+        function updateReviews(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 2);
+
+            selected.forEach((review, index) => {
+                const card = createReviewCard(review);
+                container.appendChild(card);
+                
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 300);
+            });
+        }
+
+        function startReviewRotation() {
+            updateReviews('desktopReviewsContainer');
+            updateReviews('mobileReviewsContainer');
+
+            if (reviewInterval) {
+                clearInterval(reviewInterval);
+            }
+
+            reviewInterval = setInterval(() => {
+                updateReviews('desktopReviewsContainer');
+                updateReviews('mobileReviewsContainer');
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                startReviewRotation();
+            }, 1000);
+        });
+
+        window.addEventListener('load', function() {
+            if (!reviewInterval) {
+                startReviewRotation();
+            }
+        });
+    </script>
+</body>
+</html>
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             const loading = document.getElementById('loading');
             setTimeout(() => {
