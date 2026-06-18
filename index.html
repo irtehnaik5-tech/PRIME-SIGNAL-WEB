@@ -696,7 +696,12 @@
             }
         }
 /* Web version only - bigger chart */
-
+@media (min-width: 769px) {
+    .chart-box {
+        max-height: 930px;  /* X1.5 bigger on desktop only */
+        min-height: 570px;  /* X1.5 bigger on desktop only */
+    }
+}
         @media (min-width: 769px) {
             .trust-boxes {
                 margin: 30px auto;
@@ -874,47 +879,21 @@
        
 
 
+/* ===== NEW SECTION - FULL PAGE CHART CENTERED ===== */
 .new-section-desktop {
     display: flex;
     width: 100%;
-    height: 100vh;  /* Make it full viewport height */
-    min-height: 100vh;
     background: #000000;
     align-items: center;
     justify-content: center;
-    padding: 20px 0;  /* Add some padding */
+    padding: 0 0 20px 0;  /* Small bottom padding only */
 }
-
 .new-section-desktop .chart-wrapper-center {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1400px;  /* Optional: limit max width */
-    padding: 0 80px;
-    height: 100%;  /* Fill the parent */
-    justify-content: center;  /* Center content vertically */
-}
-
-/* Dynamic chart height - fills remaining space */
-.chart-box {
-    width: 100%;
-    height: auto;  /* Auto height */
-    flex: 1;  /* Fill available space */
-    min-height: 400px;  /* Minimum height */
-    max-height: none;  /* No max limit */
-    background: #131722;
-    border: 1px solid #2a2f3c;
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Ensure chart inner fills the box */
-.chart-box .chart-inner {
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
+    padding: 0 80px;  /* FIXED 30px left and right */
 }
 
 .new-section-mobile {
