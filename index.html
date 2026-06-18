@@ -1310,10 +1310,13 @@
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
-        padding: 40px clamp(50px, 8vw, 50px) 100px clamp(50px, 8vw, 50px);
+        padding: 40px clamp(30px, 12vw, 220px) 100px clamp(30px, 12vw, 220px);
+        /*       ↑          ↑          ↑          ↑          ↑          ↑          */
+        /*    top    min   preferred   max    bottom    min   preferred   max       */
+        /*              SAME AS CHART MARGINS                                     */
     }
     
-    /* Make review cards 2x bigger on desktop */
+    /* Make review cards bigger on desktop */
     .reviews-section-desktop .reviews-title h2 {
         font-size: 48px;
     }
@@ -1324,7 +1327,7 @@
     
     .reviews-section-desktop .review-card {
         padding: 40px 48px;
-        max-width: none;  /* ← REMOVED LIMIT - cards fill available space */
+        max-width: none;
     }
     
     .reviews-section-desktop .review-card .review-author {
@@ -1342,7 +1345,8 @@
     
     .reviews-section-desktop .reviews-container {
         gap: 30px;
-        max-width: 1500px;  /* ← INCREASED from 900px */
+        max-width: 1500px;
+        margin: 0 auto;
     }
 }
 /* ===== REVIEWS SECTION - Mobile (below chart) ===== */
