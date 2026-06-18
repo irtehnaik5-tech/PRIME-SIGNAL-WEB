@@ -1212,6 +1212,7 @@
             }
         }
         /* ===== REVIEWS SECTION - Desktop (below chart) ===== */
+/* ===== REVIEWS SECTION - Desktop (below chart) ===== */
 .reviews-section-desktop {
     display: none;
     width: 100%;
@@ -1346,15 +1347,15 @@
         margin: 0 auto;
     }
 }
+/* ===== REVIEWS SECTION - Mobile (below chart) ===== */
 .reviews-section-mobile {
     display: none;
     width: 100%;
     max-width: 400px;
-    padding: 15px 8px 30px 8px;  /* ← Reduced top from 20px to 15px */
+    padding: 15px 8px 30px 8px;
     margin: 0 auto;
     background: #000000;
 }
-
 .reviews-section-mobile .reviews-title {
     text-align: center;
     margin-bottom: 20px;
@@ -2342,7 +2343,7 @@ const reviewsList = [
 
 let reviewInterval = null;
 let isTransitioning = false;
-let currentReviewIndices = [];
+let previousReviews = [];
 
 function generateStars(rating) {
     let stars = '';
@@ -2353,25 +2354,27 @@ function generateStars(rating) {
 }
 
 function getRandomReviews() {
-    // Get 2 random different reviews
+    // Get 2 random reviews, avoid previous ones
     const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
-    // Make sure we don't get the same ones as before
-    let selected = [];
+    const selected = [];
+    const prevAuthors = previousReviews.map(r => r.author);
+    
+    // Try to get reviews not shown before
     for (const review of shuffled) {
-        if (!currentReviewIndices.includes(reviewsList.indexOf(review)) && selected.length < 2) {
+        if (!prevAuthors.includes(review.author) && selected.length < 2) {
             selected.push(review);
         }
     }
-    // If we didn't get 2, fill with random ones
+    
+    // If we don't have 2, fill with any
     while (selected.length < 2) {
-        const randomReview = shuffled[selected.length];
-        if (randomReview && !selected.includes(randomReview)) {
-            selected.push(randomReview);
-        } else {
-            selected.push(shuffled[0]);
+        const review = shuffled[selected.length % shuffled.length];
+        if (!selected.includes(review)) {
+            selected.push(review);
         }
     }
-    currentReviewIndices = selected.map(r => reviewsList.indexOf(r));
+    
+    previousReviews = [...selected];
     return selected;
 }
 
@@ -2383,6 +2386,7 @@ function createReviewCard(review) {
     card.style.transform = 'translateY(20px)';
     card.style.display = 'block';
     card.style.position = 'relative';
+    card.style.minHeight = '80px';
     card.innerHTML = `
         <div class="review-header">
             <span class="review-author">${review.author}</span>
@@ -2395,10 +2399,23 @@ function createReviewCard(review) {
 
 function initializeReviews(containerId) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+        console.log('Container not found:', containerId);
+        return;
+    }
     
     // Only initialize if empty
-    if (container.children.length > 0) return;
+    if (container.children.length > 0) {
+        // Show existing cards
+        const cards = container.querySelectorAll('.review-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200 + 100);
+        });
+        return;
+    }
     
     const reviews = getRandomReviews();
     reviews.forEach((review, index) => {
@@ -2415,9 +2432,12 @@ function updateReviews(containerId) {
     if (isTransitioning) return;
     
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+        console.log('Container not found for update:', containerId);
+        return;
+    }
     
-    const cards = container.querySelectorAll('.review-card');
+    let cards = container.querySelectorAll('.review-card');
     if (cards.length === 0) {
         initializeReviews(containerId);
         return;
@@ -2425,6 +2445,13 @@ function updateReviews(containerId) {
     
     isTransitioning = true;
     const newReviews = getRandomReviews();
+    
+    // Make sure we have at least 2 cards
+    while (cards.length < 2) {
+        const card = createReviewCard(newReviews[cards.length]);
+        container.appendChild(card);
+        cards = container.querySelectorAll('.review-card');
+    }
     
     // Fade out all cards
     cards.forEach(card => {
@@ -2474,6 +2501,7 @@ function updateReviews(containerId) {
 }
 
 function startReviewRotation() {
+    // Initialize both containers
     initializeReviews('desktopReviewsContainer');
     initializeReviews('mobileReviewsContainer');
 
@@ -2481,21 +2509,34 @@ function startReviewRotation() {
         clearInterval(reviewInterval);
     }
 
+    // Rotate every 4 seconds
     reviewInterval = setInterval(() => {
         updateReviews('desktopReviewsContainer');
         updateReviews('mobileReviewsContainer');
     }, 4000);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(startReviewRotation, 1000);
-});
+// Start when page loads
+function initReviews() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(startReviewRotation, 1500);
+        });
+    } else {
+        setTimeout(startReviewRotation, 1500);
+    }
+}
 
+// Also try on window load
 window.addEventListener('load', function() {
     if (!reviewInterval) {
-        startReviewRotation();
+        setTimeout(startReviewRotation, 1000);
     }
 });
+
+// Start immediately if already loaded
+initReviews();
     </script>
 </body>
 </html>
