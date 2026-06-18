@@ -965,32 +965,35 @@
             }
         }
 
-        /* ===== CHART CONTAINER - MATCHES TELEGRAM BOT ===== */
+        /* ===== CHART CONTAINER - EXACTLY MATCHES TELEGRAM BOT ===== */
         .chart-container {
             width: 90%;
             max-width: 500px;
             height: 70%;
-            max-height: 400px;
-            background: #131722;
+            max-height: 420px;
+            background: #0a0c10;
             border: 1px solid rgba(56, 182, 255, 0.2);
-            border-radius: 12px;
+            border-radius: 16px;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            padding: 0;
         }
 
+        /* Chart header with symbol and score - matches Telegram bot */
         .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 14px;
+            padding: 12px 16px;
             border-bottom: 1px solid rgba(56, 182, 255, 0.1);
+            background: #0a0c10;
         }
 
         .chart-symbol {
             font-family: monospace;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             color: #e6e9f0;
         }
@@ -998,20 +1001,52 @@
         .chart-symbol span {
             color: #9ca3af;
             font-weight: 400;
-            font-size: 10px;
+            font-size: 11px;
         }
 
-        .chart-price {
+        /* Signal score in header - matches Telegram bot */
+        .chart-score {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-family: monospace;
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .chart-score .score-value {
             color: #22c55e;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .chart-score .score-direction {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .chart-score .score-direction.buy {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .chart-score .score-direction.sell {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .chart-score .score-direction.neutral {
+            background: rgba(156, 163, 175, 0.15);
+            color: #9ca3af;
         }
 
         .chart-body {
             flex: 1;
             position: relative;
             overflow: hidden;
+            background: #131722;
         }
 
         .chart-body .chart-wrapper {
@@ -1042,20 +1077,22 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        /* Analyze Button - matches Telegram bot */
+        /* Analyze Button - EXACTLY matches Telegram bot */
         .analyze-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 10px 24px;
-            background: transparent;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1e3a8a, #0f172a);
             border: 1px solid #3b82f6;
-            border-radius: 8px;
-            color: #3b82f6;
+            border-radius: 12px;
+            color: white;
             font-family: 'Libre Franklin', sans-serif;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
             margin: 12px auto 16px auto;
@@ -1065,13 +1102,13 @@
         }
 
         .analyze-btn:hover {
-            background: rgba(59, 130, 246, 0.1);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            background: linear-gradient(135deg, #2563eb, #1e3a8a);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
         }
 
         .analyze-btn.scanning {
             border-color: #22c55e;
-            color: #22c55e;
+            background: linear-gradient(135deg, #0f172a, #064e3b);
             pointer-events: none;
         }
 
@@ -1083,7 +1120,7 @@
             display: none;
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(59, 130, 246, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-top-color: #3b82f6;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -1101,26 +1138,45 @@
             width: 95%;
             max-width: 400px;
             height: 75%;
-            max-height: 350px;
+            max-height: 370px;
         }
 
         .new-section-mobile .analyze-btn {
-            padding: 8px 20px;
+            padding: 10px 20px;
             font-size: 12px;
             min-width: 120px;
             margin: 10px auto 14px auto;
         }
 
+        .new-section-mobile .chart-header {
+            padding: 10px 12px;
+        }
+
+        .new-section-mobile .chart-symbol {
+            font-size: 12px;
+        }
+
+        .new-section-mobile .chart-score {
+            font-size: 10px;
+        }
+
+        .new-section-mobile .chart-score .score-value {
+            font-size: 11px;
+        }
+
         @media (max-width: 480px) {
             .chart-container {
                 height: 60%;
-                max-height: 300px;
+                max-height: 320px;
             }
             .chart-symbol {
                 font-size: 11px;
             }
-            .chart-price {
-                font-size: 13px;
+            .chart-score {
+                font-size: 9px;
+            }
+            .chart-score .score-value {
+                font-size: 10px;
             }
         }
     </style>
@@ -1253,21 +1309,25 @@
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Desktop with Chart (matches Telegram bot) ===== -->
+    <!-- ===== NEW SECTION - Desktop with Chart (matches Telegram bot exactly) ===== -->
     <div class="new-section-desktop">
         <div class="new-left"></div>
         <div class="new-right">
             <div class="chart-container">
                 <div class="chart-header">
                     <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
-                    <div class="chart-price" id="chartPrice">$2,350.40</div>
+                    <div class="chart-score">
+                        <span style="color: #9ca3af; font-weight: 400;">Signal score:</span>
+                        <span class="score-value">9.0/10</span>
+                        <span class="score-direction buy">BUY</span>
+                    </div>
                 </div>
                 <div class="chart-body">
                     <div class="chart-wrapper" id="chartContainer"></div>
                     <div class="scan-line" id="scanLine"></div>
                 </div>
                 <button class="analyze-btn" id="analyzeBtn">
-                    <span class="btn-text">🔍 Analyze</span>
+                    <span class="btn-text">🔍 Analysis</span>
                     <span class="btn-loader"></span>
                 </button>
             </div>
@@ -1279,14 +1339,18 @@
         <div class="chart-container">
             <div class="chart-header">
                 <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
-                <div class="chart-price" id="chartPriceMobile">$2,350.40</div>
+                <div class="chart-score">
+                    <span style="color: #9ca3af; font-weight: 400;">Signal score:</span>
+                    <span class="score-value">9.0/10</span>
+                    <span class="score-direction buy">BUY</span>
+                </div>
             </div>
             <div class="chart-body">
                 <div class="chart-wrapper" id="chartContainerMobile"></div>
                 <div class="scan-line" id="scanLineMobile"></div>
             </div>
             <button class="analyze-btn" id="analyzeBtnMobile">
-                <span class="btn-text">🔍 Analyze</span>
+                <span class="btn-text">🔍 Analysis</span>
                 <span class="btn-loader"></span>
             </button>
         </div>
@@ -1294,7 +1358,7 @@
 
     <script>
         // ============================================
-        // LIGHTWEIGHT CHARTS - MATCHES TELEGRAM BOT
+        // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
         // ============================================
 
         // Sample candle data (Gold prices - realistic)
@@ -1339,8 +1403,10 @@
         let isScanning = false;
         let priceInterval = null;
         let currentData = [...candleData];
+        let scoreDirection = 'BUY';
+        let scoreValue = '9.0';
 
-        function createChart(containerId, priceDisplayId) {
+        function createChart(containerId, scoreDisplayId) {
             const container = document.getElementById(containerId);
             if (!container) return null;
 
@@ -1525,7 +1591,7 @@
             return { middle: sma, upper, lower };
         }
 
-        function updateChart(chartObj, data, priceDisplayId) {
+        function updateChart(chartObj, data, headerSelector) {
             if (!chartObj) return;
 
             const { chart, candleSeries, volumeSeries, ema9Series, ema21Series, bbUpperSeries, bbMiddleSeries, bbLowerSeries, rsiSeries } = chartObj;
@@ -1571,13 +1637,6 @@
             chart.timeScale().fitContent();
             chart.timeScale().scrollToRealTime();
             chart.priceScale('right').applyOptions({ autoScale: true });
-
-            // Update price display
-            const lastCandle = data[data.length - 1];
-            const priceDisplay = document.getElementById(priceDisplayId);
-            if (priceDisplay) {
-                priceDisplay.textContent = '$' + lastCandle.close.toFixed(2);
-            }
         }
 
         function initCharts() {
@@ -1588,17 +1647,17 @@
                 }
 
                 // Create desktop chart
-                const chartObj1 = createChart('chartContainer', 'chartPrice');
+                const chartObj1 = createChart('chartContainer');
                 if (chartObj1) {
                     chart1 = chartObj1;
-                    updateChart(chart1, currentData, 'chartPrice');
+                    updateChart(chart1, currentData);
                 }
 
                 // Create mobile chart
-                const chartObj2 = createChart('chartContainerMobile', 'chartPriceMobile');
+                const chartObj2 = createChart('chartContainerMobile');
                 if (chartObj2) {
                     chart2 = chartObj2;
-                    updateChart(chart2, currentData, 'chartPriceMobile');
+                    updateChart(chart2, currentData);
                 }
             } catch (e) {
                 console.error('Chart init error:', e);
@@ -1624,7 +1683,29 @@
             }
         }
 
-        function startScan(canvasId, priceDisplayId, scanLineId, btnId) {
+        function updateScoreDisplay() {
+            // Randomly update score between 7.5 and 9.8
+            const newScore = (7.5 + Math.random() * 2.3).toFixed(1);
+            const directions = ['BUY', 'SELL', 'BUY', 'BUY', 'NEUTRAL'];
+            const newDirection = directions[Math.floor(Math.random() * directions.length)];
+            
+            scoreValue = newScore;
+            scoreDirection = newDirection;
+
+            const scoreElements = document.querySelectorAll('.chart-score .score-value');
+            const directionElements = document.querySelectorAll('.chart-score .score-direction');
+
+            scoreElements.forEach(el => {
+                el.textContent = newScore + '/10';
+            });
+
+            directionElements.forEach(el => {
+                el.textContent = newDirection;
+                el.className = 'score-direction ' + newDirection.toLowerCase();
+            });
+        }
+
+        function startScan(scanLineId, btnId) {
             if (isScanning) return;
             isScanning = true;
 
@@ -1649,6 +1730,9 @@
                     if (btn) btn.classList.remove('scanning');
                     if (scanLine) scanLine.classList.remove('active');
                     isScanning = false;
+                    
+                    // Update score after scan completes
+                    updateScoreDisplay();
                     return;
                 }
 
@@ -1670,8 +1754,8 @@
                 });
 
                 // Update both charts
-                if (chart1) updateChart(chart1, currentData, 'chartPrice');
-                if (chart2) updateChart(chart2, currentData, 'chartPriceMobile');
+                if (chart1) updateChart(chart1, currentData);
+                if (chart2) updateChart(chart2, currentData);
                 counter++;
             }, 300);
         }
@@ -1885,7 +1969,6 @@
         // MAIN INITIALIZATION
         // ============================================
 
-        // Wait for Lightweight Charts library to load
         function waitForLibrary() {
             return new Promise((resolve) => {
                 if (typeof LightweightCharts !== 'undefined') {
@@ -1908,30 +1991,24 @@
         }
 
         async function initPage() {
-            // Wait for library
             await waitForLibrary();
 
-            // Initialize ticker
             initTicker();
             setInterval(updatePrices, 5000);
 
-            // Initialize charts
             setTimeout(() => {
                 initCharts();
                 
-                // Setup analyze buttons
                 document.getElementById('analyzeBtn')?.addEventListener('click', function() {
-                    startScan('chartContainer', 'chartPrice', 'scanLine', 'analyzeBtn');
+                    startScan('scanLine', 'analyzeBtn');
                 });
                 document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
-                    startScan('chartContainerMobile', 'chartPriceMobile', 'scanLineMobile', 'analyzeBtnMobile');
+                    startScan('scanLineMobile', 'analyzeBtnMobile');
                 });
 
-                // Setup resize handler
                 window.addEventListener('resize', resizeCharts);
             }, 300);
 
-            // Start conversation
             setTimeout(() => {
                 try {
                     startConversation();
@@ -1940,21 +2017,17 @@
                 }
             }, 500);
 
-            // Adjust conversation height
             adjustConversationHeight();
         }
 
-        // Handle window resize for conversation height
         window.addEventListener('resize', adjustConversationHeight);
         
-        // Mutation observer for conversation container
         const observer = new MutationObserver(() => {
             adjustConversationHeight();
             scrollToBottom();
         });
         observer.observe(container, { childList: true, subtree: true });
 
-        // Initialize page when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             const loading = document.getElementById('loading');
             setTimeout(() => {
@@ -1963,7 +2036,6 @@
             }, 500);
         });
 
-        // Handle login buttons
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
         });
@@ -1975,7 +2047,6 @@
             });
         }
 
-        // Fallback init if DOMContentLoaded already fired
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             const loading = document.getElementById('loading');
             setTimeout(() => {
