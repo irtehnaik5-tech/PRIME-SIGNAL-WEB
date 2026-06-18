@@ -810,16 +810,7 @@
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
-    /* Add fixed top margin */
-    margin-top: 30px;
-}
-        /* Title text container with fixed max-width and margins */
-.new-section-title .title-container {
-    max-width: 1000px; /* Match chart max-width */
-    width: 100%;
-    padding: 0 30px; /* Fixed 30px left/right padding */
-    text-align: center;
-}
+}  
         .loading {
             position: fixed;
             top: 0;
@@ -936,25 +927,26 @@
             }
         }
 
-.new-section-desktop {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-    background: #000000;
-    align-items: center;
-    justify-content: center;
-    /* Add fixed top margin to control space between title and chart */
-    margin-top: 20px;
-}
+        /* ===== NEW SECTION - FULL PAGE CHART CENTERED ===== */
+        .new-section-desktop {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            min-height: 100vh;
+            background: #000000;
+            align-items: center;
+            justify-content: center;
+        }
+
         .new-section-desktop .chart-wrapper-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1000px;
-    padding: 0 30px; /* Fixed 30px left/right padding */
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
         .new-section-mobile {
             display: none;
             width: 100%;
@@ -1316,16 +1308,17 @@
 
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width -->
-<div class="new-section-title">
-    <div class="title-container">
-        <h2 style="font-size: 36px; font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
-            <span style="color: #38b6ff;">One click</span>. AI scans the market.
-        </h2>
-        <p style="font-size: 18px; color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
-            You get a clear signal with entry, stop-loss, and take-profit levels.
-        </p>
+    <div class="new-section-title">
+        <div style="text-align: center; max-width: 900px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="font-size: 36px; font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
+                <span style="color: #38b6ff;">One click</span>. AI scans the market.
+            </h2>
+            <p style="font-size: 18px; color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
+                You get a clear signal with entry, stop-loss, and take-profit levels.
+            </p>
+        </div>
     </div>
-</div>
+
     <!-- Chart Section -->
     <div class="new-section-desktop">
         <div class="chart-wrapper-center">
