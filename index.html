@@ -566,9 +566,10 @@
 
     .login-card-container {
         position: relative;
-        width: calc(100% - 60px);
-        max-width: none;
-        aspect-ratio: 1 / 1;
+        width: calc(100% - 60px); /* 30px fixed margin on each side */
+        max-width: 600px;
+        min-width: 320px;
+        aspect-ratio: 1 / 1; /* Keeps it square */
         margin: 0 auto;
         border-radius: 32px;
         overflow: hidden;
@@ -577,7 +578,7 @@
     .login-card {
         position: relative;
         z-index: 1;
-        padding: 48px 40px;
+        padding: 10% 8%; /* ← PERCENTAGE padding - resizes with box */
         background: transparent;
         backdrop-filter: blur(8px);
         border: 1px solid rgba(56, 182, 255, 0.3);
@@ -590,39 +591,94 @@
         justify-content: center;
     }
 
-    /* ADD THESE RESPONSIVE TEXT SIZES - ONLY FOR DESKTOP */
+    /* ALL TEXT USES PERCENTAGE-BASED MARGINS - resizes with box */
+    .login-card .logo {
+        text-align: center;
+        margin-bottom: 5%; /* ← PERCENTAGE margin */
+        width: 100%;
+    }
+
     .login-card .logo h1 {
-        font-size: clamp(24px, 3.5vw, 48px);
+        font-size: 3.8vw; /* ← VIEWPORT WIDTH - scales with screen */
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        font-family: 'Libre Franklin', sans-serif;
+        color: white;
+        line-height: 1.2;
+        text-align: center;
+        margin-bottom: 2%;
     }
 
     .login-card .logo p {
-        font-size: clamp(12px, 1.2vw, 18px);
+        font-size: 1.4vw;
+        color: #9ca3af;
+        font-family: 'Libre Franklin', sans-serif;
+    }
+
+    .login-card .welcome-text {
+        text-align: center;
+        margin-bottom: 5%;
+        width: 100%;
     }
 
     .login-card .welcome-text h2 {
-        font-size: clamp(20px, 2.5vw, 36px);
+        font-size: 2.8vw;
+        font-weight: 700;
+        margin-bottom: 1%;
+        font-family: 'Libre Franklin', sans-serif;
+        color: white;
     }
 
     .login-card .welcome-text p {
-        font-size: clamp(13px, 1.2vw, 18px);
+        font-size: 1.3vw;
+        color: #9ca3af;
+        font-family: 'Libre Franklin', sans-serif;
+        line-height: 1.4;
     }
 
     .login-card .telegram-login-btn {
-        font-size: clamp(14px, 1.4vw, 20px);
-        padding: clamp(12px, 1.2vw, 18px) clamp(20px, 2vw, 28px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.2vw;
+        width: 100%;
+        background: transparent;
+        color: white;
+        padding: 1.5% 4%; /* ← PERCENTAGE padding */
+        border: 2px solid #38b6ff;
+        border-radius: 12px;
+        font-size: 1.6vw;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-bottom: 4%;
+        box-shadow: 0 0 10px rgba(56,182,255,0.3);
+        font-family: 'Libre Franklin', sans-serif;
+        white-space: nowrap;
     }
 
     .login-card .telegram-login-btn svg {
-        width: clamp(18px, 1.5vw, 26px);
-        height: clamp(18px, 1.5vw, 26px);
+        width: 1.8vw;
+        height: 1.8vw;
+        fill: currentColor;
+        flex-shrink: 0;
     }
 
     .login-card .divider {
-        font-size: clamp(11px, 0.8vw, 15px);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #4a5568;
+        font-size: 1.1vw;
+        margin: 3% 0;
+        width: 100%;
     }
 
     .login-card .divider span {
-        font-size: clamp(11px, 0.8vw, 15px);
+        padding: 0 2%;
+        color: #9ca3af;
+        font-size: 1.1vw;
     }
 }
         @media (max-width: 480px) {
