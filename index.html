@@ -950,9 +950,10 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 0 190px;
-    flex: 1;  /* Takes remaining space */
-    min-height: 0;  /* Allows flex item to shrink */
+    padding: 0 clamp(30px, 12vw, 220px);
+    /*       ↑ Minimum  ↑ Preferred  ↑ Maximum  */
+    flex: 1;
+    min-height: 0;
 }
 
 /* Remove old separate sections */
