@@ -315,7 +315,7 @@
 
         .login-card-container {
             position: relative;
-            max-width: 480px;
+            max-width: 420px;
             width: 90%;
             margin: 0 auto;
             border-radius: 32px;
@@ -553,18 +553,34 @@
 /* Desktop - fix login box margins */
 @media (min-width: 769px) {
     .login-section {
-        padding: 40px 20px;  /* Fixed top/bottom and left/right padding */
+        display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+        padding: 60px 80px;  /* ← MAX MARGIN on all 4 sides (top/bottom/left/right) */
+        background: #000000;
+        position: relative;
+        z-index: 30;
     }
-    
+
     .login-card-container {
-        max-width: 480px;
+        position: relative;
+        max-width: 420px;  /* ← MAX WIDTH - box won't get bigger than this */
         width: 100%;
-        margin: 0 auto;  /* Center horizontally */
+        margin: 0 auto;
+        border-radius: 32px;
+        overflow: hidden;
     }
-    
+
     .login-card {
-        padding: 54px 46px;
+        position: relative;
+        z-index: 1;
+        padding: 48px 40px;
+        background: transparent;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(56, 182, 255, 0.3);
+        border-radius: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         width: 100%;
     }
 }
