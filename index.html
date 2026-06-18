@@ -918,29 +918,23 @@
             }
         }
 
-        /* ===== NEW SECTIONS ===== */
+        /* ===== NEW SECTION - FULL PAGE CHART CENTERED ===== */
         .new-section-desktop {
             display: flex;
             width: 100%;
             height: 100vh;
             min-height: 100vh;
             background: #000000;
+            align-items: center;
+            justify-content: center;
         }
 
-        .new-section-desktop .new-left {
-            flex: 1;
-            background: #000000;
-        }
-
-        .new-section-desktop .new-right {
-            flex: 1;
-            background: #000000;
+        .new-section-desktop .chart-wrapper-center {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            width: 100%;
+            max-width: 700px;
             padding: 20px;
         }
 
@@ -952,8 +946,6 @@
             background: #000000;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
             padding: 20px;
             flex-direction: column;
         }
@@ -974,8 +966,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
             margin-bottom: 8px;
             font-family: monospace;
             font-size: 10px;
@@ -1040,10 +1031,10 @@
 
         /* Chart container - dark box with border */
         .chart-box {
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
             height: 65%;
-            max-height: 400px;
+            max-height: 420px;
+            min-height: 280px;
             background: #131722;
             border: 1px solid #2a2f3c;
             border-radius: 12px;
@@ -1051,7 +1042,7 @@
             overflow: hidden;
         }
 
-        .chart-box .chart-wrapper {
+        .chart-box .chart-inner {
             width: 100%;
             height: 100%;
         }
@@ -1079,27 +1070,26 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        /* Analyze Button - matches Telegram bot exactly */
+        /* Analyze Button - matches Telegram bot exactly, full width */
         .analyze-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 10px 24px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, #1e3a8a, #0f172a);
             border: 1px solid #3b82f6;
             border-radius: 12px;
             color: white;
             font-family: 'Libre Franklin', sans-serif;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 12px;
-            width: auto;
-            min-width: 140px;
+            width: 100%;
             position: relative;
         }
 
@@ -1137,9 +1127,13 @@
         }
 
         /* Mobile adjustments */
-        .new-section-mobile .chart-view-header {
-            width: 95%;
+        .new-section-mobile .chart-wrapper-center {
+            width: 100%;
             max-width: 400px;
+            padding: 0;
+        }
+
+        .new-section-mobile .chart-view-header {
             font-size: 9px;
         }
 
@@ -1148,23 +1142,21 @@
         }
 
         .new-section-mobile .chart-box {
-            width: 95%;
-            max-width: 400px;
             height: 70%;
             max-height: 350px;
+            min-height: 200px;
         }
 
         .new-section-mobile .analyze-btn {
-            padding: 8px 20px;
+            padding: 10px 16px;
             font-size: 12px;
-            min-width: 120px;
-            margin-top: 10px;
         }
 
         @media (max-width: 480px) {
             .new-section-mobile .chart-box {
                 height: 60%;
                 max-height: 300px;
+                min-height: 160px;
             }
             .new-section-mobile .chart-view-header {
                 font-size: 8px;
@@ -1304,12 +1296,9 @@
         </div>
     </div>
 
-    <!-- ===== NEW SECTION - Desktop with Chart (matches Telegram bot exactly) ===== -->
+    <!-- ===== NEW SECTION - Desktop with Chart Centered Full Page ===== -->
     <div class="new-section-desktop">
-        <div class="new-left"></div>
-        <div class="new-right">
-
-            <!-- Chart view header: "Chart view GOLD XAU/USD" | "Signal score: 9.0/10 BUY" -->
+        <div class="chart-wrapper-center">
             <div class="chart-view-header">
                 <div class="left-group">
                     <span>Chart view</span>
@@ -1321,45 +1310,42 @@
                 </div>
             </div>
 
-            <!-- Chart box -->
             <div class="chart-box">
-                <div class="chart-wrapper" id="chartContainer"></div>
+                <div class="chart-inner" id="chartContainer"></div>
                 <div class="scan-line" id="scanLine"></div>
             </div>
 
-            <!-- Analyze button below chart -->
             <button class="analyze-btn" id="analyzeBtn">
-                <span class="btn-text">🔍 Analysis</span>
+                <span class="btn-text">Analyze</span>
                 <span class="btn-loader"></span>
             </button>
-
         </div>
     </div>
 
     <!-- ===== NEW SECTION - Mobile with Chart ===== -->
     <div class="new-section-mobile">
-
-        <div class="chart-view-header">
-            <div class="left-group">
-                <span>Chart view</span>
-                <span class="symbol-box">GOLD XAU/USD</span>
+        <div class="chart-wrapper-center">
+            <div class="chart-view-header">
+                <div class="left-group">
+                    <span>Chart view</span>
+                    <span class="symbol-box">GOLD XAU/USD</span>
+                </div>
+                <div class="score-box">
+                    Signal score: <span class="score-value" id="scoreValueMobile">9.0/10</span>
+                    <span class="score-direction buy" id="scoreDirectionMobile">BUY</span>
+                </div>
             </div>
-            <div class="score-box">
-                Signal score: <span class="score-value" id="scoreValueMobile">9.0/10</span>
-                <span class="score-direction buy" id="scoreDirectionMobile">BUY</span>
+
+            <div class="chart-box">
+                <div class="chart-inner" id="chartContainerMobile"></div>
+                <div class="scan-line" id="scanLineMobile"></div>
             </div>
+
+            <button class="analyze-btn" id="analyzeBtnMobile">
+                <span class="btn-text">Analyze</span>
+                <span class="btn-loader"></span>
+            </button>
         </div>
-
-        <div class="chart-box">
-            <div class="chart-wrapper" id="chartContainerMobile"></div>
-            <div class="scan-line" id="scanLineMobile"></div>
-        </div>
-
-        <button class="analyze-btn" id="analyzeBtnMobile">
-            <span class="btn-text">🔍 Analysis</span>
-            <span class="btn-loader"></span>
-        </button>
-
     </div>
 
     <script>
