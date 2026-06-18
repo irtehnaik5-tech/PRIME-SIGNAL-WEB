@@ -801,16 +801,25 @@
                 height: 70px !important;
             }
         }
-        /* Title section - full width */
-.new-section-title {
-    display: flex;
-    width: 100%;
-    min-height: 25vh;
-    background: #000000;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-}  
+
+        /* Title section - full width with fixed margins */
+        .new-section-title {
+            display: flex;
+            width: 100%;
+            min-height: 25vh;
+            background: #000000;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .new-section-title .title-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 30px;
+            text-align: center;
+        }
+
         .loading {
             position: fixed;
             top: 0;
@@ -943,8 +952,9 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 1000px;
-            padding: 20px;
+            max-width: 1200px;
+            margin: 0 30px;
+            padding: 0;
         }
 
         .new-section-mobile {
@@ -1307,9 +1317,9 @@
     </div>
 
     <!-- ===== NEW SECTION - Desktop ===== -->
-    <!-- Title Section - Full Width -->
+    <!-- Title Section - Full Width with fixed margins -->
     <div class="new-section-title">
-        <div style="text-align: center; max-width: 900px; margin: 0 auto; padding: 0 20px;">
+        <div class="title-container">
             <h2 style="font-size: 36px; font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
                 <span style="color: #38b6ff;">One click</span>. AI scans the market.
             </h2>
@@ -1319,7 +1329,7 @@
         </div>
     </div>
 
-    <!-- Chart Section -->
+    <!-- Chart Section with fixed margins -->
     <div class="new-section-desktop">
         <div class="chart-wrapper-center">
             <div class="chart-view-header">
