@@ -552,6 +552,7 @@
    /* Desktop - fix login box margins */
 /* Desktop - fix login box margins */
 /* Desktop - FIXED MARGINS login box */
+/* Desktop - FIXED MARGINS using inset */
 @media (min-width: 769px) {
     .login-section {
         padding: 0;
@@ -563,10 +564,7 @@
     
     .login-card-container {
         position: absolute;
-        top: 80px;
-        right: 60px;
-        bottom: 80px;
-        left: auto;  /* Keep right aligned */
+        inset: 80px 60px 80px auto;  /* top:80px, right:60px, bottom:80px, left:auto */
         width: 420px;
         height: auto;
         max-width: none;
