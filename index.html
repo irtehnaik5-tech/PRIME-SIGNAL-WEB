@@ -554,35 +554,42 @@
 /* Desktop - FIXED MARGINS login box */
 /* Desktop - FIXED MARGINS using inset */
 /* Desktop - FIXED LEFT & RIGHT MARGINS with SQUARE login box */
+/* Desktop - SQUARE login box with ALL FOUR FIXED MARGINS */
 @media (min-width: 769px) {
     .login-section {
-        padding: 0;
+        padding: 0;  /* Remove padding, we'll use margins on the container */
         display: flex;
-        justify-content: flex-start;  /* Align to left, not center */
+        justify-content: flex-start;
         align-items: center;
         background: #000000;
         min-height: 100vh;
         flex: 1;
         position: relative;
-        padding-left: 80px;   /* FIXED left margin */
-        padding-right: 80px;  /* FIXED right margin */
     }
     
     .login-card-container {
-        width: 420px;         /* Fixed width */
-        height: 420px;        /* Same as width = SQUARE */
+        /* FIXED MARGINS ON ALL 4 SIDES */
+        position: absolute;
+        top: 80px;        /* FIXED top margin */
+        bottom: 80px;     /* FIXED bottom margin */
+        left: 80px;       /* FIXED left margin */
+        right: auto;      /* Let width control right side */
+        
+        width: 420px;     /* Fixed width */
+        height: auto;     /* Auto height - fills between top and bottom */
+        max-height: calc(100vh - 160px); /* Prevents overflow (top + bottom margins) */
         max-width: none;
-        margin: 0;            /* Remove auto margins */
+        margin: 0;
         border-radius: 32px;
         overflow: hidden;
-        flex-shrink: 0;       /* Prevent shrinking */
-        position: relative;
+        flex-shrink: 0;
     }
     
     .login-card {
         padding: 48px 40px;
         width: 100%;
-        height: 100%;         /* Fill the square container */
+        height: 100%;
+        min-height: 420px;  /* Minimum square size */
         display: flex;
         flex-direction: column;
         justify-content: center;
