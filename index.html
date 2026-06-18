@@ -1288,32 +1288,41 @@
     </div>
 </div>
 
-    <!-- ===== NEW SECTION - Mobile with Chart (3x taller) ===== -->
-    <div class="new-section-mobile">
-        <div class="chart-wrapper-center">
-            <div class="chart-view-header">
-                <div class="left-group">
-                    <span>Chart view</span>
-                    <span class="symbol-box">GOLD XAU/USD</span>
-                </div>
-                <div class="score-box">
-                    Signal score: <span class="score-value" id="scoreValueMobile">9.0/10</span>
-                    <span class="score-direction buy" id="scoreDirectionMobile">BUY</span>
-                </div>
-            </div>
-
-            <div class="chart-box">
-                <div class="chart-inner" id="chartContainerMobile"></div>
-                <div class="scan-line" id="scanLineMobile"></div>
-            </div>
-
-            <button class="analyze-btn" id="analyzeBtnMobile">
-                <span class="btn-text">Analyze</span>
-                <span class="btn-loader"></span>
-            </button>
+<!-- ===== NEW SECTION - Mobile with Chart ===== -->
+<div class="new-section-mobile">
+    <div class="chart-wrapper-center">
+        <!-- ADD TITLE HERE -->
+        <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:10px;">
+            <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: 28px;">
+                <span style="color: #38b6ff;">One click</span>. AI scans the market.
+            </h2>
+            <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4; font-size: 16px;">
+                You get a clear signal with entry, stop-loss, and take-profit levels.
+            </p>
         </div>
-    </div>
+        
+        <div class="chart-view-header">
+            <div class="left-group">
+                <span>Chart view</span>
+                <span class="symbol-box">GOLD XAU/USD</span>
+            </div>
+            <div class="score-box">
+                Signal score: <span class="score-value" id="scoreValueMobile">9.0/10</span>
+                <span class="score-direction buy" id="scoreDirectionMobile">BUY</span>
+            </div>
+        </div>
 
+        <div class="chart-box">
+            <div class="chart-inner" id="chartContainerMobile"></div>
+            <div class="scan-line" id="scanLineMobile"></div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtnMobile">
+            <span class="btn-text">Analyze</span>
+            <span class="btn-loader"></span>
+        </button>
+    </div>
+</div>
     <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
