@@ -551,21 +551,41 @@
         }
    /* Desktop - fix login box margins */
 /* Desktop - fix login box margins */
+/* Desktop - FIXED MARGINS login box */
 @media (min-width: 769px) {
     .login-section {
-        padding: 40px 20px;  /* Fixed top/bottom and left/right padding */
+        padding: 0;  /* Remove all padding */
+        position: relative;
+        display: flex;
         justify-content: center;
+        align-items: center;
+        flex: 1;
+        background: #000000;
+        min-height: 100vh;
     }
     
     .login-card-container {
-        max-width: 420px;
-        width: 100%;
-        margin: 0 auto;  /* Center horizontally */
+        position: absolute;
+        top: 80px;      /* FIXED margin from top */
+        bottom: 80px;   /* FIXED margin from bottom */
+        right: 60px;    /* FIXED margin from right */
+        left: auto;     /* Let right control positioning */
+        width: 420px;   /* FIXED width - no max-width */
+        height: auto;   /* Auto height based on content */
+        max-width: none;
+        margin: 0;
+        border-radius: 32px;
+        overflow: hidden;
     }
     
     .login-card {
         padding: 48px 40px;
         width: 100%;
+        height: 100%;
+        min-height: 500px;  /* Minimum height to look consistent */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
         @media (max-width: 480px) {
