@@ -934,16 +934,14 @@
     height: 100vh;
     min-height: 100vh;
     background: #000000;
-    padding: 30px 0 20px 0;
+    padding: 30px 0 20px 0;  /* Top padding to prevent title from being hidden */
     align-items: center;
 }
 /* Chart box - fills remaining space */
-/* Chart box - now fills available space on left */
 .new-section-desktop-wrapper .chart-box {
     width: 100%;
-    flex: 1;
-    min-height: 400px;  /* ← Slightly taller */
-    max-height: 700px;  /* ← Limit max height */
+    flex: 1;  /* Fills available space */
+    min-height: 300px;  /* Minimum height */
     background: #131722;
     border: 1px solid #2a2f3c;
     border-radius: 12px;
@@ -958,28 +956,25 @@
 }
 
 
-/* Title - stays centered full width */
 .new-section-desktop-wrapper .title-container {
     width: 100%;
-    padding: 0 clamp(30px, 10vw, 200px);
+    padding: 0 80px;
     text-align: center;
-    flex-shrink: 0;
-    margin-bottom: 10px;
-    z-index: 5;
+    flex-shrink: 0;  /* Title never shrinks */
+    margin-bottom: 10px;  /* Space between title and chart header */
 }
 
-/* Chart wrapper - now left-aligned with max width 50% */
 .new-section-desktop-wrapper .chart-wrapper-center {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;  /* ← Align to left */
+    align-items: center;
     width: 100%;
-    max-width: 50%;  /* ← Takes only left half */
-    padding: 0 clamp(20px, 5vw, 80px);  /* ← Smaller margins since it's on left */
+    padding: 0 clamp(30px, 12vw, 220px);
+    /*       ↑ Minimum  ↑ Preferred  ↑ Maximum  */
     flex: 1;
     min-height: 0;
-    margin-right: auto;  /* ← Pushes it to the left */
 }
+
 /* Remove old separate sections */
 .new-section-title {
     display: none;  /* Hide the old separate title section */
@@ -997,18 +992,18 @@
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    padding-top: 10px;
+    padding-top: 10px;  /* Small top padding only */
     flex-direction: column;
 }
 
-@media (max-width: 768px) {
-    .new-section-desktop {
-        display: none !important;
-    }
-    .new-section-mobile {
-        display: flex !important;
-    }
-}
+        @media (max-width: 768px) {
+            .new-section-desktop {
+                display: none !important;
+            }
+            .new-section-mobile {
+                display: flex !important;
+            }
+        }
 
         /* ===== CHART VIEW - EXACTLY MATCHES TELEGRAM BOT ===== */
 
@@ -1218,224 +1213,6 @@
                 padding: 1px 6px;
             }
         }
-        /* ===== REVIEWS SECTION ===== */
-.reviews-section {
-    display: none;
-    width: 100%;
-    padding: 20px;
-    background: #000000;
-}
-
-.reviews-section .reviews-title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.reviews-section .reviews-title h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #e6e9f0;
-    font-family: 'Libre Franklin', sans-serif;
-}
-
-.reviews-section .reviews-title p {
-    font-size: 14px;
-    color: #9ca3af;
-    font-family: 'Libre Franklin', sans-serif;
-    margin-top: 4px;
-}
-
-.reviews-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.review-card {
-    background: transparent;
-    border: 1px solid rgba(56, 182, 255, 0.3);
-    border-radius: 16px;
-    padding: 16px 20px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-    display: none;
-}
-
-.review-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-    display: block;
-}
-
-.review-card .review-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
-.review-card .review-author {
-    font-size: 14px;
-    font-weight: 600;
-    color: #e6e9f0;
-    font-family: 'Libre Franklin', sans-serif;
-}
-
-.review-card .review-stars {
-    display: flex;
-    gap: 2px;
-}
-
-.review-card .review-stars .star {
-    font-size: 16px;
-    color: #4a5568;
-}
-
-.review-card .review-stars .star.filled {
-    color: #f59e0b;
-}
-
-.review-card .review-text {
-    font-size: 13px;
-    color: #cbd5e1;
-    line-height: 1.5;
-    font-family: 'Libre Franklin', sans-serif;
-}
-
-/* Desktop reviews - right side */
-@media (min-width: 769px) {
-    .reviews-section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 20px;
-        max-width: 50%;
-        margin-left: auto;
-        height: 100%;
-    }
-
-    .reviews-section .reviews-title h2 {
-        font-size: 20px;
-    }
-
-    .reviews-section .reviews-title p {
-        font-size: 12px;
-    }
-
-    .reviews-container {
-        max-width: 100%;
-        gap: 10px;
-    }
-
-    .review-card {
-        padding: 14px 18px;
-    }
-
-    .review-card .review-text {
-        font-size: 12px;
-    }
-
-    .review-card .review-stars .star {
-        font-size: 14px;
-    }
-}
-
-/* Mobile reviews - below chart */
-@media (max-width: 768px) {
-    .reviews-section {
-        display: flex !important;
-        flex-direction: column;
-        padding: 20px 16px 30px 16px;
-    }
-
-    .reviews-section .reviews-title h2 {
-        font-size: 22px;
-    }
-
-    .reviews-section .reviews-title p {
-        font-size: 13px;
-    }
-
-    .reviews-container {
-        max-width: 100%;
-        gap: 12px;
-    }
-
-    .review-card {
-        padding: 16px 18px;
-    }
-
-    .review-card .review-text {
-        font-size: 13px;
-    }
-
-    .review-card .review-stars .star {
-        font-size: 15px;
-    }
-}
-
-/* Desktop wrapper - make it flex row for chart + reviews */
-.new-section-desktop-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-    background: #000000;
-    padding: 30px 0 20px 0;
-    align-items: center;
-}
-
-.new-section-desktop-wrapper .content-row {
-    display: flex;
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-}
-
-.new-section-desktop-wrapper .chart-wrapper-center {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 50%;
-    padding: 0 clamp(20px, 5vw, 80px);
-    flex: 1;
-    min-height: 0;
-    margin-right: auto;
-}
-
-/* Hide mobile reviews on desktop */
-@media (min-width: 769px) {
-    .reviews-section.mobile-reviews {
-        display: none !important;
-    }
-}
-
-/* Show desktop reviews in right column */
-@media (min-width: 769px) {
-    .reviews-section.desktop-reviews {
-        display: flex !important;
-        width: 50%;
-        max-width: 50%;
-        margin-left: 0;
-        padding: 0 clamp(20px, 5vw, 80px);
-        height: 100%;
-        justify-content: center;
-    }
-}
-
-/* Mobile reviews visible on mobile */
-@media (max-width: 768px) {
-    .reviews-section.desktop-reviews {
-        display: none !important;
-    }
-    .reviews-section.mobile-reviews {
-        display: flex !important;
-    }
-}
     </style>
 </head>
 <body>
@@ -1528,9 +1305,8 @@
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width with fixed margins -->
 <!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
-<!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
 <div class="new-section-desktop-wrapper">
-    <!-- Title - stays centered full width -->
+    <!-- Title -->
     <div class="title-container">
         <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
             <span style="color: #38b6ff;">One click</span>. AI scans the market.
@@ -1540,42 +1316,28 @@
         </p>
     </div>
 
-    <!-- Content Row: Chart (left) + Reviews (right) -->
-    <div class="content-row">
-        <!-- Chart Section - Left side -->
-        <div class="chart-wrapper-center">
-            <div class="chart-view-header">
-                <div class="left-group">
-                    <span>Chart view</span>
-                    <span class="symbol-box">GOLD XAU/USD</span>
-                </div>
-                <div class="score-box">
-                    Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
-                    <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
-                </div>
+    <!-- Chart Section -->
+    <div class="chart-wrapper-center">
+        <div class="chart-view-header">
+            <div class="left-group">
+                <span>Chart view</span>
+                <span class="symbol-box">GOLD XAU/USD</span>
             </div>
-
-            <div class="chart-box">
-                <div class="chart-inner" id="chartContainer"></div>
-                <div class="scan-line" id="scanLine"></div>
-            </div>
-
-            <button class="analyze-btn" id="analyzeBtn">
-                <span class="btn-text">Analyze</span>
-                <span class="btn-loader"></span>
-            </button>
-        </div>
-
-        <!-- Reviews Section - Right side -->
-        <div class="reviews-section desktop-reviews">
-            <div class="reviews-title">
-                <h2>What Our Users Say</h2>
-                <p>Real reviews from real traders</p>
-            </div>
-            <div class="reviews-container" id="desktopReviewsContainer">
-                <!-- Reviews will be inserted here by JavaScript -->
+            <div class="score-box">
+                Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
+                <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
             </div>
         </div>
+
+        <div class="chart-box">
+            <div class="chart-inner" id="chartContainer"></div>
+            <div class="scan-line" id="scanLine"></div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn">
+            <span class="btn-text">Analyze</span>
+            <span class="btn-loader"></span>
+        </button>
     </div>
 </div>
 
@@ -1614,16 +1376,6 @@
         </button>
     </div>
 </div>
-<!-- ===== REVIEWS SECTION - Mobile (below chart) ===== -->
-<div class="reviews-section mobile-reviews">
-    <div class="reviews-title">
-        <h2>What Our Users Say</h2>
-        <p>Real reviews from real traders</p>
-    </div>
-    <div class="reviews-container" id="mobileReviewsContainer">
-        <!-- Reviews will be inserted here by JavaScript -->
-    </div>
-</div>    
     <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
@@ -2281,119 +2033,6 @@
                 initPage();
             }, 500);
         }
-        // ============================================
-// REVIEWS SECTION
-// ============================================
-
-const reviewsList = [
-    { author: "Alex M.", rating: 5, text: "This AI is incredible! I've been trading for 5 years and never had such accurate signals. The entry points are spot on." },
-    { author: "Sarah K.", rating: 5, text: "Finally a signal service that actually works. Up 30% in my first month. The AI analysis is game-changing." },
-    { author: "James R.", rating: 4, text: "Very good signals, though sometimes the alerts come a bit late. Still profitable overall." },
-    { author: "Maria L.", rating: 5, text: "The best trading tool I've ever used. Simple interface, clear signals. Highly recommend!" },
-    { author: "David W.", rating: 4, text: "Solid performance. The AI catches trends early. Occasionally a false signal but overall great." },
-    { author: "Emma T.", rating: 5, text: "Life-changing! I went from losing money to consistent profits in 2 weeks. Thank you PrimeSignal!" },
-    { author: "Robert C.", rating: 3, text: "Decent signals but the response time could be faster. Works well for swing trading though." },
-    { author: "Lisa P.", rating: 5, text: "Finally a service that delivers what it promises. Accurate, reliable, and easy to follow." },
-    { author: "Michael S.", rating: 4, text: "Great tool! The AI analysis is impressive. Would be 5 stars if the mobile app was better." },
-    { author: "John D.", rating: 5, text: "This is the real deal. I've tried many signal services and this is by far the best. The AI knows what it's doing." },
-    { author: "Anna R.", rating: 4, text: "Very helpful for a beginner like me. The signals are clear and easy to understand. Learning a lot." },
-    { author: "Chris P.", rating: 5, text: "Consistent profits every week. The AI catches moves I would never see. Absolutely worth it." },
-    { author: "Jessica H.", rating: 5, text: "I was skeptical at first, but after 3 months I'm a believer. Best trading decision I ever made." },
-    { author: "Thomas L.", rating: 4, text: "Good signals overall. Some delays during high volatility, but still very profitable." },
-    { author: "Nancy W.", rating: 5, text: "The AI analysis is brilliant. I've recommended this to all my trading friends. They love it too." },
-    { author: "Kevin B.", rating: 3, text: "Mixed results honestly. Some trades are great, others miss the mark. Good support team though." },
-    { author: "Laura G.", rating: 5, text: "Absolutely love this! My trading has improved dramatically. The signals are consistently accurate." },
-    { author: "Frank Z.", rating: 4, text: "Very solid platform. The AI insights are valuable. Would like more educational content." },
-    { author: "Sharon M.", rating: 5, text: "This saved my trading career. I was about to give up, now I'm profitable every month. Thank you!" },
-    { author: "Ryan T.", rating: 4, text: "Reliable signals with good accuracy. The interface is clean and professional. Recommended." },
-    { author: "Megan J.", rating: 5, text: "The AI is like having a professional trader guide you. I've learned so much just by following the signals." },
-    { author: "Peter K.", rating: 5, text: "Perfect for busy professionals who can't watch charts all day. The AI does all the work." },
-    { author: "Catherine R.", rating: 4, text: "Great service! Only issue is sometimes the signals come when I'm asleep. But that's not their fault." },
-    { author: "Daniel N.", rating: 5, text: "This is THE tool for serious traders. The AI analysis is second to none. Highly recommended." }
-];
-
-let currentReviews = [];
-let reviewInterval = null;
-
-function generateStars(rating) {
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<span class="star filled">★</span>';
-        } else {
-            stars += '<span class="star">★</span>';
-        }
-    }
-    return stars;
-}
-
-function createReviewCard(review) {
-    const card = document.createElement('div');
-    card.className = 'review-card';
-    card.innerHTML = `
-        <div class="review-header">
-            <span class="review-author">${review.author}</span>
-            <div class="review-stars">${generateStars(review.rating)}</div>
-        </div>
-        <div class="review-text">"${review.text}"</div>
-    `;
-    return card;
-}
-
-function updateReviews(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // Clear container
-    container.innerHTML = '';
-
-    // Get 2 random reviews
-    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 2);
-
-    // Add reviews with staggered animation
-    selected.forEach((review, index) => {
-        const card = createReviewCard(review);
-        container.appendChild(card);
-        
-        // Stagger the animation
-        setTimeout(() => {
-            card.classList.add('visible');
-        }, index * 300);
-    });
-}
-
-function startReviewRotation() {
-    // Initial load for both containers
-    updateReviews('desktopReviewsContainer');
-    updateReviews('mobileReviewsContainer');
-
-    // Clear any existing interval
-    if (reviewInterval) {
-        clearInterval(reviewInterval);
-    }
-
-    // Rotate every 4 seconds
-    reviewInterval = setInterval(() => {
-        updateReviews('desktopReviewsContainer');
-        updateReviews('mobileReviewsContainer');
-    }, 4000);
-}
-
-// Start the review rotation when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait a bit for the page to load
-    setTimeout(() => {
-        startReviewRotation();
-    }, 1000);
-});
-
-// Also start when the page is fully loaded
-window.addEventListener('load', function() {
-    if (!reviewInterval) {
-        startReviewRotation();
-    }
-});
     </script>
 </body>
 </html>
