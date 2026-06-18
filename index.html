@@ -1442,6 +1442,20 @@
         display: block !important;
     }
 }
+        /* Ensure review cards maintain space even when transparent */
+.review-card {
+    display: block !important;
+    min-height: 80px;  /* Minimum height to maintain space */
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    /* Keep the card in the flow even when transparent */
+}
+
+/* When hidden, keep the space */
+.review-card.hidden {
+    display: block !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
     </style>
 </head>
 <body>
