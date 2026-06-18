@@ -1306,12 +1306,13 @@
 /* Show on desktop only */
 /* Show on desktop only */
 /* Show on desktop only */
+/* Show on desktop only */
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
-        padding: 40px 40px 60px 40px;  /* ← Adds fixed left/right margins */
-        /*              ↑  ↑  ↑  ↑      */
-        /*        top  right bottom left */
+        padding: 40px clamp(30px, 8vw, 120px) 60px clamp(30px, 8vw, 120px);
+        /*              ↑          ↑           ↑          ↑          ↑           */
+        /*          top    min   preferred   max    bottom    same as left    */
     }
     
     /* Make review cards 2x bigger on desktop */
