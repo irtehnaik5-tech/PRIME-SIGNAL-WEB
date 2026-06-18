@@ -551,65 +551,21 @@
         }
    /* Desktop - fix login box margins */
 /* Desktop - fix login box margins */
-/* Desktop - FIXED MARGINS login box */
-/* Desktop - FIXED MARGINS using inset */
-/* Desktop - FIXED LEFT & RIGHT MARGINS with SQUARE login box */
-/* Desktop - SQUARE login box with ALL FOUR FIXED MARGINS */
-/* Desktop - PERFECT SQUARE with FIXED TOP & BOTTOM MARGINS */
-/* Desktop - DYNAMIC SQUARE with FIXED MARGINS */
-/* Desktop - PERFECT SQUARE with FIXED TOP & BOTTOM MARGINS */
-/* Desktop - PERFECT SQUARE with FIXED MARGINS on ALL 4 SIDES */
-/* Desktop - FIXED SQUARE with FIXED MARGINS */
-/* Desktop - FIXED SQUARE with FIXED MARGINS */
 @media (min-width: 769px) {
     .login-section {
-        padding: 0;
-        display: flex;
+        padding: 40px 20px;  /* Fixed top/bottom and left/right padding */
         justify-content: center;
-        align-items: center;
-        background: #000000;
-        min-height: 100vh;
-        flex: 1;
-        position: relative;
     }
     
     .login-card-container {
-        width: 420px;
-        height: 420px;
-        max-width: none;
-        margin: 80px;  /* FIXED - NEVER CHANGES */
-        border-radius: 32px;
-        overflow: hidden;
-        flex-shrink: 0;
-        position: relative;
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;  /* Center horizontally */
     }
     
     .login-card {
         padding: 48px 40px;
         width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background: transparent;
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(56, 182, 255, 0.3);
-        border-radius: 32px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-    
-    .login-bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: bottom left;
-        opacity: 0.3;
-        z-index: 0;
-        pointer-events: none;
-        border-radius: 32px;
     }
 }
         @media (max-width: 480px) {
