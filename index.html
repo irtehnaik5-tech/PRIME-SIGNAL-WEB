@@ -1303,20 +1303,19 @@
     font-family: 'Libre Franklin', sans-serif;
 }
 
-/* Show on desktop only */
-/* Show on desktop only */
-/* Show on desktop only */
-/* Show on desktop only */
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
-        padding: 30px clamp(30px, 12vw, 220px) 100px clamp(30px, 12vw, 220px);
-        /*       ↑          ↑          ↑          ↑          ↑          ↑          */
-        /*    top    right   left    bottom    right      left                     */
-        /*    (fixed 30px)   (dynamic sides - same as chart)                      */
+        padding: 0 clamp(30px, 12vw, 220px) 100px clamp(30px, 12vw, 220px);
+        /*       ↑ 0 top padding - no space here */
     }
     
-    /* Make review cards bigger on desktop */
+    /* Fixed margin on title - keeps it attached to chart */
+    .reviews-section-desktop .reviews-title {
+        margin-top: 20px;  /* ← FIXED - never changes */
+        margin-bottom: 30px;
+    }
+    
     .reviews-section-desktop .reviews-title h2 {
         font-size: 48px;
     }
