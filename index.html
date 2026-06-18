@@ -1305,44 +1305,47 @@
 
 /* Show on desktop only */
 /* Show on desktop only */
+/* Show on desktop only */
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
+        padding: 40px 60px 60px 60px;  /* ← Adds fixed left/right margins */
+        /*              ↑  ↑  ↑  ↑      */
+        /*        top  right bottom left */
     }
     
     /* Make review cards 2x bigger on desktop */
     .reviews-section-desktop .reviews-title h2 {
-        font-size: 48px;  /* Was 32px - 1.5x bigger */
+        font-size: 48px;
     }
     
     .reviews-section-desktop .reviews-title p {
-        font-size: 24px;  /* Was 16px - 1.5x bigger */
+        font-size: 24px;
     }
     
     .reviews-section-desktop .review-card {
-        padding: 40px 48px;  /* Was 20px 24px - 2x bigger */
-        max-width: 560px;    /* Was 420px - bigger */
+        padding: 40px 48px;
+        max-width: 560px;
     }
     
     .reviews-section-desktop .review-card .review-author {
-        font-size: 22px;  /* Was 15px - bigger */
+        font-size: 22px;
     }
     
     .reviews-section-desktop .review-card .review-stars .star {
-        font-size: 28px;  /* Was 18px - bigger */
+        font-size: 28px;
     }
     
     .reviews-section-desktop .review-card .review-text {
-        font-size: 20px;  /* Was 14px - bigger */
+        font-size: 20px;
         line-height: 1.6;
     }
     
     .reviews-section-desktop .reviews-container {
-        gap: 30px;  /* Was 20px - more space between cards */
-        max-width: 1200px;  /* Was 900px - wider container */
+        gap: 30px;
+        max-width: 1200px;
     }
 }
-
 /* ===== REVIEWS SECTION - Mobile (below chart) ===== */
 .reviews-section-mobile {
     display: none;
