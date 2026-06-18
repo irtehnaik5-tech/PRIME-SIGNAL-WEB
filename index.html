@@ -2275,7 +2275,7 @@
             });
         }
 // ============================================
-// REVIEWS SECTION - SMOOTH TRANSITION (No Page Jump)
+// REVIEWS SECTION - NO PAGE JUMP
 // ============================================
 
 const reviewsList = [
@@ -2309,8 +2309,6 @@ const reviewsList = [
 
 let reviewInterval = null;
 let isTransitioning = false;
-let currentReviews = [];
-let previousReviews = [];
 
 function generateStars(rating) {
     let stars = '';
@@ -2324,12 +2322,14 @@ function generateStars(rating) {
     return stars;
 }
 
-function createReviewCard(review, isVisible = false) {
+function createReviewCard(review) {
     const card = document.createElement('div');
     card.className = 'review-card';
-    if (isVisible) {
-        card.classList.add('visible');
-    }
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.display = 'block';
+    card.style.position = 'relative';
     card.innerHTML = `
         <div class="review-header">
             <span class="review-author">${review.author}</span>
@@ -2340,39 +2340,24 @@ function createReviewCard(review, isVisible = false) {
     return card;
 }
 
-function getRandomReviews() {
-    // Get 2 random reviews, avoid duplicates from previous set
-    const available = [...reviewsList];
-    const selected = [];
+function initializeReviews(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     
-    // If we have previous reviews, try to avoid them
-    const previousAuthors = previousReviews.map(r => r.author);
+    // Create 2 placeholder cards
+    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 2);
     
-    // Shuffle and pick 2
-    const shuffled = available.sort(() => 0.5 - Math.random());
-    
-    // Try to get reviews that weren't shown before
-    let candidates = shuffled.filter(r => !previousAuthors.includes(r.author));
-    
-    // If not enough candidates, use all
-    if (candidates.length < 2) {
-        candidates = shuffled;
-    }
-    
-    // Pick 2
-    for (let i = 0; i < 2 && i < candidates.length; i++) {
-        selected.push(candidates[i]);
-    }
-    
-    // If we still need more, get from shuffled
-    while (selected.length < 2) {
-        const review = shuffled.find(r => !selected.includes(r));
-        if (review) selected.push(review);
-        else break;
-    }
-    
-    previousReviews = [...selected];
-    return selected;
+    container.innerHTML = '';
+    selected.forEach((review, index) => {
+        const card = createReviewCard(review);
+        container.appendChild(card);
+        // Show with stagger
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 300 + 200);
+    });
 }
 
 function updateReviews(containerId) {
@@ -2381,96 +2366,74 @@ function updateReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    const currentCards = container.querySelectorAll('.review-card');
-    const currentCount = currentCards.length;
-    
-    // If no cards, just show new ones
-    if (currentCount === 0) {
-        const reviews = getRandomReviews();
-        reviews.forEach((review, index) => {
-            const card = createReviewCard(review, false);
-            container.appendChild(card);
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, index * 200 + 50);
-        });
+    const cards = container.querySelectorAll('.review-card');
+    if (cards.length === 0) {
+        initializeReviews(containerId);
         return;
     }
     
     isTransitioning = true;
     
-    // Get new reviews
-    const newReviews = getRandomReviews();
+    // Get 2 random reviews
+    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
+    const newReviews = shuffled.slice(0, 2);
     
-    // Update existing cards with new content
-    currentCards.forEach((card, index) => {
-        if (index < newReviews.length) {
-            const review = newReviews[index];
-            // Update content without removing the card
-            const authorEl = card.querySelector('.review-author');
-            const starsEl = card.querySelector('.review-stars');
-            const textEl = card.querySelector('.review-text');
-            
-            if (authorEl) authorEl.textContent = review.author;
-            if (starsEl) starsEl.innerHTML = generateStars(review.rating);
-            if (textEl) textEl.textContent = `"${review.text}"`;
-            
-            // Re-trigger animation
-            card.classList.remove('visible');
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                card.classList.add('visible');
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 200 + 100);
-        }
+    // Fade out all cards
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
     });
     
-    // If we have more cards than needed, remove extras
-    if (currentCards.length > newReviews.length) {
-        for (let i = newReviews.length; i < currentCards.length; i++) {
-            const card = currentCards[i];
-            card.classList.remove('visible');
-            card.style.opacity = '0';
-            setTimeout(() => {
-                if (card.parentNode) card.parentNode.removeChild(card);
-            }, 400);
-        }
-    }
-    
+    // After fade out, update content and fade in
     setTimeout(() => {
-        isTransitioning = false;
-    }, 800);
+        // Update each card with new content
+        cards.forEach((card, index) => {
+            if (index < newReviews.length) {
+                const review = newReviews[index];
+                const authorEl = card.querySelector('.review-author');
+                const starsEl = card.querySelector('.review-stars');
+                const textEl = card.querySelector('.review-text');
+                
+                if (authorEl) authorEl.textContent = review.author;
+                if (starsEl) starsEl.innerHTML = generateStars(review.rating);
+                if (textEl) textEl.textContent = `"${review.text}"`;
+                
+                // Reset position before fade in
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            }
+        });
+        
+        // If we have more cards than needed, hide extras
+        if (cards.length > newReviews.length) {
+            for (let i = newReviews.length; i < cards.length; i++) {
+                cards[i].style.display = 'none';
+            }
+        }
+        
+        // Fade in all cards
+        cards.forEach((card, index) => {
+            if (index < newReviews.length) {
+                setTimeout(() => {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 300 + 200);
+            }
+        });
+        
+        // Allow next transition
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 1000);
+        
+    }, 600);
 }
 
 function startReviewRotation() {
-    // Initial load for both containers
-    const desktopContainer = document.getElementById('desktopReviewsContainer');
-    const mobileContainer = document.getElementById('mobileReviewsContainer');
-    
-    if (desktopContainer) {
-        const reviews = getRandomReviews();
-        reviews.forEach((review, index) => {
-            const card = createReviewCard(review, false);
-            desktopContainer.appendChild(card);
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, index * 200 + 50);
-        });
-    }
-    
-    if (mobileContainer) {
-        const reviews = getRandomReviews();
-        reviews.forEach((review, index) => {
-            const card = createReviewCard(review, false);
-            mobileContainer.appendChild(card);
-            setTimeout(() => {
-                card.classList.add('visible');
-            }, index * 200 + 50);
-        });
-    }
+    // Initialize both containers
+    initializeReviews('desktopReviewsContainer');
+    initializeReviews('mobileReviewsContainer');
 
     // Clear any existing interval
     if (reviewInterval) {
