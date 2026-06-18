@@ -233,17 +233,17 @@
             }
         }
 
-.art-section {
-    flex: 0 0 50%;
-    background: #000000;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    height: 100%;
-}
+        .art-section {
+            flex: 1;
+            background: #000000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            height: 100%;
+        }
 
         .art-content {
             position: relative;
@@ -301,7 +301,17 @@
             border-radius: 0;
         }
 
-
+        .login-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000000;
+            position: relative;
+            z-index: 30;
+            padding: 20px;
+        }
 
         .login-card-container {
             position: relative;
@@ -541,17 +551,23 @@
         }
    /* Desktop - fix login box margins */
 /* Desktop - fix login box margins */
-.login-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #000000;
-    position: relative;
-    z-index: 30;
-    padding: 20px;
+@media (min-width: 769px) {
+    .login-section {
+        padding: 40px 20px;  /* Fixed top/bottom and left/right padding */
+        justify-content: center;
+    }
+    
+    .login-card-container {
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;  /* Center horizontally */
+    }
+    
+    .login-card {
+        padding: 48px 40px;
+        width: 100%;
+    }
 }
-
         @media (max-width: 480px) {
             .bottom-left-image {
                 max-width: 360px;
@@ -1177,30 +1193,6 @@
                 padding: 1px 6px;
             }
         }
-        /* Desktop - fix login box margins */
-/* Desktop - fix login box size (doesn't change on zoom) */
-/* Desktop - fix login box like the image */
-@media (min-width: 769px) {
-    .login-section {
-        flex: 0 0 50% !important;
-        width: 50% !important;
-        padding: 20px 40px !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-    
-    .login-card-container {
-        width: auto !important;
-        max-width: 90% !important;  /* Same as image: 90% */
-        min-width: 350px !important;  /* Same as image: min-width */
-        margin: 0 auto !important;
-    }
-    
-    .login-card {
-        padding: 48px 40px !important;
-        width: 100% !important;
-    }
-}
     </style>
 </head>
 <body>
