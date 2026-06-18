@@ -201,13 +201,15 @@
         }
 /* Web version only - bigger title */
 /* Desktop - bigger size */
+/* Desktop - auto-sizing title with fixed margins */
 @media (min-width: 769px) {
     .new-section-desktop-wrapper .title-container h2 {
-        font-size: 72px;  /* X2 bigger */
+        font-size: clamp(48px, 5vw, 100px);  /* Auto adjusts between 48px and 100px */
+        line-height: 1.1;
     }
     
     .new-section-desktop-wrapper .title-container p {
-        font-size: 28px;  /* X2 bigger */
+        font-size: clamp(20px, 2vw, 40px);  /* Auto adjusts between 20px and 40px */
     }
 }
 @media (max-width: 768px) {
