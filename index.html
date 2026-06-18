@@ -827,16 +827,7 @@
             }
         }
 
-        /* Title section - full width with fixed margins */
-/* Title section - full width with fixed margins */
-.new-section-title {
-    display: flex;
-    width: 100%;
-    background: #000000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;  /* Reduced padding */
-}
+
 
 /* Remove max-width and use fixed padding */
 .new-section-title .title-container {
@@ -879,14 +870,43 @@
        
 
 
-/* ===== NEW SECTION - FULL PAGE CHART CENTERED ===== */
-.new-section-desktop {
+/* Combined desktop section - title + chart + button = full viewport height */
+.new-section-desktop-wrapper {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100vh;
+    min-height: 100vh;
     background: #000000;
-    align-items: center;
+    padding: 20px 0;
     justify-content: center;
-    padding: 0 0 20px 0;  /* Small bottom padding only */
+    align-items: center;
+}
+
+.new-section-desktop-wrapper .title-container {
+    width: 100%;
+    padding: 0 80px;
+    text-align: center;
+    flex-shrink: 0;  /* Prevent title from shrinking */
+}
+
+.new-section-desktop-wrapper .chart-wrapper-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 80px;
+    flex: 1;  /* Fill remaining space */
+    justify-content: center;
+}
+
+/* Remove old separate sections */
+.new-section-title {
+    display: none;  /* Hide the old separate title section */
+}
+
+.new-section-desktop {
+    display: none;  /* Hide the old separate chart section */
 }
 .new-section-desktop .chart-wrapper-center {
     display: flex;
@@ -1215,42 +1235,42 @@
 
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width with fixed margins -->
-    <div class="new-section-title">
-        <div class="title-container">
-<h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
-    <span style="color: #38b6ff;">One click</span>. AI scans the market.
-</h2>
-<p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
-    You get a clear signal with entry, stop-loss, and take-profit levels.
-</p>
-        </div>
+<!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
+<div class="new-section-desktop-wrapper">
+    <!-- Title -->
+    <div class="title-container">
+        <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
+            <span style="color: #38b6ff;">One click</span>. AI scans the market.
+        </h2>
+        <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
+            You get a clear signal with entry, stop-loss, and take-profit levels.
+        </p>
     </div>
 
-    <!-- Chart Section with fixed margins -->
-    <div class="new-section-desktop">
-        <div class="chart-wrapper-center">
-            <div class="chart-view-header">
-                <div class="left-group">
-                    <span>Chart view</span>
-                    <span class="symbol-box">GOLD XAU/USD</span>
-                </div>
-                <div class="score-box">
-                    Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
-                    <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
-                </div>
+    <!-- Chart Section -->
+    <div class="chart-wrapper-center">
+        <div class="chart-view-header">
+            <div class="left-group">
+                <span>Chart view</span>
+                <span class="symbol-box">GOLD XAU/USD</span>
             </div>
-
-            <div class="chart-box">
-                <div class="chart-inner" id="chartContainer"></div>
-                <div class="scan-line" id="scanLine"></div>
+            <div class="score-box">
+                Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
+                <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
             </div>
-
-            <button class="analyze-btn" id="analyzeBtn">
-                <span class="btn-text">Analyze</span>
-                <span class="btn-loader"></span>
-            </button>
         </div>
+
+        <div class="chart-box">
+            <div class="chart-inner" id="chartContainer"></div>
+            <div class="scan-line" id="scanLine"></div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn">
+            <span class="btn-text">Analyze</span>
+            <span class="btn-loader"></span>
+        </button>
     </div>
+</div>
 
     <!-- ===== NEW SECTION - Mobile with Chart (3x taller) ===== -->
     <div class="new-section-mobile">
