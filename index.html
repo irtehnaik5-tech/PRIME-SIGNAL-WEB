@@ -553,33 +553,58 @@
 /* Desktop - fix login box margins */
 /* Desktop - FIXED MARGINS login box */
 /* Desktop - FIXED MARGINS using inset */
+/* Desktop - FIXED LEFT & RIGHT MARGINS with SQUARE login box */
 @media (min-width: 769px) {
     .login-section {
         padding: 0;
-        position: relative;
-        flex: 1;
+        display: flex;
+        justify-content: flex-start;  /* Align to left, not center */
+        align-items: center;
         background: #000000;
         min-height: 100vh;
+        flex: 1;
+        position: relative;
+        padding-left: 80px;   /* FIXED left margin */
+        padding-right: 80px;  /* FIXED right margin */
     }
     
     .login-card-container {
-        position: absolute;
-        inset: 80px 60px 80px auto;  /* top:80px, right:60px, bottom:80px, left:auto */
-        width: 420px;
-        height: auto;
+        width: 420px;         /* Fixed width */
+        height: 420px;        /* Same as width = SQUARE */
         max-width: none;
-        margin: 0;
+        margin: 0;            /* Remove auto margins */
         border-radius: 32px;
         overflow: hidden;
+        flex-shrink: 0;       /* Prevent shrinking */
+        position: relative;
     }
     
     .login-card {
         padding: 48px 40px;
         width: 100%;
-        min-height: 500px;
+        height: 100%;         /* Fill the square container */
         display: flex;
         flex-direction: column;
         justify-content: center;
+        background: transparent;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(56, 182, 255, 0.3);
+        border-radius: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .login-bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: bottom left;
+        opacity: 0.3;
+        z-index: 0;
+        pointer-events: none;
+        border-radius: 32px;
     }
 }
         @media (max-width: 480px) {
