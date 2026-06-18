@@ -934,14 +934,16 @@
     height: 100vh;
     min-height: 100vh;
     background: #000000;
-    padding: 30px 0 20px 0;  /* Top padding to prevent title from being hidden */
+    padding: 30px 0 20px 0;
     align-items: center;
 }
 /* Chart box - fills remaining space */
+/* Chart box - now fills available space on left */
 .new-section-desktop-wrapper .chart-box {
     width: 100%;
-    flex: 1;  /* Fills available space */
-    min-height: 300px;  /* Minimum height */
+    flex: 1;
+    min-height: 400px;  /* ← Slightly taller */
+    max-height: 700px;  /* ← Limit max height */
     background: #131722;
     border: 1px solid #2a2f3c;
     border-radius: 12px;
@@ -956,25 +958,28 @@
 }
 
 
+/* Title - stays centered full width */
 .new-section-desktop-wrapper .title-container {
     width: 100%;
-    padding: 0 80px;
+    padding: 0 clamp(30px, 10vw, 200px);
     text-align: center;
-    flex-shrink: 0;  /* Title never shrinks */
-    margin-bottom: 10px;  /* Space between title and chart header */
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    z-index: 5;
 }
 
+/* Chart wrapper - now left-aligned with max width 50% */
 .new-section-desktop-wrapper .chart-wrapper-center {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;  /* ← Align to left */
     width: 100%;
-    padding: 0 clamp(30px, 12vw, 220px);
-    /*       ↑ Minimum  ↑ Preferred  ↑ Maximum  */
+    max-width: 50%;  /* ← Takes only left half */
+    padding: 0 clamp(20px, 5vw, 80px);  /* ← Smaller margins since it's on left */
     flex: 1;
     min-height: 0;
+    margin-right: auto;  /* ← Pushes it to the left */
 }
-
 /* Remove old separate sections */
 .new-section-title {
     display: none;  /* Hide the old separate title section */
@@ -992,18 +997,18 @@
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
-    padding-top: 10px;  /* Small top padding only */
+    padding-top: 10px;
     flex-direction: column;
 }
 
-        @media (max-width: 768px) {
-            .new-section-desktop {
-                display: none !important;
-            }
-            .new-section-mobile {
-                display: flex !important;
-            }
-        }
+@media (max-width: 768px) {
+    .new-section-desktop {
+        display: none !important;
+    }
+    .new-section-mobile {
+        display: flex !important;
+    }
+}
 
         /* ===== CHART VIEW - EXACTLY MATCHES TELEGRAM BOT ===== */
 
@@ -1305,8 +1310,9 @@
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width with fixed margins -->
 <!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
+<!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
 <div class="new-section-desktop-wrapper">
-    <!-- Title -->
+    <!-- Title - stays centered full width -->
     <div class="title-container">
         <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
             <span style="color: #38b6ff;">One click</span>. AI scans the market.
@@ -1316,7 +1322,7 @@
         </p>
     </div>
 
-    <!-- Chart Section -->
+    <!-- Chart Section - Now on the LEFT side -->
     <div class="chart-wrapper-center">
         <div class="chart-view-header">
             <div class="left-group">
