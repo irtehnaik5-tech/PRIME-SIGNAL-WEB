@@ -936,6 +936,7 @@
             flex: 1;
             background: #000000;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
@@ -954,6 +955,7 @@
             position: relative;
             overflow: hidden;
             padding: 20px;
+            flex-direction: column;
         }
 
         @media (max-width: 768px) {
@@ -965,96 +967,96 @@
             }
         }
 
-        /* ===== CHART CONTAINER - EXACTLY MATCHES TELEGRAM BOT ===== */
-        .chart-container {
+        /* ===== CHART VIEW - EXACTLY MATCHES TELEGRAM BOT ===== */
+
+        /* Header row: "Chart view" + symbol box on left, score on right */
+        .chart-view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 90%;
             max-width: 500px;
-            height: 70%;
-            max-height: 420px;
-            background: #0a0c10;
-            border: 1px solid rgba(56, 182, 255, 0.2);
-            border-radius: 16px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-        }
-
-        /* Chart header with symbol and score - matches Telegram bot */
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(56, 182, 255, 0.1);
-            background: #0a0c10;
-        }
-
-        .chart-symbol {
+            margin-bottom: 8px;
             font-family: monospace;
-            font-size: 14px;
-            font-weight: 700;
-            color: #e6e9f0;
-        }
-
-        .chart-symbol span {
-            color: #9ca3af;
-            font-weight: 400;
-            font-size: 11px;
-        }
-
-        /* Signal score in header - matches Telegram bot */
-        .chart-score {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: monospace;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #9ca3af;
         }
 
-        .chart-score .score-value {
+        .chart-view-header .left-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-view-header .symbol-box {
+            background: #2a2f3c;
+            border: 1px solid #2a2f3c;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+
+        .chart-view-header .score-box {
+            font-family: monospace;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #9ca3af;
+        }
+
+        .chart-view-header .score-box .score-value {
             color: #22c55e;
             font-weight: 700;
-            font-size: 13px;
         }
 
-        .chart-score .score-direction {
+        .chart-view-header .score-box .score-direction {
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: 700;
-            font-size: 11px;
+            font-size: 9px;
+            margin-left: 4px;
         }
 
-        .chart-score .score-direction.buy {
+        .chart-view-header .score-box .score-direction.buy {
             background: rgba(34, 197, 94, 0.15);
             color: #22c55e;
         }
 
-        .chart-score .score-direction.sell {
+        .chart-view-header .score-box .score-direction.sell {
             background: rgba(239, 68, 68, 0.15);
             color: #ef4444;
         }
 
-        .chart-score .score-direction.neutral {
+        .chart-view-header .score-box .score-direction.neutral {
             background: rgba(156, 163, 175, 0.15);
             color: #9ca3af;
         }
 
-        .chart-body {
-            flex: 1;
+        /* Chart container - dark box with border */
+        .chart-box {
+            width: 90%;
+            max-width: 500px;
+            height: 65%;
+            max-height: 400px;
+            background: #131722;
+            border: 1px solid #2a2f3c;
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
-            background: #131722;
         }
 
-        .chart-body .chart-wrapper {
+        .chart-box .chart-wrapper {
             width: 100%;
             height: 100%;
         }
 
-        /* Scan line animation - matches Telegram bot */
+        /* Scan line animation */
         .scan-line {
             position: absolute;
             top: 0;
@@ -1077,13 +1079,13 @@
             100% { left: 100%; opacity: 0; }
         }
 
-        /* Analyze Button - EXACTLY matches Telegram bot */
+        /* Analyze Button - matches Telegram bot exactly */
         .analyze-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 10px 24px;
             background: linear-gradient(135deg, #1e3a8a, #0f172a);
             border: 1px solid #3b82f6;
             border-radius: 12px;
@@ -1095,7 +1097,7 @@
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 12px auto 16px auto;
+            margin-top: 12px;
             width: auto;
             min-width: 140px;
             position: relative;
@@ -1134,49 +1136,42 @@
             display: none;
         }
 
-        .new-section-mobile .chart-container {
+        /* Mobile adjustments */
+        .new-section-mobile .chart-view-header {
             width: 95%;
             max-width: 400px;
-            height: 75%;
-            max-height: 370px;
+            font-size: 9px;
+        }
+
+        .new-section-mobile .chart-view-header .symbol-box {
+            font-size: 9px;
+        }
+
+        .new-section-mobile .chart-box {
+            width: 95%;
+            max-width: 400px;
+            height: 70%;
+            max-height: 350px;
         }
 
         .new-section-mobile .analyze-btn {
-            padding: 10px 20px;
+            padding: 8px 20px;
             font-size: 12px;
             min-width: 120px;
-            margin: 10px auto 14px auto;
-        }
-
-        .new-section-mobile .chart-header {
-            padding: 10px 12px;
-        }
-
-        .new-section-mobile .chart-symbol {
-            font-size: 12px;
-        }
-
-        .new-section-mobile .chart-score {
-            font-size: 10px;
-        }
-
-        .new-section-mobile .chart-score .score-value {
-            font-size: 11px;
+            margin-top: 10px;
         }
 
         @media (max-width: 480px) {
-            .chart-container {
+            .new-section-mobile .chart-box {
                 height: 60%;
-                max-height: 320px;
+                max-height: 300px;
             }
-            .chart-symbol {
-                font-size: 11px;
+            .new-section-mobile .chart-view-header {
+                font-size: 8px;
             }
-            .chart-score {
-                font-size: 9px;
-            }
-            .chart-score .score-value {
-                font-size: 10px;
+            .new-section-mobile .chart-view-header .symbol-box {
+                font-size: 8px;
+                padding: 1px 6px;
             }
         }
     </style>
@@ -1313,47 +1308,58 @@
     <div class="new-section-desktop">
         <div class="new-left"></div>
         <div class="new-right">
-            <div class="chart-container">
-                <div class="chart-header">
-                    <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
-                    <div class="chart-score">
-                        <span style="color: #9ca3af; font-weight: 400;">Signal score:</span>
-                        <span class="score-value">9.0/10</span>
-                        <span class="score-direction buy">BUY</span>
-                    </div>
+
+            <!-- Chart view header: "Chart view GOLD XAU/USD" | "Signal score: 9.0/10 BUY" -->
+            <div class="chart-view-header">
+                <div class="left-group">
+                    <span>Chart view</span>
+                    <span class="symbol-box">GOLD XAU/USD</span>
                 </div>
-                <div class="chart-body">
-                    <div class="chart-wrapper" id="chartContainer"></div>
-                    <div class="scan-line" id="scanLine"></div>
+                <div class="score-box">
+                    Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
+                    <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
                 </div>
-                <button class="analyze-btn" id="analyzeBtn">
-                    <span class="btn-text">🔍 Analysis</span>
-                    <span class="btn-loader"></span>
-                </button>
             </div>
+
+            <!-- Chart box -->
+            <div class="chart-box">
+                <div class="chart-wrapper" id="chartContainer"></div>
+                <div class="scan-line" id="scanLine"></div>
+            </div>
+
+            <!-- Analyze button below chart -->
+            <button class="analyze-btn" id="analyzeBtn">
+                <span class="btn-text">🔍 Analysis</span>
+                <span class="btn-loader"></span>
+            </button>
+
         </div>
     </div>
 
     <!-- ===== NEW SECTION - Mobile with Chart ===== -->
     <div class="new-section-mobile">
-        <div class="chart-container">
-            <div class="chart-header">
-                <div class="chart-symbol">GOLD <span>XAU/USD</span></div>
-                <div class="chart-score">
-                    <span style="color: #9ca3af; font-weight: 400;">Signal score:</span>
-                    <span class="score-value">9.0/10</span>
-                    <span class="score-direction buy">BUY</span>
-                </div>
+
+        <div class="chart-view-header">
+            <div class="left-group">
+                <span>Chart view</span>
+                <span class="symbol-box">GOLD XAU/USD</span>
             </div>
-            <div class="chart-body">
-                <div class="chart-wrapper" id="chartContainerMobile"></div>
-                <div class="scan-line" id="scanLineMobile"></div>
+            <div class="score-box">
+                Signal score: <span class="score-value" id="scoreValueMobile">9.0/10</span>
+                <span class="score-direction buy" id="scoreDirectionMobile">BUY</span>
             </div>
-            <button class="analyze-btn" id="analyzeBtnMobile">
-                <span class="btn-text">🔍 Analysis</span>
-                <span class="btn-loader"></span>
-            </button>
         </div>
+
+        <div class="chart-box">
+            <div class="chart-wrapper" id="chartContainerMobile"></div>
+            <div class="scan-line" id="scanLineMobile"></div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtnMobile">
+            <span class="btn-text">🔍 Analysis</span>
+            <span class="btn-loader"></span>
+        </button>
+
     </div>
 
     <script>
@@ -1361,7 +1367,6 @@
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
         // ============================================
 
-        // Sample candle data (Gold prices - realistic)
         const candleData = [
             { time: 1740000000, open: 2320.50, high: 2325.80, low: 2318.20, close: 2324.30 },
             { time: 1740003600, open: 2324.30, high: 2330.50, low: 2322.10, close: 2328.90 },
@@ -1403,10 +1408,8 @@
         let isScanning = false;
         let priceInterval = null;
         let currentData = [...candleData];
-        let scoreDirection = 'BUY';
-        let scoreValue = '9.0';
 
-        function createChart(containerId, scoreDisplayId) {
+        function createChart(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return null;
 
@@ -1450,7 +1453,6 @@
                 },
             });
 
-            // Candlestick series
             const candleSeries = chart.addCandlestickSeries({
                 upColor: '#26a69a',
                 downColor: '#ef5350',
@@ -1462,7 +1464,6 @@
                 priceFormat: { type: 'price', precision: 2, minMove: 0.01 },
             });
 
-            // Volume series
             const volumeSeries = chart.addHistogramSeries({
                 priceFormat: { type: 'volume' },
                 priceScaleId: '',
@@ -1474,7 +1475,6 @@
                 textColor: '#d1d4dc',
             });
 
-            // EMA 9 (blue)
             const ema9Series = chart.addLineSeries({
                 color: '#2962ff',
                 lineWidth: 1.5,
@@ -1482,7 +1482,6 @@
                 lastValueVisible: false,
             });
 
-            // EMA 21 (orange)
             const ema21Series = chart.addLineSeries({
                 color: '#ff9800',
                 lineWidth: 1.5,
@@ -1490,7 +1489,6 @@
                 lastValueVisible: false,
             });
 
-            // Bollinger Bands
             const bbUpperSeries = chart.addLineSeries({
                 color: '#787b86',
                 lineWidth: 1,
@@ -1512,7 +1510,6 @@
                 lastValueVisible: false,
             });
 
-            // RSI (purple)
             const rsiSeries = chart.addLineSeries({
                 color: '#9c27b0',
                 lineWidth: 1.5,
@@ -1591,12 +1588,11 @@
             return { middle: sma, upper, lower };
         }
 
-        function updateChart(chartObj, data, headerSelector) {
+        function updateChart(chartObj, data) {
             if (!chartObj) return;
 
             const { chart, candleSeries, volumeSeries, ema9Series, ema21Series, bbUpperSeries, bbMiddleSeries, bbLowerSeries, rsiSeries } = chartObj;
 
-            // Update candle data
             const candleData = data.map(d => ({
                 time: d.time,
                 open: d.open,
@@ -1614,26 +1610,18 @@
             candleSeries.setData(candleData);
             volumeSeries.setData(volumeData);
 
-            // Calculate and draw indicators
             const closeData = data.map(d => ({ time: d.time, value: d.close }));
 
-            if (closeData.length > 9) {
-                ema9Series.setData(computeEMA(closeData, 9));
-            }
-            if (closeData.length > 21) {
-                ema21Series.setData(computeEMA(closeData, 21));
-            }
+            if (closeData.length > 9) ema9Series.setData(computeEMA(closeData, 9));
+            if (closeData.length > 21) ema21Series.setData(computeEMA(closeData, 21));
             if (closeData.length >= 20) {
                 const bb = computeBollinger(closeData, 20, 2);
                 bbUpperSeries.setData(bb.upper);
                 bbMiddleSeries.setData(bb.middle);
                 bbLowerSeries.setData(bb.lower);
             }
-            if (closeData.length >= 15) {
-                rsiSeries.setData(computeRSI(closeData, 14));
-            }
+            if (closeData.length >= 15) rsiSeries.setData(computeRSI(closeData, 14));
 
-            // Fit chart and scroll to real time
             chart.timeScale().fitContent();
             chart.timeScale().scrollToRealTime();
             chart.priceScale('right').applyOptions({ autoScale: true });
@@ -1646,19 +1634,11 @@
                     return;
                 }
 
-                // Create desktop chart
                 const chartObj1 = createChart('chartContainer');
-                if (chartObj1) {
-                    chart1 = chartObj1;
-                    updateChart(chart1, currentData);
-                }
+                if (chartObj1) { chart1 = chartObj1; updateChart(chart1, currentData); }
 
-                // Create mobile chart
                 const chartObj2 = createChart('chartContainerMobile');
-                if (chartObj2) {
-                    chart2 = chartObj2;
-                    updateChart(chart2, currentData);
-                }
+                if (chartObj2) { chart2 = chartObj2; updateChart(chart2, currentData); }
             } catch (e) {
                 console.error('Chart init error:', e);
             }
@@ -1668,15 +1648,11 @@
             try {
                 if (chart1 && chart1.chart) {
                     const container = document.getElementById('chartContainer');
-                    if (container) {
-                        chart1.chart.resize(container.clientWidth, container.clientHeight);
-                    }
+                    if (container) chart1.chart.resize(container.clientWidth, container.clientHeight);
                 }
                 if (chart2 && chart2.chart) {
                     const container = document.getElementById('chartContainerMobile');
-                    if (container) {
-                        chart2.chart.resize(container.clientWidth, container.clientHeight);
-                    }
+                    if (container) chart2.chart.resize(container.clientWidth, container.clientHeight);
                 }
             } catch (e) {
                 console.error('Resize error:', e);
@@ -1684,21 +1660,14 @@
         }
 
         function updateScoreDisplay() {
-            // Randomly update score between 7.5 and 9.8
             const newScore = (7.5 + Math.random() * 2.3).toFixed(1);
             const directions = ['BUY', 'SELL', 'BUY', 'BUY', 'NEUTRAL'];
             const newDirection = directions[Math.floor(Math.random() * directions.length)];
-            
-            scoreValue = newScore;
-            scoreDirection = newDirection;
 
-            const scoreElements = document.querySelectorAll('.chart-score .score-value');
-            const directionElements = document.querySelectorAll('.chart-score .score-direction');
+            const scoreElements = document.querySelectorAll('.score-value');
+            const directionElements = document.querySelectorAll('.score-direction');
 
-            scoreElements.forEach(el => {
-                el.textContent = newScore + '/10';
-            });
-
+            scoreElements.forEach(el => { el.textContent = newScore + '/10'; });
             directionElements.forEach(el => {
                 el.textContent = newDirection;
                 el.className = 'score-direction ' + newDirection.toLowerCase();
@@ -1730,13 +1699,10 @@
                     if (btn) btn.classList.remove('scanning');
                     if (scanLine) scanLine.classList.remove('active');
                     isScanning = false;
-                    
-                    // Update score after scan completes
                     updateScoreDisplay();
                     return;
                 }
 
-                // Generate new candle
                 const lastCandle = currentData[currentData.length - 1];
                 const move = (Math.random() - 0.45) * 6;
                 const newClose = lastCandle.close + move;
@@ -1753,7 +1719,6 @@
                     volume: Math.random() * 1000 + 500
                 });
 
-                // Update both charts
                 if (chart1) updateChart(chart1, currentData);
                 if (chart2) updateChart(chart2, currentData);
                 counter++;
