@@ -550,22 +550,22 @@
             }
         }
    /* Desktop - fix login box margins */
-/* Desktop - fixed login box size */
+/* Desktop - fix login box margins */
 @media (min-width: 769px) {
+    .login-section {
+        padding: 40px 20px;  /* Fixed top/bottom and left/right padding */
+        justify-content: center;
+    }
+    
     .login-card-container {
-        width: 420px;  /* Fixed width */
-        max-width: none;  /* Remove max-width */
-        margin: 0 auto;
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;  /* Center horizontally */
     }
     
     .login-card {
         padding: 48px 40px;
         width: 100%;
-    }
-    
-    .login-section {
-        padding: 20px;
-        justify-content: center;
     }
 }
         @media (max-width: 480px) {
