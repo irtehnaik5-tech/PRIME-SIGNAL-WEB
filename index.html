@@ -2172,39 +2172,60 @@
             { symbol: "TSLA", price: 175.80, change: -1.5 }
         ];
 
-        function initTicker() {
-            const track = document.getElementById('tickerTrack');
-            if (!track) return;
-            let html = '';
-            for (let r = 0; r < 2; r++) {
-                for (const item of tickerData) {
-                    const cls = item.change >= 0 ? 'up' : 'down';
+function initTicker() {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    // Only create if empty
+    if (track.children.length > 0) return;
+    
+    let html = '';
+    for (let r = 0; r < 2; r++) {
+        for (const item of tickerData) {
+            const cls = item.change >= 0 ? 'up' : 'down';
+            const sign = item.change >= 0 ? '▲' : '▼';
+            const price = item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2);
+            html += `<div class="ticker-item">
+                <span class="ticker-symbol">${item.symbol}</span>
+                <span class="ticker-price">$${price}</span>
+                <span class="ticker-change ${cls}">${sign} ${Math.abs(item.change).toFixed(2)}%</span>
+            </div>`;
+        }
+    }
+    track.innerHTML = html;
+}
+
+function updatePrices() {
+    // Update the DOM directly without re-creating everything
+    const items = document.querySelectorAll('.ticker-item');
+    let index = 0;
+    for (let r = 0; r < 2; r++) {
+        for (const item of tickerData) {
+            const move = (Math.random() - 0.5) * 0.01;
+            let newPrice = item.price * (1 + move);
+            if (item.symbol.includes('BTC')) newPrice = Math.max(60000, Math.min(75000, newPrice));
+            if (item.price < 1) newPrice = Math.max(0.5, Math.min(1.5, newPrice));
+            item.price = parseFloat(newPrice.toFixed(item.price < 1 ? 4 : 2));
+            let newChange = item.change + (Math.random() - 0.5) * 0.8;
+            newChange = Math.max(-8, Math.min(8, newChange));
+            item.change = parseFloat(newChange.toFixed(1));
+            
+            // Update DOM element if it exists
+            if (items[index]) {
+                const priceEl = items[index].querySelector('.ticker-price');
+                const changeEl = items[index].querySelector('.ticker-change');
+                if (priceEl) {
+                    priceEl.textContent = '$' + (item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2));
+                }
+                if (changeEl) {
                     const sign = item.change >= 0 ? '▲' : '▼';
-                    const price = item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2);
-                    html += `<div class="ticker-item">
-                        <span class="ticker-symbol">${item.symbol}</span>
-                        <span class="ticker-price">$${price}</span>
-                        <span class="ticker-change ${cls}">${sign} ${Math.abs(item.change).toFixed(2)}%</span>
-                    </div>`;
+                    changeEl.textContent = `${sign} ${Math.abs(item.change).toFixed(2)}%`;
+                    changeEl.className = `ticker-change ${item.change >= 0 ? 'up' : 'down'}`;
                 }
             }
-            track.innerHTML = html;
+            index++;
         }
-
-        function updatePrices() {
-            for (const item of tickerData) {
-                const move = (Math.random() - 0.5) * 0.01;
-                let newPrice = item.price * (1 + move);
-                if (item.symbol.includes('BTC')) newPrice = Math.max(60000, Math.min(75000, newPrice));
-                if (item.price < 1) newPrice = Math.max(0.5, Math.min(1.5, newPrice));
-                item.price = parseFloat(newPrice.toFixed(item.price < 1 ? 4 : 2));
-                let newChange = item.change + (Math.random() - 0.5) * 0.8;
-                newChange = Math.max(-8, Math.min(8, newChange));
-                item.change = parseFloat(newChange.toFixed(1));
-            }
-            initTicker();
-        }
-
+    }
+}
         // ============================================
         // MAIN INITIALIZATION
         // ============================================
@@ -2287,7 +2308,7 @@
             });
         }
 // ============================================
-// REVIEWS SECTION - NO PAGE JUMP (Fixed for Mobile)
+// REVIEWS SECTION - FIXED FOR MOBILE
 // ============================================
 
 const reviewsList = [
@@ -2321,17 +2342,37 @@ const reviewsList = [
 
 let reviewInterval = null;
 let isTransitioning = false;
+let currentReviewIndices = [];
 
 function generateStars(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<span class="star filled">★</span>';
-        } else {
-            stars += '<span class="star">★</span>';
-        }
+        stars += i <= rating ? '<span class="star filled">★</span>' : '<span class="star">★</span>';
     }
     return stars;
+}
+
+function getRandomReviews() {
+    // Get 2 random different reviews
+    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
+    // Make sure we don't get the same ones as before
+    let selected = [];
+    for (const review of shuffled) {
+        if (!currentReviewIndices.includes(reviewsList.indexOf(review)) && selected.length < 2) {
+            selected.push(review);
+        }
+    }
+    // If we didn't get 2, fill with random ones
+    while (selected.length < 2) {
+        const randomReview = shuffled[selected.length];
+        if (randomReview && !selected.includes(randomReview)) {
+            selected.push(randomReview);
+        } else {
+            selected.push(shuffled[0]);
+        }
+    }
+    currentReviewIndices = selected.map(r => reviewsList.indexOf(r));
+    return selected;
 }
 
 function createReviewCard(review) {
@@ -2342,7 +2383,6 @@ function createReviewCard(review) {
     card.style.transform = 'translateY(20px)';
     card.style.display = 'block';
     card.style.position = 'relative';
-    card.style.minHeight = '100px';
     card.innerHTML = `
         <div class="review-header">
             <span class="review-author">${review.author}</span>
@@ -2357,27 +2397,13 @@ function initializeReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    // Check if container already has cards
-    if (container.children.length > 0) {
-        // Just show them if they exist
-        const cards = container.querySelectorAll('.review-card');
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 200 + 100);
-        });
-        return;
-    }
+    // Only initialize if empty
+    if (container.children.length > 0) return;
     
-    // Create 2 cards
-    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 2);
-    
-    selected.forEach((review, index) => {
+    const reviews = getRandomReviews();
+    reviews.forEach((review, index) => {
         const card = createReviewCard(review);
         container.appendChild(card);
-        // Show with stagger
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
@@ -2391,36 +2417,23 @@ function updateReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    let cards = container.querySelectorAll('.review-card');
-    
-    // If no cards, initialize
+    const cards = container.querySelectorAll('.review-card');
     if (cards.length === 0) {
         initializeReviews(containerId);
         return;
     }
     
     isTransitioning = true;
-    
-    // Get 2 random reviews
-    const shuffled = [...reviewsList].sort(() => 0.5 - Math.random());
-    const newReviews = shuffled.slice(0, 2);
-    
-    // Make sure we have at least 2 cards
-    while (cards.length < 2) {
-        const card = createReviewCard(newReviews[cards.length]);
-        container.appendChild(card);
-        cards = container.querySelectorAll('.review-card');
-    }
+    const newReviews = getRandomReviews();
     
     // Fade out all cards
-    cards.forEach((card) => {
+    cards.forEach(card => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
     });
     
-    // After fade out, update content and fade in
     setTimeout(() => {
-        // Update each card with new content
+        // Update content
         cards.forEach((card, index) => {
             if (index < newReviews.length) {
                 const review = newReviews[index];
@@ -2432,19 +2445,18 @@ function updateReviews(containerId) {
                 if (starsEl) starsEl.innerHTML = generateStars(review.rating);
                 if (textEl) textEl.textContent = `"${review.text}"`;
                 
-                // Reset position before fade in
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
                 card.style.display = 'block';
             }
         });
         
-        // Hide extra cards if more than 2
+        // Hide extra cards
         for (let i = newReviews.length; i < cards.length; i++) {
             cards[i].style.display = 'none';
         }
         
-        // Fade in all cards
+        // Fade in
         cards.forEach((card, index) => {
             if (index < newReviews.length) {
                 setTimeout(() => {
@@ -2455,39 +2467,30 @@ function updateReviews(containerId) {
             }
         });
         
-        // Allow next transition
         setTimeout(() => {
             isTransitioning = false;
         }, 1000);
-        
     }, 600);
 }
 
 function startReviewRotation() {
-    // Initialize both containers - desktop and mobile
     initializeReviews('desktopReviewsContainer');
     initializeReviews('mobileReviewsContainer');
 
-    // Clear any existing interval
     if (reviewInterval) {
         clearInterval(reviewInterval);
     }
 
-    // Rotate every 4 seconds
     reviewInterval = setInterval(() => {
         updateReviews('desktopReviewsContainer');
         updateReviews('mobileReviewsContainer');
     }, 4000);
 }
 
-// Start the review rotation when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        startReviewRotation();
-    }, 1000);
+    setTimeout(startReviewRotation, 1000);
 });
 
-// Also start when the page is fully loaded
 window.addEventListener('load', function() {
     if (!reviewInterval) {
         startReviewRotation();
