@@ -871,16 +871,17 @@
     padding: 0 30px;  /* FIXED 30px left and right */
 }
 
-        .new-section-mobile {
-            display: none;
-            width: 100%;
-            min-height: 100vh;
-            background: #000000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            flex-direction: column;
-        }
+.new-section-mobile {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    background: #000000;
+    align-items: center;
+    justify-content: flex-start;  /* Changed from center to flex-start */
+    padding: 20px;
+    padding-top: 30px;  /* Small top padding to give some breathing room */
+    flex-direction: column;
+}
 
         @media (max-width: 768px) {
             .new-section-desktop {
@@ -1059,13 +1060,12 @@
         }
 
         /* Mobile adjustments - 3x taller chart */
-        .new-section-mobile .chart-wrapper-center {
-            width: 100%;
-            max-width: 400px;
-            padding: 0;
-            min-height: 100vh;
-            justify-content: center;
-        }
+.new-section-mobile .chart-wrapper-center {
+    width: 100%;
+    max-width: 400px;
+    padding: 0;
+    /* Remove min-height: 100vh and justify-content: center */
+}
 
         .new-section-mobile .chart-view-header {
             font-size: 9px;
