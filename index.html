@@ -1304,9 +1304,42 @@
 }
 
 /* Show on desktop only */
+/* Show on desktop only */
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
+    }
+    
+    /* Make review cards 2x bigger on desktop */
+    .reviews-section-desktop .reviews-title h2 {
+        font-size: 48px;  /* Was 32px - 1.5x bigger */
+    }
+    
+    .reviews-section-desktop .reviews-title p {
+        font-size: 24px;  /* Was 16px - 1.5x bigger */
+    }
+    
+    .reviews-section-desktop .review-card {
+        padding: 40px 48px;  /* Was 20px 24px - 2x bigger */
+        max-width: 560px;    /* Was 420px - bigger */
+    }
+    
+    .reviews-section-desktop .review-card .review-author {
+        font-size: 22px;  /* Was 15px - bigger */
+    }
+    
+    .reviews-section-desktop .review-card .review-stars .star {
+        font-size: 28px;  /* Was 18px - bigger */
+    }
+    
+    .reviews-section-desktop .review-card .review-text {
+        font-size: 20px;  /* Was 14px - bigger */
+        line-height: 1.6;
+    }
+    
+    .reviews-section-desktop .reviews-container {
+        gap: 30px;  /* Was 20px - more space between cards */
+        max-width: 1200px;  /* Was 900px - wider container */
     }
 }
 
