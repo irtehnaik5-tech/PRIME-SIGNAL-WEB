@@ -346,91 +346,87 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-.logo {
-    text-align: center;
-    margin-bottom: clamp(12px, 2vw, 32px);
-    width: 100%;
-}
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-.logo h1 {
-    font-size: clamp(18px, 3.5vw, 36px);
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    font-family: 'Libre Franklin', sans-serif;
-    color: white;
-    line-height: 1.2;
-    text-align: center;
-}
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            font-family: 'Libre Franklin', sans-serif;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: white;
+        }
 
-.logo p {
-    font-size: clamp(10px, 1.2vw, 16px);
-    color: #9ca3af;
-    margin-top: clamp(4px, 0.5vw, 10px);
-    font-family: 'Libre Franklin', sans-serif;
-}
-.welcome-text {
-    text-align: center;
-    margin-bottom: clamp(12px, 2vw, 32px);
-    width: 100%;
-}
+        .logo p {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 8px;
+            font-family: 'Libre Franklin', sans-serif;
+        }
 
-.welcome-text h2 {
-    font-size: clamp(16px, 2.5vw, 28px);
-    font-weight: 700;
-    margin-bottom: clamp(4px, 0.5vw, 10px);
-    font-family: 'Libre Franklin', sans-serif;
-    color: white;
-}
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-.welcome-text p {
-    font-size: clamp(11px, 1.2vw, 16px);
-    color: #9ca3af;
-    font-family: 'Libre Franklin', sans-serif;
-    line-height: 1.4;
-}
+        .welcome-text h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Libre Franklin', sans-serif;
+            color: white;
+        }
 
-.telegram-login-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(6px, 1vw, 14px);
-    width: 100%;
-    background: transparent;
-    color: white;
-    padding: clamp(10px, 1.2vw, 16px) clamp(16px, 2vw, 24px);
-    border: 2px solid #38b6ff;
-    border-radius: 12px;
-    font-size: clamp(12px, 1.4vw, 18px);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    margin-bottom: clamp(12px, 1.5vw, 24px);
-    box-shadow: 0 0 10px rgba(56,182,255,0.3);
-    font-family: 'Libre Franklin', sans-serif;
-    white-space: nowrap;
-}
+        .welcome-text p {
+            font-size: 14px;
+            color: #9ca3af;
+            font-family: 'Libre Franklin', sans-serif;
+        }
+
+        .telegram-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            color: white;
+            padding: 14px 24px;
+            border: 2px solid #38b6ff;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 24px;
+            box-shadow: 0 0 10px rgba(56,182,255,0.3);
+            font-family: 'Libre Franklin', sans-serif;
+        }
 
         .telegram-login-btn:hover {
             background: #38b6ff;
             box-shadow: 0 0 20px rgba(56,182,255,0.6);
         }
-.telegram-login-btn svg {
-    width: clamp(16px, 1.5vw, 24px);
-    height: clamp(16px, 1.5vw, 24px);
-    fill: currentColor;
-    flex-shrink: 0;
-}
+        .telegram-login-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
 
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #4a5568;
-    font-size: clamp(10px, 0.8vw, 14px);
-    margin: clamp(8px, 1vw, 20px) 0;
-    width: 100%;
-}
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #4a5568;
+            font-size: 12px;
+            margin: 24px 0;
+        }
 
         .divider::before,
         .divider::after {
@@ -439,11 +435,11 @@
             border-bottom: 1px solid #2a2f3c;
         }
 
-.divider span {
-    padding: 0 clamp(8px, 1vw, 16px);
-    color: #9ca3af;
-    font-size: clamp(10px, 0.8vw, 14px);
-}
+        .divider span {
+            padding: 0 12px;
+            color: #9ca3af;
+        }
+
         @media (max-width: 768px) {
             body {
                 height: auto;
@@ -570,32 +566,64 @@
 
     .login-card-container {
         position: relative;
-        width: calc(100% - 60px); /* FIXED 30px margins on each side */
-        max-width: none; /* REMOVES THE CAP - or use a very high number */
-        /* OR use a larger max: */
-        /* max-width: 800px; */ /* If you want a higher limit */
-        aspect-ratio: 1 / 1; /* Keeps it square */
+        width: calc(100% - 60px);
+        max-width: none;
+        aspect-ratio: 1 / 1;
         margin: 0 auto;
         border-radius: 32px;
         overflow: hidden;
     }
 
-.login-card {
-    position: relative;
-    z-index: 1;
-    padding: clamp(20px, 4vw, 48px) clamp(20px, 4vw, 40px);
-    background: transparent;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(56, 182, 255, 0.3);
-    border-radius: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    .login-card {
+        position: relative;
+        z-index: 1;
+        padding: 48px 40px;
+        background: transparent;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(56, 182, 255, 0.3);
+        border-radius: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* ADD THESE RESPONSIVE TEXT SIZES - ONLY FOR DESKTOP */
+    .login-card .logo h1 {
+        font-size: clamp(24px, 3.5vw, 48px);
+    }
+
+    .login-card .logo p {
+        font-size: clamp(12px, 1.2vw, 18px);
+    }
+
+    .login-card .welcome-text h2 {
+        font-size: clamp(20px, 2.5vw, 36px);
+    }
+
+    .login-card .welcome-text p {
+        font-size: clamp(13px, 1.2vw, 18px);
+    }
+
+    .login-card .telegram-login-btn {
+        font-size: clamp(14px, 1.4vw, 20px);
+        padding: clamp(12px, 1.2vw, 18px) clamp(20px, 2vw, 28px);
+    }
+
+    .login-card .telegram-login-btn svg {
+        width: clamp(18px, 1.5vw, 26px);
+        height: clamp(18px, 1.5vw, 26px);
+    }
+
+    .login-card .divider {
+        font-size: clamp(11px, 0.8vw, 15px);
+    }
+
+    .login-card .divider span {
+        font-size: clamp(11px, 0.8vw, 15px);
+    }
 }
         @media (max-width: 480px) {
             .bottom-left-image {
