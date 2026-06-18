@@ -1310,10 +1310,10 @@
 @media (min-width: 769px) {
     .reviews-section-desktop {
         display: block !important;
-        padding: 40px clamp(30px, 12vw, 220px) 100px clamp(30px, 12vw, 220px);
+        padding: 30px clamp(30px, 12vw, 220px) 100px clamp(30px, 12vw, 220px);
         /*       ↑          ↑          ↑          ↑          ↑          ↑          */
-        /*    top    min   preferred   max    bottom    min   preferred   max       */
-        /*              SAME AS CHART MARGINS                                     */
+        /*    top    right   left    bottom    right      left                     */
+        /*    (fixed 30px)   (dynamic sides - same as chart)                      */
     }
     
     /* Make review cards bigger on desktop */
