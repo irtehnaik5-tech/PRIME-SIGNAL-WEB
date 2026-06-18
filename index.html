@@ -272,17 +272,29 @@
             cursor: default;
         }
 
-        .bottom-left-image {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 10;
-            max-width: 600px;
-            width: auto;
-            min-width: 400px;
-            opacity: 0.85;
-            transition: all 0.3s ease;
-        }
+.bottom-left-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: auto;
+    min-width: 400px;
+    opacity: 0.85;
+    transition: all 0.3s ease;
+}
+
+/* Desktop - fix right margin */
+@media (min-width: 769px) {
+    .bottom-left-image {
+        max-width: 55%;  /* Image takes max 55% of screen width */
+        min-width: 350px;
+    }
+    
+    .bottom-left-image img {
+        width: 100%;
+        height: auto;
+    }
+}
         .bottom-left-image img {
             width: 100%;
             height: auto;
