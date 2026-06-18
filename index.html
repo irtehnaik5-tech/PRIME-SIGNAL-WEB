@@ -558,36 +558,35 @@
 /* Desktop - PERFECT SQUARE with FIXED TOP & BOTTOM MARGINS */
 /* Desktop - DYNAMIC SQUARE with FIXED MARGINS */
 /* Desktop - PERFECT SQUARE with FIXED TOP & BOTTOM MARGINS */
+/* Desktop - PERFECT SQUARE with FIXED MARGINS on ALL 4 SIDES */
 @media (min-width: 769px) {
     .login-section {
         padding: 0;
-        display: grid;  /* Use grid instead of flex */
-        grid-template-columns: 1fr;  /* Single column */
-        grid-template-rows: 80px 1fr 80px;  /* TOP margin, content, BOTTOM margin */
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        align-items: center;      /* Center vertically */
         background: #000000;
         min-height: 100vh;
         flex: 1;
         position: relative;
-        padding-left: 80px;   /* FIXED left margin */
-        padding-right: 80px;  /* FIXED right margin */
+        /* Use padding for left and right margins */
+        padding-left: 80px;
+        padding-right: 80px;
+        /* Use gap or margin for top and bottom */
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
     
     .login-card-container {
-        /* Position in the middle row */
-        grid-row: 2;
-        grid-column: 1;
-        
-        /* PERFECT SQUARE - uses available space */
-        width: min(420px, calc(100vh - 160px));  /* Min of 420px or available space */
-        height: min(420px, calc(100vh - 160px)); /* SAME as width = SQUARE */
+        /* PERFECT SQUARE */
+        width: 420px;
+        height: 420px;
         max-width: none;
-        margin: 0;
+        margin: 0;  /* Remove auto margins */
         border-radius: 32px;
         overflow: hidden;
         flex-shrink: 0;
         position: relative;
-        justify-self: start;  /* Align to left */
-        align-self: center;   /* Center vertically in the middle row */
     }
     
     .login-card {
