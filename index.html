@@ -23,24 +23,33 @@
             overflow-x: hidden;
         }
         /* TICKER / MARQUEE STYLES */
-        .ticker-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #000000;
-            border-bottom: 1px solid #1a1a1a;
-            overflow: hidden;
-            white-space: nowrap;
-            z-index: 1000;
-            padding: 8px 0;
-        }
+.ticker-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #000000;
+    border-bottom: 1px solid #1a1a1a;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 1000;
+    padding: 8px 0;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
 
-        .ticker-track {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker-scroll 30s linear infinite;
-        }
+.ticker-track {
+    display: inline-block;
+    white-space: nowrap;
+    animation: ticker-scroll 30s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
 
 
 
@@ -438,115 +447,132 @@
             color: #9ca3af;
         }
 
-        @media (max-width: 768px) {
-            body {
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-            
-            .split-container {
-                flex-direction: column;
-                padding-top: 35px;
-                height: auto;
-                min-height: auto;
-            }
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .split-container {
+        flex-direction: column;
+        padding-top: 35px;
+        height: auto;
+        min-height: auto;
+    }
 
-            .ticker-wrapper {
-                padding: 5px 0;
-                position: fixed;
-            }
+    /* ===== CLEAN MOBILE TICKER STYLES ===== */
+    .ticker-wrapper {
+        padding: 5px 0;
+        position: fixed;
+        z-index: 1000;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+    }
 
-            .ticker-item {
-                margin: 0 12px;
-                font-size: 10px;
-            }
+    .ticker-track {
+        animation-duration: 25s;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        will-change: transform;
+    }
 
-            .art-section {
-                flex: none;
-                height: 85vh;
-                min-height: 75vh;
-                justify-content: space-between;
-                position: relative;
-                width: 100%;
-                z-index: 1;
-                padding-top: 0;
-                padding-bottom: 20px;
-                display: flex;
-                flex-direction: column;
-            }
+    .ticker-item {
+        margin: 0 12px;
+        font-size: 10px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+    /* ===== END MOBILE TICKER STYLES ===== */
 
-            .art-content {
-                padding: 0 16px;
-                max-width: 95%;
-                flex: 1;
-                overflow-y: auto;
-                min-height: 0;
-            }
-            .conversation-container {
-                max-height: none;
-                flex: 1;
-                min-height: 0;
-                padding: 16px 16px 16px 16px;
-            }
+    .art-section {
+        flex: none;
+        height: 85vh;
+        min-height: 75vh;
+        justify-content: space-between;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        padding-top: 0;
+        padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
 
-            .gradient-overlay {
-                height: 40px;
-            }
+    .art-content {
+        padding: 0 16px;
+        max-width: 95%;
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+    }
 
-            .bottom-left-image {
-                bottom: 0;
-                left: 0;
-                max-width: 400px;
-                min-width: 240px;
-                opacity: 0.85;
-                z-index: 3;
-            }
+    .conversation-container {
+        max-height: none;
+        flex: 1;
+        min-height: 0;
+        padding: 16px 16px 16px 16px;
+    }
 
-            .login-section {
-                display: none !important;
-            }
+    .gradient-overlay {
+        height: 40px;
+    }
 
-            .floating-login-box {
-                position: relative;
-                width: 90%;
-                max-width: 400px;
-                margin: 15px auto 1px auto;
-                z-index: 30;
-                pointer-events: none;
-                flex-shrink: 0;
-            }
-            .floating-login-box .login-card {
-                pointer-events: auto;
-                padding: 24px 20px;
-                width: 100%;
-                margin: 0;
-                visibility: visible;
-                opacity: 1;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-                background: transparent;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(56, 182, 255, 0.3);
-            }
-            
-            .floating-login-box .login-bg-image {
-                display: none;
-            }
+    .bottom-left-image {
+        bottom: 0;
+        left: 0;
+        max-width: 400px;
+        min-width: 240px;
+        opacity: 0.85;
+        z-index: 3;
+    }
 
-            .welcome-text h2 {
-                font-size: 20px;
-                color: #ffffff;
-            }
-            
-            .logo h1 {
-                font-size: 26px;
-            }
-            
-            .logo p {
-                font-size: 11px;
-            }
-        }
+    .login-section {
+        display: none !important;
+    }
+
+    .floating-login-box {
+        position: relative;
+        width: 90%;
+        max-width: 400px;
+        margin: 15px auto 1px auto;
+        z-index: 30;
+        pointer-events: none;
+        flex-shrink: 0;
+    }
+
+    .floating-login-box .login-card {
+        pointer-events: auto;
+        padding: 24px 20px;
+        width: 100%;
+        margin: 0;
+        visibility: visible;
+        opacity: 1;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(56, 182, 255, 0.3);
+    }
+    
+    .floating-login-box .login-bg-image {
+        display: none;
+    }
+
+    .welcome-text h2 {
+        font-size: 20px;
+        color: #ffffff;
+    }
+    
+    .logo h1 {
+        font-size: 26px;
+    }
+    
+    .logo p {
+        font-size: 11px;
+    }
+}
    /* Desktop - fix login box margins */
 /* Desktop - fix login box margins */
 @media (min-width: 769px) {
@@ -2177,27 +2203,37 @@
             { symbol: "TSLA", price: 175.80, change: -1.5 }
         ];
 
-        function initTicker() {
-            const track = document.getElementById('tickerTrack');
-            if (!track) return;
-            if (track.children.length > 0) return;
-            
-            let html = '';
-            for (let r = 0; r < 2; r++) {
-                for (const item of tickerData) {
-                    const cls = item.change >= 0 ? 'up' : 'down';
-                    const sign = item.change >= 0 ? '▲' : '▼';
-                    const price = item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2);
-                    html += `<div class="ticker-item">
-                        <span class="ticker-symbol">${item.symbol}</span>
-                        <span class="ticker-price">$${price}</span>
-                        <span class="ticker-change ${cls}">${sign} ${Math.abs(item.change).toFixed(2)}%</span>
-                    </div>`;
-                }
-            }
-            track.innerHTML = html;
+function initTicker() {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    
+    // Clear any existing animation by resetting the track
+    track.style.animation = 'none';
+    track.offsetHeight; // Trigger reflow
+    
+    let html = '';
+    const isMobile = window.innerWidth <= 768;
+    const repetitions = isMobile ? 3 : 2; // More items on mobile for smoother loop
+    
+    for (let r = 0; r < repetitions; r++) {
+        for (const item of tickerData) {
+            const cls = item.change >= 0 ? 'up' : 'down';
+            const sign = item.change >= 0 ? '▲' : '▼';
+            const price = item.price < 1 ? item.price.toFixed(4) : item.price.toFixed(2);
+            html += `<div class="ticker-item">
+                <span class="ticker-symbol">${item.symbol}</span>
+                <span class="ticker-price">$${price}</span>
+                <span class="ticker-change ${cls}">${sign} ${Math.abs(item.change).toFixed(2)}%</span>
+            </div>`;
         }
-
+    }
+    track.innerHTML = html;
+    
+    // Restart animation after a tiny delay
+    requestAnimationFrame(() => {
+        track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
+    });
+}
         function updatePrices() {
             const items = document.querySelectorAll('.ticker-item');
             let index = 0;
@@ -2468,7 +2504,29 @@
         }
 
         window.addEventListener('resize', adjustConversationHeight);
-        
+        // Fix ticker on mobile when scrolling
+let ticking = false;
+window.addEventListener('scroll', function() {
+    if (!ticking) {
+        window.requestAnimationFrame(function() {
+            const track = document.getElementById('tickerTrack');
+            if (track && window.innerWidth <= 768) {
+                // Force GPU acceleration
+                track.style.transform = 'translateZ(0)';
+                track.style.webkitTransform = 'translateZ(0)';
+            }
+            ticking = false;
+        });
+        ticking = true;
+    }
+});
+
+// Re-initialize ticker when orientation changes
+window.addEventListener('orientationchange', function() {
+    setTimeout(function() {
+        initTicker();
+    }, 300);
+});
         const observer = new MutationObserver(() => {
             adjustConversationHeight();
             scrollToBottom();
@@ -2501,6 +2559,24 @@
                 initPage();
             }, 500);
         }
+    // Pause ticker when tab is not visible (saves resources)
+document.addEventListener('visibilitychange', function() {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    
+    if (document.hidden) {
+        track.style.animationPlayState = 'paused';
+    } else {
+        track.style.animationPlayState = 'running';
+        // Restart animation to fix any glitches
+        setTimeout(() => {
+            track.style.animation = 'none';
+            track.offsetHeight;
+            const isMobile = window.innerWidth <= 768;
+            track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
+        }, 100);
+    }
+});
     </script>
 </body>
 </html>
