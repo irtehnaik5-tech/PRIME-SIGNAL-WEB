@@ -1476,12 +1476,7 @@
     opacity: 0 !important;
     pointer-events: none;
 }
-/* Force mobile reviews to show on mobile */
-@media (max-width: 768px) {
-    .reviews-section-mobile {
-        display: block !important;
-    }
-}        
+       
     </style>
 </head>
 <body>
@@ -2352,85 +2347,87 @@ function initTicker() {
             return card;
         }
 
-        function initializeReviews(containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            if (container.children.length > 0) return;
-            
-            const reviews = getRandomReviews();
-            reviews.forEach((review, index) => {
-                const card = createReviewCard(review);
-                container.appendChild(card);
+function initializeReviews(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    if (container.children.length > 0) return;
+    
+    const reviews = getRandomReviews();
+    reviews.forEach((review, index) => {
+        const card = createReviewCard(review);
+        container.appendChild(card);
+        // Force a small delay for mobile
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 300 + 200);
+    });
+}
+function updateReviews(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    let cards = container.querySelectorAll('.review-card');
+    if (cards.length === 0) {
+        initializeReviews(containerId);
+        return;
+    }
+    
+    // Use a unique flag for each container
+    const transitionKey = 'isTransitioning_' + containerId;
+    if (window[transitionKey]) return;
+    window[transitionKey] = true;
+    
+    const newReviews = getRandomReviews();
+    
+    while (cards.length < 2) {
+        const card = createReviewCard(newReviews[cards.length]);
+        container.appendChild(card);
+        cards = container.querySelectorAll('.review-card');
+    }
+    
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+    });
+    
+    setTimeout(() => {
+        cards.forEach((card, index) => {
+            if (index < newReviews.length) {
+                const review = newReviews[index];
+                const authorEl = card.querySelector('.review-author');
+                const starsEl = card.querySelector('.review-stars');
+                const textEl = card.querySelector('.review-text');
+                
+                if (authorEl) authorEl.textContent = review.author;
+                if (starsEl) starsEl.innerHTML = generateStars(review.rating);
+                if (textEl) textEl.textContent = `"${review.text}"`;
+                
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.display = 'block';
+            }
+        });
+        
+        for (let i = newReviews.length; i < cards.length; i++) {
+            cards[i].style.display = 'none';
+        }
+        
+        cards.forEach((card, index) => {
+            if (index < newReviews.length) {
                 setTimeout(() => {
+                    card.style.display = 'block';
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
                 }, index * 300 + 200);
-            });
-        }
-
-        function updateReviews(containerId) {
-            if (isTransitioning) return;
-            
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            
-            let cards = container.querySelectorAll('.review-card');
-            if (cards.length === 0) {
-                initializeReviews(containerId);
-                return;
             }
-            
-            isTransitioning = true;
-            const newReviews = getRandomReviews();
-            
-            while (cards.length < 2) {
-                const card = createReviewCard(newReviews[cards.length]);
-                container.appendChild(card);
-                cards = container.querySelectorAll('.review-card');
-            }
-            
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-            });
-            
-            setTimeout(() => {
-                cards.forEach((card, index) => {
-                    if (index < newReviews.length) {
-                        const review = newReviews[index];
-                        const authorEl = card.querySelector('.review-author');
-                        const starsEl = card.querySelector('.review-stars');
-                        const textEl = card.querySelector('.review-text');
-                        
-                        if (authorEl) authorEl.textContent = review.author;
-                        if (starsEl) starsEl.innerHTML = generateStars(review.rating);
-                        if (textEl) textEl.textContent = `"${review.text}"`;
-                        
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                        card.style.display = 'block';
-                    }
-                });
-                
-                for (let i = newReviews.length; i < cards.length; i++) {
-                    cards[i].style.display = 'none';
-                }
-                
-                cards.forEach((card, index) => {
-                    if (index < newReviews.length) {
-                        setTimeout(() => {
-                            card.style.display = 'block';
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, index * 300 + 200);
-                    }
-                });
-                
-                setTimeout(() => {
-                    isTransitioning = false;
-                }, 1000);
-            }, 600);
-        }
+        });
+        
+        setTimeout(() => {
+            window[transitionKey] = false;
+        }, 1000);
+    }, 600);
+}
 
         // ============================================
         // MAIN INITIALIZATION - MERGED UPDATES
@@ -2458,51 +2455,58 @@ function initTicker() {
         }
 
         // Combined update function - runs everything together
-        function updateAll() {
-            updatePrices();
-            updateReviews('desktopReviewsContainer');
-            updateReviews('mobileReviewsContainer');
+// Combined update function - runs everything together
+function updateAll() {
+    updatePrices();
+    // Update desktop reviews
+    updateReviews('desktopReviewsContainer');
+    // Update mobile reviews with a slight delay to avoid conflicts
+    setTimeout(() => {
+        updateReviews('mobileReviewsContainer');
+    }, 200);
+}
+
+async function initPage() {
+    await waitForLibrary();
+
+    // Initialize ticker
+    initTicker();
+    
+    // Initialize reviews - with a small delay for mobile
+    setTimeout(() => {
+        initializeReviews('desktopReviewsContainer');
+        initializeReviews('mobileReviewsContainer');
+    }, 100);
+
+    // Initialize charts
+    setTimeout(() => {
+        initCharts();
+        
+        document.getElementById('analyzeBtn')?.addEventListener('click', function() {
+            startScan('scanLine', 'analyzeBtn');
+        });
+        document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
+            startScan('scanLineMobile', 'analyzeBtnMobile');
+        });
+
+        window.addEventListener('resize', resizeCharts);
+    }, 300);
+
+    // Start conversation
+    setTimeout(() => {
+        try {
+            startConversation();
+        } catch(e) {
+            console.log('Conversation error:', e);
         }
+    }, 500);
 
-        async function initPage() {
-            await waitForLibrary();
-
-            // Initialize ticker
-            initTicker();
-            
-            // Initialize reviews
-            initializeReviews('desktopReviewsContainer');
-            initializeReviews('mobileReviewsContainer');
-
-            // Initialize charts
-            setTimeout(() => {
-                initCharts();
-                
-                document.getElementById('analyzeBtn')?.addEventListener('click', function() {
-                    startScan('scanLine', 'analyzeBtn');
-                });
-                document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
-                    startScan('scanLineMobile', 'analyzeBtnMobile');
-                });
-
-                window.addEventListener('resize', resizeCharts);
-            }, 300);
-
-            // Start conversation
-            setTimeout(() => {
-                try {
-                    startConversation();
-                } catch(e) {
-                    console.log('Conversation error:', e);
-                }
-            }, 500);
-
-            adjustConversationHeight();
-            
-            // SINGLE INTERVAL - Updates everything together every 4 seconds
-            if (reviewInterval) clearInterval(reviewInterval);
-            reviewInterval = setInterval(updateAll, 4000);
-        }
+    adjustConversationHeight();
+    
+    // SINGLE INTERVAL - Updates everything together every 4 seconds
+    if (reviewInterval) clearInterval(reviewInterval);
+    reviewInterval = setInterval(updateAll, 4000);
+}
 
         window.addEventListener('resize', adjustConversationHeight);
         // Fix ticker on mobile when scrolling
