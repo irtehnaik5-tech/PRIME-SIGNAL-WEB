@@ -985,7 +985,7 @@
     padding: 0 80px;
     text-align: center;
     flex-shrink: 0;  /* Title never shrinks */
-    margin-bottom: 30px;  /* ← Changed from 10px to 5px for smaller space */
+    margin-bottom: 10px;  /* Space between title and chart header */
 }
 
 .new-section-desktop-wrapper .chart-wrapper-center {
@@ -994,9 +994,9 @@
     align-items: center;
     width: 100%;
     padding: 0 clamp(30px, 12vw, 220px);
+    /*       ↑ Minimum  ↑ Preferred  ↑ Maximum  */
     flex: 1;
     min-height: 0;
-    margin-top: 0;  /* ← ADD THIS */
 }
 
 /* Remove old separate sections */
@@ -1037,7 +1037,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             font-family: monospace;
             font-size: 10px;
             font-weight: 600;
@@ -1571,14 +1571,14 @@
 <!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
 <div class="new-section-desktop-wrapper">
     <!-- Title -->
-<div class="title-container">
-    <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
-        <span style="color: #38b6ff;">One click</span>. AI scans the market.
-    </h2>
-    <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4;">  <!-- ← Changed from 8px to 4px -->
-        You get a clear signal with entry, stop-loss, and take-profit levels.
-    </p>
-</div>
+    <div class="title-container">
+        <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
+            <span style="color: #38b6ff;">One click</span>. AI scans the market.
+        </h2>
+        <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
+            You get a clear signal with entry, stop-loss, and take-profit levels.
+        </p>
+    </div>
 
     <!-- Chart Section -->
     <div class="chart-wrapper-center">
@@ -1619,14 +1619,14 @@
 <div class="new-section-mobile">
     <div class="chart-wrapper-center">
         <!-- ADD TITLE HERE -->
-<div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:4px;">
-    <h2 style="...">
-        <span style="color: #38b6ff;">One click</span>. AI scans the market.
-    </h2>
-    <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4; font-size: 18px;">  <!-- ← Changed from 8px to 4px -->
-        You get a clear signal with entry, stop-loss, and take-profit levels.
-    </p>
-</div>
+        <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:10px;">
+            <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: 21px;">
+                <span style="color: #38b6ff;">One click</span>. AI scans the market.
+            </h2>
+            <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4; font-size: 16px;">
+                You get a clear signal with entry, stop-loss, and take-profit levels.
+            </p>
+        </div>
         
         <div class="chart-view-header">
             <div class="left-group">
