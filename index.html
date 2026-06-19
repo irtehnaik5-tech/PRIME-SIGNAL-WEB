@@ -2454,97 +2454,98 @@ function updateReviews(containerId) {
         }
 
         // Combined update function - runs everything together
-// Combined update function - runs everything together
-function updateAll() {
-    updatePrices();
-    // Update desktop reviews
-    updateReviews('desktopReviewsContainer');
-    // Update mobile reviews with a slight delay to avoid conflicts
-    setTimeout(() => {
-        updateReviews('mobileReviewsContainer');
-    }, 200);
-}
-
-async function initPage() {
-    await waitForLibrary();
-
-    // Initialize ticker
-    initTicker();
-    
-    // Initialize charts
-    setTimeout(() => {
-        initCharts();
-        
-        document.getElementById('analyzeBtn')?.addEventListener('click', function() {
-            startScan('scanLine', 'analyzeBtn');
-        });
-        document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
-            startScan('scanLineMobile', 'analyzeBtnMobile');
-        });
-
-        window.addEventListener('resize', resizeCharts);
-    }, 300);
-
-    // Initialize reviews AFTER charts (but only once)
-    setTimeout(() => {
-        initializeReviews('desktopReviewsContainer');
-        initializeReviews('mobileReviewsContainer');
-    }, 400);
-
-    // Start conversation
-    setTimeout(() => {
-        try {
-            startConversation();
-        } catch(e) {
-            console.log('Conversation error:', e);
+        function updateAll() {
+            updatePrices();
+            // Update desktop reviews
+            updateReviews('desktopReviewsContainer');
+            // Update mobile reviews with a slight delay to avoid conflicts
+            setTimeout(() => {
+                updateReviews('mobileReviewsContainer');
+            }, 200);
         }
-    }, 500);
 
-    adjustConversationHeight();
-    
-    // SINGLE INTERVAL - Updates everything together every 4 seconds
-    if (reviewInterval) clearInterval(reviewInterval);
-    reviewInterval = setInterval(updateAll, 4000);
-}
+        async function initPage() {
+            await waitForLibrary();
 
-    adjustConversationHeight();
-    
-    // SINGLE INTERVAL - Updates everything together every 4 seconds
-    if (reviewInterval) clearInterval(reviewInterval);
-    reviewInterval = setInterval(updateAll, 4000);
-}
+            // Initialize ticker
+            initTicker();
+            
+            // Initialize charts
+            setTimeout(() => {
+                initCharts();
+                
+                document.getElementById('analyzeBtn')?.addEventListener('click', function() {
+                    startScan('scanLine', 'analyzeBtn');
+                });
+                document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
+                    startScan('scanLineMobile', 'analyzeBtnMobile');
+                });
+
+                window.addEventListener('resize', resizeCharts);
+            }, 300);
+
+            // Initialize reviews AFTER charts (but only once)
+            setTimeout(() => {
+                initializeReviews('desktopReviewsContainer');
+                initializeReviews('mobileReviewsContainer');
+            }, 400);
+
+            // Start conversation
+            setTimeout(() => {
+                try {
+                    startConversation();
+                } catch(e) {
+                    console.log('Conversation error:', e);
+                }
+            }, 500);
+
+            adjustConversationHeight();
+            
+            // SINGLE INTERVAL - Updates everything together every 4 seconds
+            if (reviewInterval) clearInterval(reviewInterval);
+            reviewInterval = setInterval(updateAll, 4000);
+        }
 
         window.addEventListener('resize', adjustConversationHeight);
+        
         // Fix ticker on mobile when scrolling
-let ticking = false;
-window.addEventListener('scroll', function() {
-    if (!ticking) {
-        window.requestAnimationFrame(function() {
-            const track = document.getElementById('tickerTrack');
-            if (track && window.innerWidth <= 768) {
-                // Force GPU acceleration
-                track.style.transform = 'translateZ(0)';
-                track.style.webkitTransform = 'translateZ(0)';
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    const track = document.getElementById('tickerTrack');
+                    if (track && window.innerWidth <= 768) {
+                        // Force GPU acceleration
+                        track.style.transform = 'translateZ(0)';
+                        track.style.webkitTransform = 'translateZ(0)';
+                    }
+                    ticking = false;
+                });
+                ticking = true;
             }
-            ticking = false;
         });
-        ticking = true;
-    }
-});
 
-// Re-initialize ticker when orientation changes
-window.addEventListener('orientationchange', function() {
-    setTimeout(function() {
-        initTicker();
-    }, 300);
-});
+        // Re-initialize ticker when orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                initTicker();
+            }, 300);
+        });
+
         const observer = new MutationObserver(() => {
             adjustConversationHeight();
             scrollToBottom();
         });
         observer.observe(container, { childList: true, subtree: true });
 
-
+        // ONLY ONE page load event
+        document.addEventListener('DOMContentLoaded', function() {
+            const loading = document.getElementById('loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                initPage();
+            }, 500);
+        });
 
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
@@ -2557,31 +2558,24 @@ window.addEventListener('orientationchange', function() {
             });
         }
 
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            const loading = document.getElementById('loading');
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                initPage();
-            }, 500);
-        }
-    // Pause ticker when tab is not visible (saves resources)
-document.addEventListener('visibilitychange', function() {
-    const track = document.getElementById('tickerTrack');
-    if (!track) return;
-    
-    if (document.hidden) {
-        track.style.animationPlayState = 'paused';
-    } else {
-        track.style.animationPlayState = 'running';
-        // Restart animation to fix any glitches
-        setTimeout(() => {
-            track.style.animation = 'none';
-            track.offsetHeight;
-            const isMobile = window.innerWidth <= 768;
-            track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
-        }, 100);
-    }
-});
+        // Pause ticker when tab is not visible (saves resources)
+        document.addEventListener('visibilitychange', function() {
+            const track = document.getElementById('tickerTrack');
+            if (!track) return;
+            
+            if (document.hidden) {
+                track.style.animationPlayState = 'paused';
+            } else {
+                track.style.animationPlayState = 'running';
+                // Restart animation to fix any glitches
+                setTimeout(() => {
+                    track.style.animation = 'none';
+                    track.offsetHeight;
+                    const isMobile = window.innerWidth <= 768;
+                    track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>
