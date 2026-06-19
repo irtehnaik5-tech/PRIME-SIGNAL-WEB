@@ -2350,13 +2350,12 @@ function initTicker() {
 function initializeReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    if (container.children.length > 0) return;
+    if (container.children.length > 0) return;  // ← This prevents duplicates
     
     const reviews = getRandomReviews();
     reviews.forEach((review, index) => {
         const card = createReviewCard(review);
         container.appendChild(card);
-        // Force a small delay for mobile
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
@@ -2472,12 +2471,6 @@ async function initPage() {
     // Initialize ticker
     initTicker();
     
-    // Initialize reviews - with a small delay for mobile
-    setTimeout(() => {
-        initializeReviews('desktopReviewsContainer');
-        initializeReviews('mobileReviewsContainer');
-    }, 100);
-
     // Initialize charts
     setTimeout(() => {
         initCharts();
@@ -2492,6 +2485,12 @@ async function initPage() {
         window.addEventListener('resize', resizeCharts);
     }, 300);
 
+    // Initialize reviews AFTER charts (but only once)
+    setTimeout(() => {
+        initializeReviews('desktopReviewsContainer');
+        initializeReviews('mobileReviewsContainer');
+    }, 400);
+
     // Start conversation
     setTimeout(() => {
         try {
@@ -2500,6 +2499,13 @@ async function initPage() {
             console.log('Conversation error:', e);
         }
     }, 500);
+
+    adjustConversationHeight();
+    
+    // SINGLE INTERVAL - Updates everything together every 4 seconds
+    if (reviewInterval) clearInterval(reviewInterval);
+    reviewInterval = setInterval(updateAll, 4000);
+}
 
     adjustConversationHeight();
     
@@ -2538,13 +2544,7 @@ window.addEventListener('orientationchange', function() {
         });
         observer.observe(container, { childList: true, subtree: true });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const loading = document.getElementById('loading');
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                initPage();
-            }, 500);
-        });
+
 
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
