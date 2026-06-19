@@ -219,6 +219,12 @@
         font-size: clamp(20px, 2vw, 40px);  /* Auto adjusts between 20px and 40px */
     }
 }
+/* Hide mobile reviews on desktop */
+@media (min-width: 769px) {
+    .reviews-section-mobile {
+        display: none !important;
+    }
+}        
 @media (max-width: 768px) {
     .new-section-desktop-wrapper {
         display: none !important;
@@ -2454,15 +2460,18 @@ function updateReviews(containerId) {
         }
 
         // Combined update function - runs everything together
-        function updateAll() {
-            updatePrices();
-            // Update desktop reviews
-            updateReviews('desktopReviewsContainer');
-            // Update mobile reviews with a slight delay to avoid conflicts
-            setTimeout(() => {
-                updateReviews('mobileReviewsContainer');
-            }, 200);
-        }
+// Combined update function - runs everything together
+function updateAll() {
+    updatePrices();
+    // Update desktop reviews
+    updateReviews('desktopReviewsContainer');
+    // Only update mobile reviews if we're on mobile
+    if (window.innerWidth <= 768) {
+        setTimeout(() => {
+            updateReviews('mobileReviewsContainer');
+        }, 200);
+    }
+}
 
         async function initPage() {
             await waitForLibrary();
@@ -2485,10 +2494,14 @@ function updateReviews(containerId) {
             }, 300);
 
             // Initialize reviews AFTER charts (but only once)
-            setTimeout(() => {
-                initializeReviews('desktopReviewsContainer');
-                initializeReviews('mobileReviewsContainer');
-            }, 400);
+// Initialize reviews AFTER charts (but only once)
+setTimeout(() => {
+    initializeReviews('desktopReviewsContainer');
+    // Only initialize mobile reviews if we're on mobile
+    if (window.innerWidth <= 768) {
+        initializeReviews('mobileReviewsContainer');
+    }
+}, 400);
 
             // Start conversation
             setTimeout(() => {
@@ -2505,8 +2518,28 @@ function updateReviews(containerId) {
             if (reviewInterval) clearInterval(reviewInterval);
             reviewInterval = setInterval(updateAll, 4000);
         }
+window.addEventListener('resize', adjustConversationHeight);
 
-        window.addEventListener('resize', adjustConversationHeight);
+// Handle switching between desktop and mobile views
+window.addEventListener('resize', function() {
+    const isMobile = window.innerWidth <= 768;
+    const desktopContainer = document.getElementById('desktopReviewsContainer');
+    const mobileContainer = document.getElementById('mobileReviewsContainer');
+    
+    if (isMobile) {
+        // On mobile: show mobile reviews, hide desktop
+        if (desktopContainer) desktopContainer.innerHTML = '';
+        if (mobileContainer && mobileContainer.children.length === 0) {
+            initializeReviews('mobileReviewsContainer');
+        }
+    } else {
+        // On desktop: show desktop reviews, hide mobile
+        if (mobileContainer) mobileContainer.innerHTML = '';
+        if (desktopContainer && desktopContainer.children.length === 0) {
+            initializeReviews('desktopReviewsContainer');
+        }
+    }
+});window.addEventListener('resize', adjustConversationHeight);
         
         // Fix ticker on mobile when scrolling
         let ticking = false;
@@ -2539,13 +2572,16 @@ function updateReviews(containerId) {
         observer.observe(container, { childList: true, subtree: true });
 
         // ONLY ONE page load event
-        document.addEventListener('DOMContentLoaded', function() {
-            const loading = document.getElementById('loading');
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                initPage();
-            }, 500);
-        });
+// ONLY ONE page load event
+document.addEventListener('DOMContentLoaded', function() {
+    const loading = document.getElementById('loading');
+    setTimeout(() => {
+        loading.classList.add('hidden');
+        // Check if we should initialize mobile or desktop reviews
+        const isMobile = window.innerWidth <= 768;
+        initPage();
+    }, 500);
+});
 
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
