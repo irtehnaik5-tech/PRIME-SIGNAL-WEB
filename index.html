@@ -127,14 +127,15 @@
 
         /* GRADIENT OVERLAY - black fade effect at top */
 .gradient-overlay {
-    position: fixed;  /* ← Changed to fixed */
+    position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;  /* ← Full width */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;  /* ← Full viewport width */
     height: 60px;
     background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
     pointer-events: none;
-    z-index: 100;  /* ← Higher z-index */
+    z-index: 20;
 }
 
         .message {
@@ -1506,10 +1507,9 @@
             <div class="full-transparent-overlay"></div>
             <div class="art-content">
                 <div class="conversation-wrapper">
-                    
+                    <div class="gradient-overlay"></div>
                     <div class="conversation-container" id="conversationContainer"></div>
                 </div>
-                <div class="gradient-overlay"></div>
             </div>
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
