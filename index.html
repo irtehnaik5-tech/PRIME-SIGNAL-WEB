@@ -950,8 +950,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
-    min-height: 100vh;
+
     background: #000000;
     padding: 30px 0 20px 0;  /* Top padding to prevent title from being hidden */
     align-items: flex-start;
@@ -959,7 +958,7 @@
 /* Chart box - fills remaining space */
 .new-section-desktop-wrapper .chart-box {
     width: 100%;
-
+    flex: 1
     min-height: 300px;
     background: #0a0c10;
     border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 with opacity */
@@ -990,7 +989,7 @@
     width: 100%;
     padding: 0 clamp(30px, 12vw, 220px);
     /*       ↑ Minimum  ↑ Preferred  ↑ Maximum  */
- 
+    flex: 1;
     min-height: 0;
 }
 
