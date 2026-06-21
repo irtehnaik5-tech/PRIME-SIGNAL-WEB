@@ -126,16 +126,16 @@
         }
 
         /* GRADIENT OVERLAY - black fade effect at top */
-        .gradient-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
-            pointer-events: none;
-            z-index: 20;
-        }
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;  /* ← Changed from 60px to 20px */
+    background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 20;
+}
 
         .message {
             display: flex;
