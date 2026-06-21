@@ -346,6 +346,8 @@
             opacity: 0.45;
             z-index: 0;
             pointer-events: none;
+            transform: scale(0.7);  /* ← ADD THIS - makes it 70% of original size */
+            transform-origin: bottom left;  /* ← ADD THIS - keeps it anchored to bottom left */
         }
 
         .login-card {
