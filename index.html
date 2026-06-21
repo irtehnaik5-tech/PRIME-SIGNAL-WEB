@@ -127,14 +127,14 @@
 
         /* GRADIENT OVERLAY - black fade effect at top */
 .gradient-overlay {
-    position: absolute;  /* ← Changed back to absolute */
+    position: fixed;  /* ← Changed to fixed */
     top: 0;
-    left: -20px;  /* ← Offset the padding */
-    right: -20px;  /* ← Offset the padding */
+    left: 0;
+    width: 100%;  /* ← Full width */
     height: 60px;
     background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
     pointer-events: none;
-    z-index: 20;
+    z-index: 100;  /* ← Higher z-index */
 }
 
         .message {
