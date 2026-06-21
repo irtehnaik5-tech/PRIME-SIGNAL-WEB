@@ -335,11 +335,23 @@
             overflow: hidden;
         }
 
+        .login-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom left;
+            opacity: 0.45;
+            z-index: 0;
+            pointer-events: none;
+        }
 
         .login-card {
             position: relative;
             z-index: 1;
-            padding: 100px 48px;
+            padding: 48px 40px;
             background: transparent;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(56, 182, 255, 0.3);
@@ -353,7 +365,7 @@
         }
 
         .logo h1 {
-            font-size: 35px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
             font-family: 'Libre Franklin', sans-serif;
@@ -364,7 +376,7 @@
         }
 
         .logo p {
-            font-size: 15px;
+            font-size: 12px;
             color: #9ca3af;
             margin-top: 8px;
             font-family: 'Libre Franklin', sans-serif;
@@ -376,7 +388,7 @@
         }
 
         .welcome-text h2 {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
             font-family: 'Libre Franklin', sans-serif;
@@ -384,7 +396,7 @@
         }
 
         .welcome-text p {
-            font-size: 18px;
+            font-size: 14px;
             color: #9ca3af;
             font-family: 'Libre Franklin', sans-serif;
         }
@@ -400,7 +412,7 @@
     padding: 14px 24px;
     border: 2px solid #3b82f6;  /* ← Changed to #3b82f6 */
     border-radius: 12px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -439,7 +451,6 @@
         .divider span {
             padding: 0 12px;
             color: #9ca3af;
-            
         }
 
 @media (max-width: 768px) {
@@ -518,7 +529,7 @@
     .bottom-left-image {
         bottom: 0;
         left: 0;
-        max-width: 320px;
+        max-width: 400px;
         min-width: 240px;
         opacity: 0.85;
         z-index: 3;
@@ -584,8 +595,8 @@
 
     .login-card-container {
         position: relative;
-        max-width: 680px;  /* ← Box won't get wider than this on large screens */
-        min-width: 340px;  /* ← Box won't get narrower than this on small screens */
+        max-width: 520px;  /* ← Box won't get wider than this on large screens */
+        min-width: 420px;  /* ← Box won't get narrower than this on small screens */
         width: 100%;
         margin: 0 auto;
         border-radius: 32px;
@@ -1147,7 +1158,7 @@
     border-radius: 12px;
     color: white;
     font-family: 'Libre Franklin', sans-serif;
-    font-size: 28px;
+    font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1553,7 +1564,7 @@
 
         <div class="login-section">
             <div class="login-card-container">
-                
+                <img class="login-bg-image" src="images/chart-icon.png" alt="Trading chart background">
                 <div class="login-card">
                     <div class="logo">
                         <h1>PRIME <span style="color: #3b82f6;">SIGNAL</span> AI</h1>
