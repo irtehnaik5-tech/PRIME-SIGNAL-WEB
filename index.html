@@ -43,7 +43,7 @@
 .ticker-track {
     display: inline-block;
     white-space: nowrap;
-    animation: ticker-scroll 85s linear infinite;
+    animation: ticker-scroll 60s linear infinite;
     will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -468,7 +468,7 @@
     }
 
     .ticker-track {
-        animation-duration: 85s;
+        animation-duration: 50s;
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
         will-change: transform;
@@ -2239,7 +2239,7 @@ function initTicker() {
     
     // Restart animation after a tiny delay
     requestAnimationFrame(() => {
-        track.style.animation = `ticker-scroll ${isMobile ? 60 : 85}s linear infinite`;
+        track.style.animation = `ticker-scroll ${isMobile ? 50 : 60}s linear infinite`;
     });
 }
         function updatePrices() {
@@ -2614,7 +2614,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     track.style.animation = 'none';
                     track.offsetHeight;
                     const isMobile = window.innerWidth <= 768;
-                    track.style.animation = `ticker-scroll ${isMobile ? 60 : 80}s linear infinite`;
+                    track.style.animation = `ticker-scroll ${isMobile ? 50 : 60}s linear infinite`;
                 }, 100);
             }
         });
