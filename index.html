@@ -1289,7 +1289,7 @@
 
 .reviews-section-desktop .review-card {
     background: transparent;
-    border: 1px solid rgba(56, 182, 255, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 */
     border-radius: 16px;
     padding: 20px 24px;
     opacity: 0;
@@ -1299,7 +1299,6 @@
     flex: 1;
     max-width: 420px;
 }
-
 .reviews-section-desktop .review-card.visible {
     opacity: 1;
     transform: translateY(0);
@@ -1427,7 +1426,7 @@
 
 .reviews-section-mobile .review-card {
     background: transparent;
-    border: 1px solid rgba(56, 182, 255, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 */
     border-radius: 16px;
     padding: 16px 18px;
     opacity: 0;
@@ -1489,7 +1488,17 @@
     opacity: 0 !important;
     pointer-events: none;
 }
-       
+.reviews-section-desktop .review-card:hover {
+    border-color: #3b82f6;  /* ← Solid blue on hover */
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.reviews-section-mobile .review-card:hover {
+    border-color: #3b82f6;  /* ← Solid blue on hover */
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}       
     </style>
 </head>
 <body>
