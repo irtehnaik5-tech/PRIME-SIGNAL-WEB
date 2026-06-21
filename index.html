@@ -219,12 +219,6 @@
         font-size: clamp(20px, 2vw, 40px);  /* Auto adjusts between 20px and 40px */
     }
 }
-/* Hide mobile reviews on desktop */
-@media (min-width: 769px) {
-    .reviews-section-mobile {
-        display: none !important;
-    }
-}        
 @media (max-width: 768px) {
     .new-section-desktop-wrapper {
         display: none !important;
@@ -401,30 +395,30 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-.telegram-login-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    background: transparent;
-    color: white;
-    padding: 14px 24px;
-    border: 2px solid #3b82f6;  /* ← Changed to #3b82f6 */
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    margin-bottom: 24px;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);  /* ← Changed shadow */
-    font-family: 'Libre Franklin', sans-serif;
-}
+        .telegram-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            color: white;
+            padding: 14px 24px;
+            border: 2px solid #38b6ff;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 24px;
+            box-shadow: 0 0 10px rgba(56,182,255,0.3);
+            font-family: 'Libre Franklin', sans-serif;
+        }
 
         .telegram-login-btn:hover {
-            background: #3b82f6;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); 
+            background: #38b6ff;
+            box-shadow: 0 0 20px rgba(56,182,255,0.6);
         }
         .telegram-login-btn svg {
             width: 24px;
@@ -559,7 +553,7 @@
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         background: transparent;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(59, 130, 246, 0.3);
+        border: 1px solid rgba(56, 182, 255, 0.3);
     }
     
     .floating-login-box .login-bg-image {
@@ -609,7 +603,7 @@
         padding: 56px '_px;
         background: transparent;
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(59, 130, 246, 0.3); 
+        border: 1px solid rgba(56, 182, 255, 0.3);
         border-radius: 32px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         width: 100%;
@@ -970,10 +964,10 @@
 /* Chart box - fills remaining space */
 .new-section-desktop-wrapper .chart-box {
     width: 100%;
-    flex: 1;
-    min-height: 300px;
+    flex: 1;  /* Fills available space */
+    min-height: 300px;  /* Minimum height */
     background: #131722;
-    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 with opacity */
+    border: 1px solid #2a2f3c;
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -1147,40 +1141,38 @@
         }
 
         /* Analyze Button - matches Telegram bot exactly, full width */
-.analyze-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: #3b82f6;  /* ← Changed to #3b82f6 */
-    border: 2px solid #3b82f6;  /* ← Changed to #3b82f6 */
-    border-radius: 12px;
-    color: white;
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 12px;
-    width: 100%;
-    position: relative;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);  /* ← Changed shadow */
-}
-.analyze-btn:hover {
-    background: #2563eb;  /* ← Darker version of #3b82f6 */
-    border-color: #2563eb;
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
-    transform: scale(1.02);
-}
-.analyze-btn.scanning {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.5);
-    pointer-events: none;
-    opacity: 0.7;
-}
+        .analyze-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1e3a8a, #0f172a);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Libre Franklin', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 12px;
+            width: 100%;
+            position: relative;
+        }
+
+        .analyze-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1e3a8a);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .analyze-btn.scanning {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #0f172a, #064e3b);
+            pointer-events: none;
+        }
 
         .analyze-btn .btn-text {
             transition: opacity 0.3s;
@@ -1220,17 +1212,12 @@
             font-size: 9px;
         }
 
-.new-section-mobile .chart-box {
-    width: 100%;
-    height: 50vh;
-    max-height: none;
-    min-height: 350px;
-    background: #131722;
-    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 with opacity */
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-}
+        .new-section-mobile .chart-box {
+            width: 100%;
+            height: 50vh;
+            max-height: none;
+            min-height: 350px;
+        }
 
         .new-section-mobile .analyze-btn {
             padding: 10px 16px;
@@ -1289,7 +1276,7 @@
 
 .reviews-section-desktop .review-card {
     background: transparent;
-    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 */
+    border: 1px solid rgba(56, 182, 255, 0.3);
     border-radius: 16px;
     padding: 20px 24px;
     opacity: 0;
@@ -1299,6 +1286,7 @@
     flex: 1;
     max-width: 420px;
 }
+
 .reviews-section-desktop .review-card.visible {
     opacity: 1;
     transform: translateY(0);
@@ -1426,7 +1414,7 @@
 
 .reviews-section-mobile .review-card {
     background: transparent;
-    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 */
+    border: 1px solid rgba(56, 182, 255, 0.3);
     border-radius: 16px;
     padding: 16px 18px;
     opacity: 0;
@@ -1488,17 +1476,7 @@
     opacity: 0 !important;
     pointer-events: none;
 }
-.reviews-section-desktop .review-card:hover {
-    border-color: #3b82f6;  /* ← Solid blue on hover */
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
-    transition: all 0.3s ease;
-}
-
-.reviews-section-mobile .review-card:hover {
-    border-color: #3b82f6;  /* ← Solid blue on hover */
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
-    transition: all 0.3s ease;
-}       
+       
     </style>
 </head>
 <body>
@@ -1526,7 +1504,7 @@
             <div class="floating-login-box">
                 <div class="login-card">
                     <div class="logo">
-                        <h1>PRIME <span style="color: #3b82f6;">SIGNAL</span> AI</h1>
+                        <h1>PRIME <span style="color: #38b6ff;">SIGNAL</span> AI</h1>
                         <p>AI-Powered Trading Signals</p>
                     </div>
                     <div class="welcome-text">
@@ -1567,7 +1545,7 @@
                 <img class="login-bg-image" src="images/chart-icon.png" alt="Trading chart background">
                 <div class="login-card">
                     <div class="logo">
-                        <h1>PRIME <span style="color: #3b82f6;">SIGNAL</span> AI</h1>
+                        <h1>PRIME <span style="color: #38b6ff;">SIGNAL</span> AI</h1>
                         <p>AI-Powered Trading Signals</p>
                     </div>
                     <div class="welcome-text">
@@ -1595,7 +1573,7 @@
     <!-- Title -->
     <div class="title-container">
         <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
-            <span style="color: #3b82f6;">One click</span>. AI scans the market.
+            <span style="color: #38b6ff;">One click</span>. AI scans the market.
         </h2>
         <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
             You get a clear signal with entry, stop-loss, and take-profit levels.
@@ -1642,8 +1620,8 @@
     <div class="chart-wrapper-center">
         <!-- ADD TITLE HERE -->
         <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:10px;">
-            <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: 21px;">
-                <span style="color: #3b82f6;">One click</span>. AI scans the market.
+            <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: 24px;">
+                <span style="color: #38b6ff;">One click</span>. AI scans the market.
             </h2>
             <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4; font-size: 16px;">
                 You get a clear signal with entry, stop-loss, and take-profit levels.
@@ -2372,12 +2350,13 @@ function initTicker() {
 function initializeReviews(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    if (container.children.length > 0) return;  // ← This prevents duplicates
+    if (container.children.length > 0) return;
     
     const reviews = getRandomReviews();
     reviews.forEach((review, index) => {
         const card = createReviewCard(review);
         container.appendChild(card);
+        // Force a small delay for mobile
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
@@ -2481,123 +2460,91 @@ function updateAll() {
     updatePrices();
     // Update desktop reviews
     updateReviews('desktopReviewsContainer');
-    // Only update mobile reviews if we're on mobile
-    if (window.innerWidth <= 768) {
-        setTimeout(() => {
-            updateReviews('mobileReviewsContainer');
-        }, 200);
-    }
+    // Update mobile reviews with a slight delay to avoid conflicts
+    setTimeout(() => {
+        updateReviews('mobileReviewsContainer');
+    }, 200);
 }
 
-        async function initPage() {
-            await waitForLibrary();
+async function initPage() {
+    await waitForLibrary();
 
-            // Initialize ticker
-            initTicker();
-            
-            // Initialize charts
-            setTimeout(() => {
-                initCharts();
-                
-                document.getElementById('analyzeBtn')?.addEventListener('click', function() {
-                    startScan('scanLine', 'analyzeBtn');
-                });
-                document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
-                    startScan('scanLineMobile', 'analyzeBtnMobile');
-                });
-
-                window.addEventListener('resize', resizeCharts);
-            }, 300);
-
-            // Initialize reviews AFTER charts (but only once)
-// Initialize reviews AFTER charts (but only once)
-setTimeout(() => {
-    initializeReviews('desktopReviewsContainer');
-    // Only initialize mobile reviews if we're on mobile
-    if (window.innerWidth <= 768) {
-        initializeReviews('mobileReviewsContainer');
-    }
-}, 400);
-
-            // Start conversation
-            setTimeout(() => {
-                try {
-                    startConversation();
-                } catch(e) {
-                    console.log('Conversation error:', e);
-                }
-            }, 500);
-
-            adjustConversationHeight();
-            
-            // SINGLE INTERVAL - Updates everything together every 4 seconds
-            if (reviewInterval) clearInterval(reviewInterval);
-            reviewInterval = setInterval(updateAll, 4000);
-        }
-window.addEventListener('resize', adjustConversationHeight);
-
-// Handle switching between desktop and mobile views
-window.addEventListener('resize', function() {
-    const isMobile = window.innerWidth <= 768;
-    const desktopContainer = document.getElementById('desktopReviewsContainer');
-    const mobileContainer = document.getElementById('mobileReviewsContainer');
+    // Initialize ticker
+    initTicker();
     
-    if (isMobile) {
-        // On mobile: show mobile reviews, hide desktop
-        if (desktopContainer) desktopContainer.innerHTML = '';
-        if (mobileContainer && mobileContainer.children.length === 0) {
-            initializeReviews('mobileReviewsContainer');
-        }
-    } else {
-        // On desktop: show desktop reviews, hide mobile
-        if (mobileContainer) mobileContainer.innerHTML = '';
-        if (desktopContainer && desktopContainer.children.length === 0) {
-            initializeReviews('desktopReviewsContainer');
-        }
-    }
-});window.addEventListener('resize', adjustConversationHeight);
+    // Initialize reviews - with a small delay for mobile
+    setTimeout(() => {
+        initializeReviews('desktopReviewsContainer');
+        initializeReviews('mobileReviewsContainer');
+    }, 100);
+
+    // Initialize charts
+    setTimeout(() => {
+        initCharts();
         
+        document.getElementById('analyzeBtn')?.addEventListener('click', function() {
+            startScan('scanLine', 'analyzeBtn');
+        });
+        document.getElementById('analyzeBtnMobile')?.addEventListener('click', function() {
+            startScan('scanLineMobile', 'analyzeBtnMobile');
+        });
+
+        window.addEventListener('resize', resizeCharts);
+    }, 300);
+
+    // Start conversation
+    setTimeout(() => {
+        try {
+            startConversation();
+        } catch(e) {
+            console.log('Conversation error:', e);
+        }
+    }, 500);
+
+    adjustConversationHeight();
+    
+    // SINGLE INTERVAL - Updates everything together every 4 seconds
+    if (reviewInterval) clearInterval(reviewInterval);
+    reviewInterval = setInterval(updateAll, 4000);
+}
+
+        window.addEventListener('resize', adjustConversationHeight);
         // Fix ticker on mobile when scrolling
-        let ticking = false;
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                window.requestAnimationFrame(function() {
-                    const track = document.getElementById('tickerTrack');
-                    if (track && window.innerWidth <= 768) {
-                        // Force GPU acceleration
-                        track.style.transform = 'translateZ(0)';
-                        track.style.webkitTransform = 'translateZ(0)';
-                    }
-                    ticking = false;
-                });
-                ticking = true;
+let ticking = false;
+window.addEventListener('scroll', function() {
+    if (!ticking) {
+        window.requestAnimationFrame(function() {
+            const track = document.getElementById('tickerTrack');
+            if (track && window.innerWidth <= 768) {
+                // Force GPU acceleration
+                track.style.transform = 'translateZ(0)';
+                track.style.webkitTransform = 'translateZ(0)';
             }
+            ticking = false;
         });
+        ticking = true;
+    }
+});
 
-        // Re-initialize ticker when orientation changes
-        window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
-                initTicker();
-            }, 300);
-        });
-
+// Re-initialize ticker when orientation changes
+window.addEventListener('orientationchange', function() {
+    setTimeout(function() {
+        initTicker();
+    }, 300);
+});
         const observer = new MutationObserver(() => {
             adjustConversationHeight();
             scrollToBottom();
         });
         observer.observe(container, { childList: true, subtree: true });
 
-        // ONLY ONE page load event
-// ONLY ONE page load event
-document.addEventListener('DOMContentLoaded', function() {
-    const loading = document.getElementById('loading');
-    setTimeout(() => {
-        loading.classList.add('hidden');
-        // Check if we should initialize mobile or desktop reviews
-        const isMobile = window.innerWidth <= 768;
-        initPage();
-    }, 500);
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            const loading = document.getElementById('loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                initPage();
+            }, 500);
+        });
 
         document.getElementById('loginBtnMobile')?.addEventListener('click', function() {
             window.open('https://t.me/PrimeSignalAiBot/PrimeSignalAI', '_blank');
@@ -2610,24 +2557,31 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Pause ticker when tab is not visible (saves resources)
-        document.addEventListener('visibilitychange', function() {
-            const track = document.getElementById('tickerTrack');
-            if (!track) return;
-            
-            if (document.hidden) {
-                track.style.animationPlayState = 'paused';
-            } else {
-                track.style.animationPlayState = 'running';
-                // Restart animation to fix any glitches
-                setTimeout(() => {
-                    track.style.animation = 'none';
-                    track.offsetHeight;
-                    const isMobile = window.innerWidth <= 768;
-                    track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
-                }, 100);
-            }
-        });
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            const loading = document.getElementById('loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                initPage();
+            }, 500);
+        }
+    // Pause ticker when tab is not visible (saves resources)
+document.addEventListener('visibilitychange', function() {
+    const track = document.getElementById('tickerTrack');
+    if (!track) return;
+    
+    if (document.hidden) {
+        track.style.animationPlayState = 'paused';
+    } else {
+        track.style.animationPlayState = 'running';
+        // Restart animation to fix any glitches
+        setTimeout(() => {
+            track.style.animation = 'none';
+            track.offsetHeight;
+            const isMobile = window.innerWidth <= 768;
+            track.style.animation = `ticker-scroll ${isMobile ? 25 : 30}s linear infinite`;
+        }, 100);
+    }
+});
     </script>
 </body>
 </html>
