@@ -401,26 +401,26 @@
             font-family: 'Libre Franklin', sans-serif;
         }
 
-        .telegram-login-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            background: transparent;
-            color: white;
-            padding: 14px 24px;
-            border: 2px solid #38b6ff;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            margin-bottom: 24px;
-            box-shadow: 0 0 10px rgba(56,182,255,0.3);
-            font-family: 'Libre Franklin', sans-serif;
-        }
+.telegram-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: transparent;
+    color: white;
+    padding: 14px 24px;
+    border: 2px solid #3b82f6;  /* ← Changed to #3b82f6 */
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-bottom: 24px;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);  /* ← Changed shadow */
+    font-family: 'Libre Franklin', sans-serif;
+}
 
         .telegram-login-btn:hover {
             background: #38b6ff;
@@ -973,7 +973,7 @@
     flex: 1;
     min-height: 300px;
     background: #131722;
-    border: 1px solid rgba(56, 182, 255, 0.3);  /* ← Changed to match login box */
+    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 with opacity */
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -1153,10 +1153,10 @@
     justify-content: center;
     gap: 8px;
     padding: 12px 20px;
-    background: #38b6ff;  /* ← Changed to solid blue */
-    border: 2px solid #38b6ff;
+    background: #3b82f6;  /* ← Changed to #3b82f6 */
+    border: 2px solid #3b82f6;  /* ← Changed to #3b82f6 */
     border-radius: 12px;
-    color: white;  /* ← White text */
+    color: white;
     font-family: 'Libre Franklin', sans-serif;
     font-size: 14px;
     font-weight: 700;
@@ -1167,18 +1167,17 @@
     margin-top: 12px;
     width: 100%;
     position: relative;
-    box-shadow: 0 0 10px rgba(56, 182, 255, 0.3);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);  /* ← Changed shadow */
 }
-
 .analyze-btn:hover {
-    background: #2a9fd8;  /* ← Slightly darker blue on hover */
-    border-color: #2a9fd8;
-    box-shadow: 0 0 30px rgba(56, 182, 255, 0.8);
-    transform: scale(1.02);  /* ← Slight grow effect */
+    background: #2563eb;  /* ← Darker version of #3b82f6 */
+    border-color: #2563eb;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    transform: scale(1.02);
 }
 .analyze-btn.scanning {
-    border-color: #38b6ff;
-    background: rgba(56, 182, 255, 0.6);  /* ← Semi-transparent blue */
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.5);
     pointer-events: none;
     opacity: 0.7;
 }
@@ -1227,7 +1226,7 @@
     max-height: none;
     min-height: 350px;
     background: #131722;
-    border: 1px solid rgba(56, 182, 255, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.4);  /* ← Changed to #3b82f6 with opacity */
     border-radius: 12px;
     position: relative;
     overflow: hidden;
