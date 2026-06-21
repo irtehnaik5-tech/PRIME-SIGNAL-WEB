@@ -337,7 +337,7 @@
 
 .login-bg-image {
     position: absolute;
-    top: 0;
+    bottom: 0;  /* ← Changed from top: 0 to bottom: 0 */
     left: 0;
     width: 100%;
     height: 100%;
@@ -346,8 +346,8 @@
     opacity: 0.45;
     z-index: 0;
     pointer-events: none;
-    transform: scale(0.7);  /* ← Makes image 70% smaller */
-    transform-origin: bottom left;  /* ← Keeps it anchored to bottom-left */
+    transform: scale(0.7);  /* ← 70% size */
+    transform-origin: bottom left;  /* ← Anchors to bottom-left */
 }
         .login-card {
             position: relative;
