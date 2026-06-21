@@ -129,9 +129,8 @@
 .gradient-overlay {
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;  /* ← Full viewport width */
+    left: 0;  /* ← Touches the left edge */
+    right: 0;  /* ← Touches the right edge */
     height: 60px;
     background: linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0) 100%);
     pointer-events: none;
@@ -1507,10 +1506,10 @@
             <div class="full-transparent-overlay"></div>
             <div class="art-content">
                 <div class="conversation-wrapper">
-                    <div class="gradient-overlay"></div>
                     <div class="conversation-container" id="conversationContainer"></div>
                 </div>
             </div>
+            <div class="gradient-overlay"></div>            
             <div class="bottom-left-image">
                 <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
