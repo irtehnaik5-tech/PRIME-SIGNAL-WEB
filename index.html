@@ -219,12 +219,149 @@
         font-size: clamp(20px, 2vw, 40px);  /* Auto adjusts between 20px and 40px */
     }
 }
-/* Hide mobile reviews on desktop */
-@media (min-width: 769px) {
-    .reviews-section-mobile {
-        display: none !important;
+/* Mobile Result Box - positioned below Analyze button */
+@media (max-width: 768px) {
+    .mobile-result-box {
+        width: 100%;
+        background: transparent;
+        border: 1px solid rgba(59, 130, 246, 0.4);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-top: 16px;  /* Space after Analyze button */
+        margin-bottom: 0;
+        display: block;
     }
-}        
+    
+    .mobile-result-box .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .mobile-result-box .result-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #9ca3af;
+    }
+    
+    .mobile-result-box .result-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 4px;
+    }
+    
+    .mobile-result-box .result-badge.buy {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+    }
+    
+    .mobile-result-box .result-badge.sell {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+    }
+    
+    .mobile-result-box .result-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .mobile-result-box .result-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+    }
+    
+    .mobile-result-box .result-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        color: #9ca3af;
+    }
+    
+    .mobile-result-box .result-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+    }
+    
+    .mobile-result-box .result-value.entry {
+        color: #e6e9f0;
+    }
+    
+    .mobile-result-box .result-value.tp {
+        color: #22c55e;
+    }
+    
+    .mobile-result-box .result-value.sl {
+        color: #ef4444;
+    }
+    
+    .mobile-result-box .result-divider {
+        border-top: 1px solid rgba(59, 130, 246, 0.2);
+        margin: 2px 0;
+    }
+    
+    .mobile-result-box .result-reasons {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 2px 0;
+    }
+    
+    .mobile-result-box .reason-item {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 8px;
+        color: #94a3b8;
+        line-height: 1.4;
+    }
+    
+    .mobile-result-box .result-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .mobile-result-box .result-score {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        font-weight: 800;
+        color: #22c55e;
+    }
+    
+    .mobile-result-box .result-confidence {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #9ca3af;
+    }
+}
+
+/* Reviews section - directly below result box */
+@media (max-width: 768px) {
+    .reviews-section-mobile {
+        margin-top: 20px;  /* Space after result box */
+        padding-bottom: 30px;
+    }
+}      
 @media (max-width: 768px) {
     .new-section-desktop-wrapper {
         display: none !important;
@@ -1630,8 +1767,8 @@
 <!-- ===== NEW SECTION - Mobile with Chart ===== -->
 <div class="new-section-mobile">
     <div class="chart-wrapper-center">
-        <!-- ADD TITLE HERE -->
-        <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:30px;">
+        <!-- 1. TITLE -->
+        <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:16px;">
             <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: 21px;">
                 <span style="color: #3b82f6;">One click</span>. AI scans the market.
             </h2>
@@ -1639,7 +1776,8 @@
                 You get a clear signal with entry, stop-loss, and take-profit levels.
             </p>
         </div>
-        
+
+        <!-- 2. CHART HEADER -->
         <div class="chart-view-header">
             <div class="left-group">
                 <span>Chart view</span>
@@ -1651,18 +1789,53 @@
             </div>
         </div>
 
+        <!-- 3. CHART -->
         <div class="chart-box">
             <div class="chart-inner" id="chartContainerMobile"></div>
             <div class="scan-line" id="scanLineMobile"></div>
         </div>
 
+        <!-- 4. ANALYZE BUTTON -->
         <button class="analyze-btn" id="analyzeBtnMobile">
             <span class="btn-text">Analyze</span>
             <span class="btn-loader"></span>
         </button>
+
+        <!-- 5. RESULT BOX (below Analyze button) -->
+        <div class="mobile-result-box">
+            <div class="result-header">
+                <span class="result-title">SIGNAL RESULT</span>
+                <span class="result-badge buy">BUY</span>
+            </div>
+            <div class="result-body">
+                <div class="result-row">
+                    <span class="result-label">ENTRY PRICE</span>
+                    <span class="result-value entry">2389.20</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">TAKE PROFIT</span>
+                    <span class="result-value tp">2415.80</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">STOP LOSS</span>
+                    <span class="result-value sl">2370.50</span>
+                </div>
+                <div class="result-divider"></div>
+                <div class="result-reasons">
+                    <div class="reason-item">• RSI oversold (28.4) - Bullish</div>
+                    <div class="reason-item">• MACD bullish crossover</div>
+                    <div class="reason-item">• Strong trend (ADX 32.1)</div>
+                </div>
+            </div>
+            <div class="result-footer">
+                <span class="result-score">9.0/10</span>
+                <span class="result-confidence">High Confidence</span>
+            </div>
+        </div>
     </div>
 </div>
-<!-- ===== REVIEWS SECTION - Mobile (below chart) ===== -->
+
+<!-- 6. REVIEWS SECTION - Mobile (below result box) -->
 <div class="reviews-section-mobile">
     <div class="reviews-title">
         <h2>What Our Users Say</h2>
@@ -1671,7 +1844,7 @@
     <div class="reviews-container" id="mobileReviewsContainer">
         <!-- Reviews will be inserted here by JavaScript -->
     </div>
-</div>    
+</div>
 <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
