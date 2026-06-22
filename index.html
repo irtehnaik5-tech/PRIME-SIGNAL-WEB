@@ -1119,6 +1119,40 @@
         min-height: 570px;  /* X1.5 bigger on desktop only */
     }
 }
+/* Desktop: Split Chart + Result Box */
+@media (min-width: 769px) {
+    .desktop-split-content {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        width: 100%;
+        padding: 0 clamp(30px, 12vw, 220px);
+        flex: 1;
+        min-height: 0;
+        align-items: stretch;
+    }
+    
+    .chart-wrapper-left {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    
+    .result-wrapper-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    
+    /* Make chart fill its container */
+    .chart-wrapper-left .chart-box {
+        flex: 1;
+        min-height: 300px;
+        max-height: none;
+    }
+}        
         @media (min-width: 769px) {
             .trust-boxes {
                 margin: 30px auto;
@@ -1436,17 +1470,18 @@
         }
 
         /* Chart container - dark box with border */
-        .chart-box {
-            width: 100%;
-            height: 75%;
-            max-height: 620px;
-            min-height: 680px;
-            background: #131722;
-            border: 1px solid #2a2f3c;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
+/* Chart container - dark box with border */
+.chart-box {
+    width: 100%;
+    height: 75%;
+    max-height: 620px;
+    min-height: 400px;
+    background: #131722;
+    border: 1px solid #2a2f3c;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
 
         .chart-box .chart-inner {
             width: 100%;
@@ -1926,6 +1961,7 @@
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width with fixed margins -->
 <!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
+<!-- ===== NEW SECTION - Desktop (Chart Left | Result Box Right) ===== -->
 <div class="new-section-desktop-wrapper">
     <!-- Title -->
     <div class="title-container">
@@ -1937,41 +1973,81 @@
         </p>
     </div>
 
-    <!-- Chart Section -->
-    <div class="chart-wrapper-center">
-        <div class="chart-view-header">
-            <div class="left-group">
-                <span>Chart view</span>
-                <span class="symbol-box">GOLD XAU/USD</span>
+    <!-- Desktop: Chart + Result Box side by side -->
+    <div class="desktop-split-content">
+        <!-- LEFT: Chart Section -->
+        <div class="chart-wrapper-left">
+            <div class="chart-view-header">
+                <div class="left-group">
+                    <span>Chart view</span>
+                    <span class="symbol-box">GOLD XAU/USD</span>
+                </div>
+                <div class="score-box">
+                    Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
+                    <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
+                </div>
             </div>
-            <div class="score-box">
-                Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
-                <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
+
+            <div class="chart-box">
+                <div class="chart-inner" id="chartContainer"></div>
+                <div class="scan-line" id="scanLine"></div>
             </div>
+
+            <button class="analyze-btn" id="analyzeBtn">
+                <span class="btn-text">Analyze</span>
+                <span class="btn-loader"></span>
+            </button>
         </div>
 
-        <div class="chart-box">
-            <div class="chart-inner" id="chartContainer"></div>
-            <div class="scan-line" id="scanLine"></div>
+        <!-- RIGHT: Result Box -->
+        <div class="result-wrapper-right">
+            <div class="result-box">
+                <!-- Header: SIGNAL TO : BUY XAU/USD -->
+                <div class="result-header">
+                    <span class="signal-label">SIGNAL TO :</span>
+                    <span class="signal-badge buy">BUY</span>
+                    <span class="symbol-name">XAU/USD</span>
+                </div>
+                
+                <!-- Body: Entry, TP, SL -->
+                <div class="result-body">
+                    <div class="result-row">
+                        <span class="row-label">ENTRY PRICE</span>
+                        <span class="row-value buy">2389.20</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="row-label">TAKE PROFIT</span>
+                        <span class="row-value buy">2415.80</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="row-label">STOP LOSS</span>
+                        <span class="row-value sell">2370.50</span>
+                    </div>
+                </div>
+                
+                <!-- Info: Current, RSI, ADX -->
+                <div class="result-info">
+                    <div><span>Current:</span> <span class="info-value">2389.20</span></div>
+                    <div><span>RSI:</span> <span class="info-value">28.4</span></div>
+                    <div><span>ADX:</span> <span class="info-value">32.1</span></div>
+                </div>
+                
+                <!-- Footer: Reasons + Score -->
+                <div class="result-reasons">
+                    <div class="reasons-list">
+                        <div>• RSI oversold (28.4) - Bullish</div>
+                        <div>• MACD bullish crossover</div>
+                        <div>• Strong trend (ADX 32.1)</div>
+                    </div>
+                    <div class="score-section">
+                        <div class="score-label">Signal score</div>
+                        <div class="score-value">9.0/10</div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <button class="analyze-btn" id="analyzeBtn">
-            <span class="btn-text">Analyze</span>
-            <span class="btn-loader"></span>
-        </button>
     </div>
 </div>
-<!-- ===== REVIEWS SECTION - Desktop (below chart) ===== -->
-<div class="reviews-section-desktop">
-    <div class="reviews-title">
-        <h2>What Our Users Say</h2>
-        <p>Real reviews from real traders</p>
-    </div>
-    <div class="reviews-container" id="desktopReviewsContainer">
-        <!-- Reviews will be inserted here by JavaScript -->
-    </div>
-</div>
-
 <!-- ===== NEW SECTION - Mobile with Chart ===== -->
 <div class="new-section-mobile">
     <div class="chart-wrapper-center">
