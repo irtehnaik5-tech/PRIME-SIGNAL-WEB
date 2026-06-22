@@ -1870,6 +1870,7 @@
     transition: all 0.3s ease;
 }       
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
+/* Desktop: 50/50 Split - Chart Left | Result Box Right */
 @media (min-width: 769px) {
     .desktop-split-50 {
         display: flex;
@@ -1883,7 +1884,7 @@
     }
     
     .chart-wrapper-left-50 {
-        flex: 1;  /* 50% */
+        flex: 1;
         display: flex;
         flex-direction: column;
         min-height: 0;
@@ -1891,14 +1892,13 @@
     }
     
     .result-wrapper-right-50 {
-        flex: 1;  /* 50% */
+        flex: 1;
         display: flex;
         flex-direction: column;
         min-height: 0;
         width: 50%;
     }
     
-    /* Chart box - fills its container */
     .chart-box-50 {
         width: 100%;
         flex: 1;
@@ -1917,12 +1917,11 @@
         min-height: 250px;
     }
     
-    /* Result box - fills its container */
     .result-box-50 {
         background: transparent;
         border: 1px solid #3b82f6;
         border-radius: 20px;
-        padding: 16px;
+        padding: 24px 28px;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -1934,7 +1933,65 @@
         border-color: #3b82f6;
         box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
     }
-}        
+    
+    /* X2 TEXT SIZES FOR RESULT BOX */
+    .result-box-50 .result-header .signal-label {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+    
+    .result-box-50 .result-header .signal-badge {
+        font-size: 24px;
+        padding: 8px 24px;
+    }
+    
+    .result-box-50 .result-header .symbol-name {
+        font-size: 22px;
+        padding: 8px 16px;
+    }
+    
+    .result-box-50 .result-row .row-label {
+        font-size: 26px;
+    }
+    
+    .result-box-50 .result-row .row-value {
+        font-size: 28px;
+        padding: 4px 12px;
+    }
+    
+    .result-box-50 .result-info {
+        font-size: 22px;
+        gap: 24px;
+    }
+    
+    .result-box-50 .result-reasons .reasons-list {
+        font-size: 20px;
+        gap: 4px;
+    }
+    
+    .result-box-50 .result-reasons .score-label {
+        font-size: 18px;
+    }
+    
+    .result-box-50 .result-reasons .score-value {
+        font-size: 44px;
+    }
+    
+    .result-box-50 .result-row {
+        padding: 12px 16px;
+        border-radius: 16px;
+    }
+    
+    .result-box-50 .result-body {
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .result-box-50 .result-reasons {
+        gap: 20px;
+        padding-top: 16px;
+    }
+}
     </style>
 </head>
 <body>
