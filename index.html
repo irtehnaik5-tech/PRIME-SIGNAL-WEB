@@ -1322,14 +1322,15 @@
 
 
 /* Combined desktop section - title + chart + button = full viewport height */
+/* Combined desktop section - title + chart + button = full viewport height */
 .new-section-desktop-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
-
+    min-height: 100vh;
     background: #000000;
-    padding: 30px 0 20px 0;  /* Top padding to prevent title from being hidden */
-    align-items: flex-start;
+    padding: 30px 0 20px 0;
+    align-items: center;
 }
 /* Chart box - fills remaining space */
 .new-section-desktop-wrapper .chart-box {
@@ -1872,6 +1873,7 @@
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
+/* Desktop: 50/50 Split - Chart Left | Result Box Right */
 @media (min-width: 769px) {
     .desktop-split-50 {
         display: flex;
@@ -1890,6 +1892,7 @@
         flex-direction: column;
         min-height: 0;
         width: 50%;
+        height: 100%;  /* ADD THIS */
     }
     
     .result-wrapper-right-50 {
@@ -1898,12 +1901,13 @@
         flex-direction: column;
         min-height: 0;
         width: 50%;
+        height: 100%;  /* ADD THIS */
     }
     
     .chart-box-50 {
         width: 100%;
         flex: 1;
-        min-height: 350px;
+        min-height: 450px;  /* INCREASE THIS */
         max-height: none;
         background: #0a0c10;
         border: 1px solid rgba(59, 130, 246, 0.4);
@@ -1915,7 +1919,7 @@
     .chart-box-50 .chart-inner {
         width: 100%;
         height: 100%;
-        min-height: 250px;
+        min-height: 350px;  /* INCREASE THIS */
     }
     
     .result-box-50 {
@@ -1926,8 +1930,9 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        min-height: 350px;
+        min-height: 450px;  /* INCREASE THIS TO MATCH CHART */
         transition: all 0.3s ease;
+        flex: 1;  /* ADD THIS */
     }
     
     .result-box-50:hover {
@@ -1986,11 +1991,13 @@
     .result-box-50 .result-body {
         gap: 14px;
         margin-bottom: 18px;
+        flex: 1;  /* ADD THIS - pushes content down */
     }
     
     .result-box-50 .result-reasons {
         gap: 18px;
         padding-top: 14px;
+        margin-top: auto;  /* ADD THIS - sticks to bottom */
     }
 }
     </style>
@@ -2184,7 +2191,7 @@
         <!-- Reviews will be inserted here by JavaScript -->
     </div>
 </div>
-</div>
+
 <!-- ===== NEW SECTION - Mobile with Chart ===== -->
 <div class="new-section-mobile">
     <div class="chart-wrapper-center">
