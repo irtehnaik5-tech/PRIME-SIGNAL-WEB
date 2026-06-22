@@ -219,15 +219,189 @@
         font-size: clamp(20px, 2vw, 40px);  /* Auto adjusts between 20px and 40px */
     }
 }
-/* Mobile Result Box - positioned below Analyze button */
+/* Desktop Result Box - EXACT MATCH */
+@media (min-width: 769px) {
+    .result-box {
+        background: transparent;
+        border: 1px solid #3b82f6;
+        border-radius: 20px;
+        padding: 16px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 400px;
+        transition: all 0.3s ease;
+    }
+    
+    .result-box:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+    }
+    
+    .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .result-header .signal-label {
+        font-family: monospace;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #93c5fd;
+    }
+    
+    .result-header .signal-badge {
+        font-family: monospace;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 4px;
+    }
+    
+    .result-header .signal-badge.buy {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+    }
+    
+    .result-header .signal-badge.sell {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+    }
+    
+    .result-header .signal-badge.neutral {
+        background: rgba(156, 163, 175, 0.2);
+        color: #9ca3af;
+    }
+    
+    .result-header .symbol-name {
+        background: #2a2f3c;
+        border: 1px solid #2a2f3c;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 11px;
+        font-weight: 600;
+        color: #9ca3af;
+    }
+    
+    .result-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .result-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        padding: 8px 12px;
+    }
+    
+    .result-row .row-label {
+        font-weight: 700;
+        color: white;
+        font-size: 13px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .result-row .row-value {
+        font-family: monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 6px;
+    }
+    
+    .result-row .row-value.buy {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+    }
+    
+    .result-row .row-value.sell {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+    }
+    
+    .result-row .row-value.neutral {
+        background: rgba(156, 163, 175, 0.15);
+        color: #9ca3af;
+    }
+    
+    .result-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 11px;
+        color: #cbd5e1;
+        margin-bottom: 12px;
+    }
+    
+    .result-info span {
+        color: #9ca3af;
+    }
+    
+    .result-info .info-value {
+        color: #cbd5e1;
+    }
+    
+    .result-reasons {
+        display: flex;
+        gap: 16px;
+        border-top: 1px solid rgba(59, 130, 246, 0.4);
+        padding-top: 12px;
+    }
+    
+    .result-reasons .reasons-list {
+        flex: 2;
+        font-size: 10px;
+        color: #94a3b8;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .result-reasons .score-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: right;
+    }
+    
+    .result-reasons .score-label {
+        font-size: 9px;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .result-reasons .score-value {
+        font-size: 22px;
+        font-weight: 800;
+        color: white;
+        line-height: 1.2;
+    }
+}
+
+/* Mobile Result Box - EXACT MATCH */
 @media (max-width: 768px) {
     .mobile-result-box {
         width: 100%;
         background: transparent;
-        border: 1px solid rgba(59, 130, 246, 0.4);
-        border-radius: 12px;
-        padding: 16px 18px;
-        margin-top: 16px;  /* Space after Analyze button */
+        border: 1px solid #3b82f6;
+        border-radius: 20px;
+        padding: 16px;
+        margin-top: 16px;
         margin-bottom: 0;
         display: block;
     }
@@ -237,121 +411,152 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
     }
     
-    .mobile-result-box .result-title {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 9px;
+    .mobile-result-box .signal-label {
+        font-family: monospace;
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #9ca3af;
+        letter-spacing: 1px;
+        color: #93c5fd;
     }
     
-    .mobile-result-box .result-badge {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 9px;
+    .mobile-result-box .signal-badge {
+        font-family: monospace;
+        font-size: 11px;
         font-weight: 700;
-        text-transform: uppercase;
-        padding: 3px 10px;
+        padding: 4px 12px;
         border-radius: 4px;
     }
     
-    .mobile-result-box .result-badge.buy {
-        background: rgba(34, 197, 94, 0.15);
+    .mobile-result-box .signal-badge.buy {
+        background: rgba(34, 197, 94, 0.2);
         color: #22c55e;
     }
     
-    .mobile-result-box .result-badge.sell {
-        background: rgba(239, 68, 68, 0.15);
+    .mobile-result-box .signal-badge.sell {
+        background: rgba(239, 68, 68, 0.2);
         color: #ef4444;
+    }
+    
+    .mobile-result-box .signal-badge.neutral {
+        background: rgba(156, 163, 175, 0.2);
+        color: #9ca3af;
+    }
+    
+    .mobile-result-box .symbol-name {
+        background: #2a2f3c;
+        border: 1px solid #2a2f3c;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 10px;
+        font-weight: 600;
+        color: #9ca3af;
     }
     
     .mobile-result-box .result-body {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
+        margin-bottom: 16px;
     }
     
     .mobile-result-box .result-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 6px 10px;
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        padding: 8px 12px;
+    }
+    
+    .mobile-result-box .row-label {
+        font-weight: 700;
+        color: white;
+        font-size: 13px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .mobile-result-box .row-value {
+        font-family: monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        padding: 2px 6px;
         border-radius: 6px;
     }
     
-    .mobile-result-box .result-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 8px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        color: #9ca3af;
-    }
-    
-    .mobile-result-box .result-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 14px;
-        font-weight: 700;
-    }
-    
-    .mobile-result-box .result-value.entry {
-        color: #e6e9f0;
-    }
-    
-    .mobile-result-box .result-value.tp {
+    .mobile-result-box .row-value.buy {
+        background: rgba(34, 197, 94, 0.15);
         color: #22c55e;
     }
     
-    .mobile-result-box .result-value.sl {
+    .mobile-result-box .row-value.sell {
+        background: rgba(239, 68, 68, 0.15);
         color: #ef4444;
     }
     
-    .mobile-result-box .result-divider {
-        border-top: 1px solid rgba(59, 130, 246, 0.2);
-        margin: 2px 0;
+    .mobile-result-box .row-value.neutral {
+        background: rgba(156, 163, 175, 0.15);
+        color: #9ca3af;
+    }
+    
+    .mobile-result-box .result-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 11px;
+        color: #cbd5e1;
+        margin-bottom: 12px;
+    }
+    
+    .mobile-result-box .result-info span {
+        color: #9ca3af;
+    }
+    
+    .mobile-result-box .result-info .info-value {
+        color: #cbd5e1;
     }
     
     .mobile-result-box .result-reasons {
         display: flex;
-        flex-direction: column;
-        gap: 3px;
-        padding: 2px 0;
+        gap: 16px;
+        border-top: 1px solid rgba(59, 130, 246, 0.4);
+        padding-top: 12px;
     }
     
-    .mobile-result-box .reason-item {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 8px;
+    .mobile-result-box .reasons-list {
+        flex: 2;
+        font-size: 10px;
         color: #94a3b8;
-        line-height: 1.4;
-    }
-    
-    .mobile-result-box .result-footer {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 12px;
-        padding-top: 8px;
-        border-top: 1px solid rgba(59, 130, 246, 0.2);
+        flex-direction: column;
+        gap: 2px;
     }
     
-    .mobile-result-box .result-score {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 18px;
-        font-weight: 800;
-        color: #22c55e;
+    .mobile-result-box .score-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: right;
     }
     
-    .mobile-result-box .result-confidence {
-        font-family: 'JetBrains Mono', monospace;
+    .mobile-result-box .score-label {
         font-size: 9px;
-        font-weight: 600;
-        text-transform: uppercase;
         color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .mobile-result-box .score-value {
+        font-size: 22px;
+        font-weight: 800;
+        color: white;
+        line-height: 1.2;
     }
 }
 
@@ -1802,36 +2007,51 @@
         </button>
 
         <!-- 5. RESULT BOX (below Analyze button) -->
-        <div class="mobile-result-box">
-            <div class="result-header">
-                <span class="result-title">SIGNAL RESULT</span>
-                <span class="result-badge buy">BUY</span>
-            </div>
-            <div class="result-body">
-                <div class="result-row">
-                    <span class="result-label">ENTRY PRICE</span>
-                    <span class="result-value entry">2389.20</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">TAKE PROFIT</span>
-                    <span class="result-value tp">2415.80</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">STOP LOSS</span>
-                    <span class="result-value sl">2370.50</span>
-                </div>
-                <div class="result-divider"></div>
-                <div class="result-reasons">
-                    <div class="reason-item">• RSI oversold (28.4) - Bullish</div>
-                    <div class="reason-item">• MACD bullish crossover</div>
-                    <div class="reason-item">• Strong trend (ADX 32.1)</div>
-                </div>
-            </div>
-            <div class="result-footer">
-                <span class="result-score">9.0/10</span>
-                <span class="result-confidence">High Confidence</span>
-            </div>
+<!-- 5. RESULT BOX (below Analyze button) - EXACT MATCH TO TELEGRAM BOT -->
+<div class="mobile-result-box">
+    <!-- Header: SIGNAL TO : BUY XAU/USD -->
+    <div class="result-header">
+        <span class="signal-label">SIGNAL TO :</span>
+        <span class="signal-badge buy">BUY</span>
+        <span class="symbol-name">XAU/USD</span>
+    </div>
+    
+    <!-- Body: Entry, TP, SL -->
+    <div class="result-body">
+        <div class="result-row">
+            <span class="row-label">ENTRY PRICE</span>
+            <span class="row-value buy">2389.20</span>
         </div>
+        <div class="result-row">
+            <span class="row-label">TAKE PROFIT</span>
+            <span class="row-value buy">2415.80</span>
+        </div>
+        <div class="result-row">
+            <span class="row-label">STOP LOSS</span>
+            <span class="row-value sell">2370.50</span>
+        </div>
+    </div>
+    
+    <!-- Info: Current, RSI, ADX -->
+    <div class="result-info">
+        <div><span>Current:</span> <span class="info-value">2389.20</span></div>
+        <div><span>RSI:</span> <span class="info-value">28.4</span></div>
+        <div><span>ADX:</span> <span class="info-value">32.1</span></div>
+    </div>
+    
+    <!-- Footer: Reasons + Score -->
+    <div class="result-reasons">
+        <div class="reasons-list">
+            <div>• RSI oversold (28.4) - Bullish</div>
+            <div>• MACD bullish crossover</div>
+            <div>• Strong trend (ADX 32.1)</div>
+        </div>
+        <div class="score-section">
+            <div class="score-label">Signal score</div>
+            <div class="score-value">9.0/10</div>
+        </div>
+    </div>
+</div>
     </div>
 </div>
 
