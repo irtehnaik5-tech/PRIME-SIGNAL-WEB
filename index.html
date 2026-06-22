@@ -1830,41 +1830,7 @@
     border-color: #3b82f6;  /* ← Solid blue on hover */
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     transition: all 0.3s ease;
-}
-        /* Desktop: Split Chart + Result Box */
-@media (min-width: 769px) {
-    .desktop-split-content {
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-        width: 100%;
-        padding: 0 clamp(30px, 12vw, 220px);
-        flex: 1;
-        min-height: 0;
-        align-items: stretch;
-    }
-    
-    .chart-wrapper-left {
-        flex: 2;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-    
-    .result-wrapper-right {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-}
-
-/* Remove the old chart-wrapper-center styles for desktop */
-@media (min-width: 769px) {
-    .new-section-desktop-wrapper .chart-wrapper-center {
-        display: none;
-    }
-}
+}       
     </style>
 </head>
 <body>
@@ -1877,126 +1843,121 @@
         <div class="ticker-track" id="tickerTrack"></div>
     </div>
 
-<div class="split-container">
-    <!-- LEFT: ART SECTION - Now has the Chart -->
-    <div class="art-section">
-        <div class="full-transparent-overlay"></div>
-        
-        <!-- Chart Content instead of conversation -->
-        <div class="art-content" style="justify-content: flex-start; padding-top: 20px;">
-            <!-- Title -->
-            <div class="title-container" style="width:100%; padding:0 20px; text-align:center; margin-bottom:20px;">
-                <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2; font-size: clamp(24px, 3vw, 40px);">
-                    <span style="color: #3b82f6;">One click</span>. AI scans the market.
-                </h2>
-                <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 4px; line-height: 1.4; font-size: clamp(14px, 1.5vw, 20px);">
-                    You get a clear signal with entry, stop-loss, and take-profit levels.
-                </p>
-            </div>
-
-            <!-- Chart Header -->
-            <div class="chart-view-header" style="padding: 0 20px;">
-                <div class="left-group">
-                    <span>Chart view</span>
-                    <span class="symbol-box">GOLD XAU/USD</span>
-                </div>
-                <div class="score-box">
-                    Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
-                    <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
+    <div class="split-container">
+        <div class="art-section">
+            <div class="full-transparent-overlay"></div>
+            <div class="art-content">
+                <div class="conversation-wrapper">
+                    <div class="conversation-container" id="conversationContainer"></div>
                 </div>
             </div>
-
-            <!-- Chart -->
-            <div class="chart-box" style="margin: 0 20px; height: 55vh; min-height: 400px;">
-                <div class="chart-inner" id="chartContainer"></div>
-                <div class="scan-line" id="scanLine"></div>
+            <div class="gradient-overlay"></div>            
+            <div class="bottom-left-image">
+                <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
             </div>
-
-            <!-- Analyze Button -->
-            <button class="analyze-btn" id="analyzeBtn" style="margin: 12px 20px 0 20px; width: calc(100% - 40px);">
-                <span class="btn-text">Analyze</span>
-                <span class="btn-loader"></span>
-            </button>
-        </div>
-
-        <div class="gradient-overlay"></div>
-        <div class="bottom-left-image">
-            <img src="images/chart-icon.png" alt="Trading chart icon" id="bottomImage">
-        </div>
-    </div>
-
-    <!-- RIGHT: LOGIN SECTION - Now has the Result Box -->
-    <div class="login-section">
-        <div class="login-card-container">
-            <div class="login-card" style="padding: 40px 32px;">
-                <!-- Result Box -->
-                <div class="result-box" style="min-height: auto;">
-                    <!-- Header: SIGNAL TO : BUY XAU/USD -->
-                    <div class="result-header">
-                        <span class="signal-label">SIGNAL TO :</span>
-                        <span class="signal-badge buy">BUY</span>
-                        <span class="symbol-name">XAU/USD</span>
+            <div class="floating-login-box">
+                <div class="login-card">
+                    <div class="logo">
+                        <h1>PRIME <span style="color: #3b82f6;">SIGNAL</span> AI</h1>
+                        <p>AI-Powered Trading Signals</p>
                     </div>
-                    
-                    <!-- Body: Entry, TP, SL -->
-                    <div class="result-body">
-                        <div class="result-row">
-                            <span class="row-label">ENTRY PRICE</span>
-                            <span class="row-value buy">2389.20</span>
-                        </div>
-                        <div class="result-row">
-                            <span class="row-label">TAKE PROFIT</span>
-                            <span class="row-value buy">2415.80</span>
-                        </div>
-                        <div class="result-row">
-                            <span class="row-label">STOP LOSS</span>
-                            <span class="row-value sell">2370.50</span>
-                        </div>
+                    <div class="welcome-text">
+                        <h2>Welcome back, trader</h2>
+                        <p>Log in to continue to your dashboard</p>
                     </div>
-                    
-                    <!-- Info: Current, RSI, ADX -->
-                    <div class="result-info">
-                        <div><span>Current:</span> <span class="info-value">2389.20</span></div>
-                        <div><span>RSI:</span> <span class="info-value">28.4</span></div>
-                        <div><span>ADX:</span> <span class="info-value">32.1</span></div>
-                    </div>
-                    
-                    <!-- Footer: Reasons + Score -->
-                    <div class="result-reasons">
-                        <div class="reasons-list">
-                            <div>• RSI oversold (28.4) - Bullish</div>
-                            <div>• MACD bullish crossover</div>
-                            <div>• Strong trend (ADX 32.1)</div>
-                        </div>
-                        <div class="score-section">
-                            <div class="score-label">Signal score</div>
-                            <div class="score-value">9.0/10</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Keep the login button below result box -->
-                <div style="margin-top: 20px; text-align: center;">
-                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank" style="font-size: 16px; padding: 10px 20px;">
-                        <svg viewBox="0 0 24 24" width="18" height="18">
+                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" id="loginBtnMobile" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
                         </svg>
                         Log in with Telegram
                     </a>
-                    <div class="divider" style="margin: 12px 0;">
+                    <div class="divider">
+                        <span>Free • Secure • Instant</span>
+                    </div>
+                </div>
+            </div>
+            <div class="trust-boxes">
+                <div class="trust-box">
+                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Vector.webp" alt="icon">
+                    <div>
+                        <h3 class="trust-title">1M+ users' choice</h3>
+                        <p class="trust-text">Learned new skills</p>
+                    </div>
+                </div>
+                <div class="trust-box">
+                    <img class="trust-icon" src="https://duskxyykp230s.cloudfront.net/Frame%20rated%20on%20trustpilot-1.webp" alt="icon">
+                    <div>
+                        <h3 class="trust-title">Rated on Trustpilot</h3>
+                        <p class="trust-text">4.6 Satisfaction score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <div class="login-card-container">
+                
+                <div class="login-card">
+                    <div class="logo">
+                        <h1>PRIME <span style="color: #3b82f6;">SIGNAL</span> AI</h1>
+                        <p>AI-Powered Trading Signals</p>
+                    </div>
+                    <div class="welcome-text">
+                        <h2>Welcome back, trader</h2>
+                        <p>Log in to continue to your dashboard</p>
+                    </div>
+                    <a href="https://t.me/PrimeSignalAiBot/PrimeSignalAI" class="telegram-login-btn" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                        </svg>
+                        Log in with Telegram
+                    </a>
+                    <div class="divider">
                         <span>Free • Secure • Instant</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <!-- ===== NEW SECTION - Desktop ===== -->
     <!-- Title Section - Full Width with fixed margins -->
 <!-- ===== NEW SECTION - Desktop (Title + Chart + Button = Full Screen) ===== -->
-<!-- ===== NEW SECTION - Desktop (Title + Chart + Result Box = Full Screen) ===== -->
+<div class="new-section-desktop-wrapper">
+    <!-- Title -->
+    <div class="title-container">
+        <h2 style="font-weight: 700; color: #e6e9f0; font-family: 'Libre Franklin', sans-serif; letter-spacing: -0.5px; line-height: 1.2;">
+            <span style="color: #3b82f6;">One click</span>. AI scans the market.
+        </h2>
+        <p style="color: #9ca3af; font-family: 'Libre Franklin', sans-serif; margin-top: 8px; line-height: 1.4;">
+            You get a clear signal with entry, stop-loss, and take-profit levels.
+        </p>
+    </div>
 
+    <!-- Chart Section -->
+    <div class="chart-wrapper-center">
+        <div class="chart-view-header">
+            <div class="left-group">
+                <span>Chart view</span>
+                <span class="symbol-box">GOLD XAU/USD</span>
+            </div>
+            <div class="score-box">
+                Signal score: <span class="score-value" id="scoreValueDesktop">9.0/10</span>
+                <span class="score-direction buy" id="scoreDirectionDesktop">BUY</span>
+            </div>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-inner" id="chartContainer"></div>
+            <div class="scan-line" id="scanLine"></div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn">
+            <span class="btn-text">Analyze</span>
+            <span class="btn-loader"></span>
+        </button>
+    </div>
+</div>
 <!-- ===== REVIEWS SECTION - Desktop (below chart) ===== -->
 <div class="reviews-section-desktop">
     <div class="reviews-title">
