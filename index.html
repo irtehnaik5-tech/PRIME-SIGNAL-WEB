@@ -1872,6 +1872,7 @@
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
+/* Desktop: 50/50 Split - Chart Left | Result Box Right */
 @media (min-width: 769px) {
     .desktop-split-50 {
         display: flex;
@@ -1900,11 +1901,12 @@
         width: 50%;
     }
     
+    /* CHART BOX - with min/max height */
     .chart-box-50 {
         width: 100%;
         flex: 1;
-        min-height: 350px;
-        max-height: none;
+        min-height: 400px;
+        max-height: 700px;
         background: #0a0c10;
         border: 1px solid rgba(59, 130, 246, 0.4);
         border-radius: 12px;
@@ -1918,6 +1920,7 @@
         min-height: 250px;
     }
     
+    /* RESULT BOX - with min/max height */
     .result-box-50 {
         background: transparent;
         border: 1px solid #3b82f6;
@@ -1926,7 +1929,8 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        min-height: 350px;
+        min-height: 400px;
+        max-height: 700px;
         transition: all 0.3s ease;
     }
     
