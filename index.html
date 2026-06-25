@@ -4357,53 +4357,79 @@ function limitChartScrolling(chartObj, data) {
     // Get first and last time values
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
+    const padding = 3600; // 1 hour padding
     
-    // Set visible range to show all data initially
-    timeScale.setVisibleRange({
-        from: firstTime - 3600,  // Slight padding on left
-        to: lastTime + 3600      // Slight padding on right
-    });
-    
-    // Store bounds for scroll limiting
+    // Store bounds
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
+    chartObj._padding = padding;
     
-    // Listen for scroll events
-    timeScale.subscribeVisibleTimeRangeChange(function(range) {
+    // Set initial visible range
+    timeScale.setVisibleRange({
+        from: firstTime - padding,
+        to: lastTime + padding
+    });
+    
+    // Use subscribeVisibleLogicalRangeChange instead
+    timeScale.subscribeVisibleLogicalRangeChange(function(range) {
         if (!range) return;
         
-        const from = range.from;
-        const to = range.to;
+        // Get the current visible range in time
+        const visibleRange = timeScale.getVisibleRange();
+        if (!visibleRange) return;
+        
+        const from = visibleRange.from;
+        const to = visibleRange.to;
         const first = chartObj._firstTime;
         const last = chartObj._lastTime;
-        const padding = 3600; // 1 hour padding
+        const pad = chartObj._padding;
         
         let newFrom = from;
         let newTo = to;
         let needsUpdate = false;
         
         // Prevent scrolling left past first candle
-        if (from < first - padding) {
-            newFrom = first - padding;
+        if (from < first - pad) {
+            newFrom = first - pad;
             needsUpdate = true;
         }
         
         // Prevent scrolling right past last candle
-        if (to > last + padding) {
-            newTo = last + padding;
+        if (to > last + pad) {
+            newTo = last + pad;
             needsUpdate = true;
         }
         
-        // If we have a valid range and need to update
+        // If we need to correct the range
         if (needsUpdate && newFrom < newTo) {
-            timeScale.setVisibleRange({
-                from: newFrom,
-                to: newTo
-            });
+            // Use a small delay to prevent recursive loops
+            clearTimeout(chartObj._scrollTimeout);
+            chartObj._scrollTimeout = setTimeout(() => {
+                timeScale.setVisibleRange({
+                    from: newFrom,
+                    to: newTo
+                });
+            }, 10);
         }
     });
 }
-
+// Add this function to clean up chart subscriptions
+function cleanupChart(chartObj) {
+    if (chartObj && chartObj.chart) {
+        // Clear any pending timeout
+        if (chartObj._scrollTimeout) {
+            clearTimeout(chartObj._scrollTimeout);
+            chartObj._scrollTimeout = null;
+        }
+        // Unsubscribe from events
+        try {
+            const timeScale = chartObj.chart.timeScale();
+            timeScale.unsubscribeVisibleLogicalRangeChange();
+        } catch(e) {
+            // Ignore errors
+        }
+    }
+}
         function resizeCharts() {
             try {
                 if (chart1 && chart1.chart) {
