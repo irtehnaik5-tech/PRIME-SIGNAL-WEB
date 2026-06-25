@@ -4356,21 +4356,19 @@ function limitChartScrolling(chartObj, data) {
     // Get first and last time values
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
-    const padding = 3600; // 1 hour padding
     
-    // Store bounds
+    // Store bounds (NO padding - we want exact edge limits)
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
-    chartObj._padding = padding;
     chartObj._isAdjusting = false;
     
-    // Set initial visible range
+    // Set initial visible range - show all data with a little padding so it looks nice
     timeScale.setVisibleRange({
-        from: firstTime - padding,
-        to: lastTime + padding
+        from: firstTime,
+        to: lastTime
     });
     
-    // Use subscribeVisibleTimeRangeChange
+    // Subscribe to visible range changes
     timeScale.subscribeVisibleTimeRangeChange(function(range) {
         if (!range || chartObj._isAdjusting) return;
         
@@ -4378,49 +4376,51 @@ function limitChartScrolling(chartObj, data) {
         const to = range.to;
         const first = chartObj._firstTime;
         const last = chartObj._lastTime;
-        const pad = chartObj._padding;
         
         let newFrom = from;
         let newTo = to;
         let needsUpdate = false;
         
-        // The key fix: When scrolling right, we want the LAST candle at the RIGHT edge
-        // So we check if 'to' is greater than 'last + padding'
-        if (to > last + pad) {
-            newTo = last + pad;
-            // Keep the same width
-            const width = to - from;
-            newFrom = newTo - width;
+        // Check if viewport width is larger than data range
+        const viewWidth = to - from;
+        const dataWidth = last - first;
+        
+        // If viewport is wider than data, center it
+        if (viewWidth >= dataWidth) {
+            const center = (first + last) / 2;
+            newFrom = center - viewWidth / 2;
+            newTo = center + viewWidth / 2;
             needsUpdate = true;
+        } else {
+            // LEFT LIMIT: Stop when first candle reaches LEFT edge
+            // This means 'from' should never go below 'first'
+            if (from < first) {
+                newFrom = first;
+                newTo = first + viewWidth;
+                needsUpdate = true;
+            }
+            
+            // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
+            // This means 'to' should never go above 'last'
+            if (to > last) {
+                newTo = last;
+                newFrom = last - viewWidth;
+                needsUpdate = true;
+            }
         }
         
-        // When scrolling left, first candle at LEFT edge
-        if (from < first - pad) {
-            newFrom = first - pad;
-            const width = to - from;
-            newTo = newFrom + width;
-            needsUpdate = true;
-        }
-        
-        // Also fix: if we've scrolled so far right that the first candle is gone
-        // and we can't see the last candle anymore, reset
-        if (from > last - pad) {
-            // Snap back to show the last candle
-            const width = to - from;
-            newTo = last + pad;
-            newFrom = newTo - width;
-            needsUpdate = true;
-        }
-        
+        // If we need to correct the range
         if (needsUpdate && newFrom < newTo) {
             chartObj._isAdjusting = true;
-            timeScale.setVisibleRange({
-                from: Math.max(newFrom, first - pad),
-                to: Math.min(newTo, last + pad)
+            requestAnimationFrame(() => {
+                timeScale.setVisibleRange({
+                    from: newFrom,
+                    to: newTo
+                });
+                setTimeout(() => {
+                    chartObj._isAdjusting = false;
+                }, 50);
             });
-            setTimeout(() => {
-                chartObj._isAdjusting = false;
-            }, 50);
         }
     });
 }
