@@ -7422,13 +7422,12 @@ function startScan(scanLineId, btnId) {
     const scoreElements = document.querySelectorAll('.score-value');
     const directionElements = document.querySelectorAll('.score-direction');
     const signalBadges = document.querySelectorAll('.signal-badge');
-    const reasonsList = document.querySelectorAll('.reasons-list');
     const scoreLabels = document.querySelectorAll('.score-label');
 
-    // Animate numbers - fade them out
+    // Animate numbers - fade them out (TEXT LABELS STAY VISIBLE)
     const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
     resultBoxes.forEach(box => {
-        // Hide all values
+        // Hide ONLY the values (numbers), not the labels
         const values = box.querySelectorAll('.row-value, .info-value');
         values.forEach(el => {
             el.style.transition = 'opacity 0.3s ease';
@@ -7442,22 +7441,43 @@ function startScan(scanLineId, btnId) {
             badge.style.opacity = '0';
         }
         
-        // Hide the reasons list (RSI, MACD, ADX text)
-        const reasons = box.querySelector('.reasons-list');
-        if (reasons) {
-            reasons.style.transition = 'opacity 0.3s ease';
-            reasons.style.opacity = '0';
+        // KEEP the reasons text VISIBLE (the text labels like "RSI oversold", "MACD bullish crossover")
+        // We only hide the values inside the reasons
+        const reasonsList = box.querySelector('.reasons-list');
+        if (reasonsList) {
+            // Hide only the numbers inside reasons (RSI values, ADX values)
+            const reasonItems = reasonsList.querySelectorAll('div');
+            reasonItems.forEach(item => {
+                // Only hide items that contain numbers (like RSI 28.4, ADX 38.7)
+                if (item.textContent.match(/\d+\.?\d*/)) {
+                    // Wrap the number part in a span so we can hide just the number
+                    const text = item.textContent;
+                    const numberMatch = text.match(/\d+\.?\d*/);
+                    if (numberMatch) {
+                        const number = numberMatch[0];
+                        const before = text.substring(0, text.indexOf(number));
+                        const after = text.substring(text.indexOf(number) + number.length);
+                        // Keep the text label, hide only the number
+                        item.innerHTML = before + `<span class="reason-number" style="opacity:0;transition:opacity 0.3s ease;">${number}</span>` + after;
+                    }
+                }
+            });
         }
         
-        // Hide the score label
+        // Hide the score value (numbers only)
+        const scoreValue = box.querySelector('.score-value');
+        if (scoreValue) {
+            scoreValue.style.transition = 'opacity 0.3s ease';
+            scoreValue.style.opacity = '0';
+        }
+        // Keep the "Signal score" label visible
         const scoreLabel = box.querySelector('.score-label');
         if (scoreLabel) {
-            scoreLabel.style.transition = 'opacity 0.3s ease';
-            scoreLabel.style.opacity = '0';
+            scoreLabel.style.opacity = '1';
         }
     });
     
-    // Score goes to loading state
+    // Score value goes to loading state
     scoreElements.forEach(el => { 
         el.style.transition = 'opacity 0.3s ease';
         el.style.opacity = '0';
@@ -7486,17 +7506,11 @@ function startScan(scanLineId, btnId) {
                     badge.style.opacity = '1';
                 }
                 
-                // Show the reasons list
-                const reasons = box.querySelector('.reasons-list');
-                if (reasons) {
-                    reasons.style.opacity = '1';
-                }
-                
-                // Show the score label
-                const scoreLabel = box.querySelector('.score-label');
-                if (scoreLabel) {
-                    scoreLabel.style.opacity = '1';
-                }
+                // Show the reason numbers (restore them)
+                const reasonNumbers = box.querySelectorAll('.reason-number');
+                reasonNumbers.forEach(el => {
+                    el.style.opacity = '1';
+                });
             });
             
             // Update score to 9.2
