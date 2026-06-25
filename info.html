@@ -20,7 +20,6 @@
             padding-top: 20px;
         }
         
-        /* Back Button */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -64,6 +63,7 @@
         .section:nth-child(2) { animation-delay: 0.2s; }
         .section:nth-child(3) { animation-delay: 0.3s; }
         .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
         
         @keyframes fadeInUp {
             to {
@@ -97,7 +97,44 @@
             margin-bottom: 16px;
         }
         
-        /* FAQ Accordion */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .feature-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .feature-item strong {
+            color: white;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .feature-item span {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .badge-list .badge {
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
         .faq-item {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(59, 130, 246, 0.15);
@@ -140,11 +177,10 @@
             line-height: 1.7;
         }
         .faq-item.active .faq-answer {
-            max-height: 300px;
+            max-height: 500px;
             padding: 0 20px 20px 20px;
         }
         
-        /* Support Form */
         .support-form {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(59, 130, 246, 0.2);
@@ -213,10 +249,6 @@
             padding: 20px;
             text-align: center;
         }
-        .support-info-item .emoji {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
         .support-info-item h4 {
             color: white;
             font-size: 14px;
@@ -227,7 +259,6 @@
             font-size: 13px;
         }
         
-        /* Terms & Privacy */
         .legal-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -235,6 +266,9 @@
         }
         @media (max-width: 600px) {
             .legal-grid {
+                grid-template-columns: 1fr;
+            }
+            .feature-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -323,6 +357,166 @@
             </div>
         </div>
 
+        <!-- ===== DATA SOURCES ===== -->
+        <div class="section" id="data">
+            <div class="section-title">
+                <span class="icon">📊</span> Data Sources
+            </div>
+            <div class="section-content">
+                <p>
+                    PrimeSignal AI integrates with multiple data sources to provide the most accurate trading signals:
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>Bybit & Binance API</strong>
+                        <span>Real-time cryptocurrency price data from top exchanges</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>News APIs</strong>
+                        <span>Market sentiment analysis from NewsAPI and GNews</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Alpha Vantage</strong>
+                        <span>Forex and stock market data</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Yahoo Finance</strong>
+                        <span>Stock market data for 100+ major stocks</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Twelve Data</strong>
+                        <span>Backup data source for reliability</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>CoinGecko</strong>
+                        <span>Crypto market data backup</span>
+                    </div>
+                </div>
+                <div class="badge-list">
+                    <span class="badge">Live Market Data</span>
+                    <span class="badge">Multi-Exchange</span>
+                    <span class="badge">Sentiment Analysis</span>
+                    <span class="badge">Technical Indicators</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== HOW SIGNALS WORK ===== -->
+        <div class="section" id="signals">
+            <div class="section-title">
+                <span class="icon">🤖</span> How Signals Work
+            </div>
+            <div class="section-content">
+                <p>
+                    Our AI processes market data in real-time to generate clear trading signals:
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>📈 Data Collection</strong>
+                        <span>Gathers price data from 100+ crypto pairs, 100 stocks, and 7 forex pairs</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>🧠 AI Analysis</strong>
+                        <span>Machine learning models analyze patterns using RSI, MACD, ADX, and more</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>📊 Signal Generation</strong>
+                        <span>Clear BUY/SELL signals with entry prices, take-profit, and stop-loss levels</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>📱 Instant Delivery</strong>
+                        <span>Sent directly to your Telegram via the PrimeSignal AI bot</span>
+                    </div>
+                </div>
+                <div class="badge-list">
+                    <span class="badge">Real-Time</span>
+                    <span class="badge">AI-Powered</span>
+                    <span class="badge">Multi-Asset</span>
+                    <span class="badge">Clear Signals</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== AI TECHNOLOGY ===== -->
+        <div class="section" id="technology">
+            <div class="section-title">
+                <span class="icon">⚙️</span> AI Technology
+            </div>
+            <div class="section-content">
+                <p>
+                    <strong>PrimeSignal AI</strong> uses cutting-edge machine learning technology:
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>PyTorch</strong>
+                        <span>Deep learning framework powering our AI models</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Gaussian Process</strong>
+                        <span>Uncertainty-aware predictions with confidence scores</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>AWS SageMaker</strong>
+                        <span>Enterprise-grade training infrastructure for 70% faster processing</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Google Gemini AI</strong>
+                        <span>Intelligent chatbot for real-time market insights</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Technical Indicators</strong>
+                        <span>RSI, MACD, ADX, Bollinger Bands, EMA, and ATR</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Real-Time Processing</strong>
+                        <span>Instant market analysis and signal generation</span>
+                    </div>
+                </div>
+                <div class="badge-list">
+                    <span class="badge">Machine Learning</span>
+                    <span class="badge">Enterprise-Grade</span>
+                    <span class="badge">70% Faster</span>
+                    <span class="badge">Uncertainty-Aware</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECURITY ===== -->
+        <div class="section" id="security">
+            <div class="section-title">
+                <span class="icon">🔒</span> Security & Trust
+            </div>
+            <div class="section-content">
+                <p>
+                    Your security and trust are our top priorities:
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <strong>Telegram Integration</strong>
+                        <span>Secure authentication via Telegram WebApp</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Data Privacy</strong>
+                        <span>Your data stays private – we never share with third parties</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>Trustpilot 4.6/5</strong>
+                        <span>Rated by real users worldwide</span>
+                    </div>
+                    <div class="feature-item">
+                        <strong>1M+ Users</strong>
+                        <span>Trusted by traders globally</span>
+                    </div>
+                </div>
+                <div class="badge-list">
+                    <span class="badge">End-to-End Secure</span>
+                    <span class="badge">GDPR Compliant</span>
+                    <span class="badge">Trustpilot 4.6</span>
+                    <span class="badge">1M+ Users</span>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== FAQ ===== -->
         <div class="section" id="faq">
             <div class="section-title">
@@ -337,7 +531,8 @@
                     </div>
                     <div class="faq-answer">
                         PrimeSignal AI is an AI-powered trading signal platform that analyzes market data in real-time 
-                        and provides clear buy/sell signals with entry prices, take-profit, and stop-loss levels.
+                        and provides clear buy/sell signals with entry prices, take-profit, and stop-loss levels. 
+                        It covers crypto (100+ pairs), stocks (100+), and forex (7 pairs).
                     </div>
                 </div>
                 
@@ -347,8 +542,9 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="faq-answer">
-                        Our AI has an average accuracy rate of <strong>78-85%</strong> based on historical data. However, 
-                        trading always carries risk, and we recommend using proper risk management.
+                        Our AI has an average accuracy rate of <strong>78-85%</strong> based on historical data, using 
+                        technical indicators like RSI, MACD, ADX, and Bollinger Bands. Trading always carries risk, 
+                        and we recommend using proper risk management.
                     </div>
                 </div>
                 
@@ -358,8 +554,9 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="faq-answer">
-                        Yes! PrimeSignal AI offers free access to all features. You can log in via Telegram and start 
-                        receiving signals immediately. No credit card required.
+                        Yes! PrimeSignal AI offers free access to all features. You get <strong>3 free credits</strong> 
+                        to start. Each Pair or Chart analysis costs 1 credit. The "Ask AI" feature is always free. 
+                        You can earn more credits by claiming daily rewards (7-day streak gives +7 bonus credits).
                     </div>
                 </div>
                 
@@ -370,7 +567,8 @@
                     </div>
                     <div class="faq-answer">
                         Simply click the "Log in with Telegram" button on our main page, connect your Telegram account, 
-                        and you'll instantly get access to AI-powered trading signals.
+                        and you'll instantly get access to AI-powered trading signals. You'll receive <strong>3 free credits</strong> 
+                        to start analyzing.
                     </div>
                 </div>
                 
@@ -380,8 +578,10 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="faq-answer">
-                        Currently, we focus on major assets including Gold (XAU/USD), Bitcoin (BTC/USD), Ethereum (ETH/USD), 
-                        and major Forex pairs (EUR/USD, GBP/USD). We're continuously expanding our coverage.
+                        Currently, we cover <strong>100+ crypto pairs</strong> (BTCUSDT, ETHUSDT, etc.), 
+                        <strong>100+ stocks</strong> (AAPL, MSFT, NVDA, etc.), and 
+                        <strong>7 forex pairs</strong> (EURUSD, GBPUSD, USDJPY, etc.). 
+                        We're continuously expanding our coverage.
                     </div>
                 </div>
                 
@@ -391,9 +591,33 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="faq-answer">
-                        Signals are updated in real-time as market conditions change. Our AI scans the market every few 
-                        seconds and updates signals accordingly. You can also click the "Analyze" button at any time 
-                        for a fresh signal.
+                        Spot signals are scanned every <strong>5 minutes</strong>. Stocks and forex are scanned 
+                        every <strong>2 hours</strong>. You can also click the "Analyze" button at any time for a fresh signal 
+                        (costs 1 credit).
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What is the credit system?
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Each analysis (Pair or Chart) costs <strong>1 credit</strong>. You start with 3 free credits. 
+                        Claim daily rewards to earn more: 1 credit per day, and a bonus of <strong>7 credits</strong> 
+                        when you reach a 7-day streak. You can also purchase credit packs starting from $5.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What is the PRO version?
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        PRO users get access to the <strong>Chart AI</strong> feature, which provides structured analysis 
+                        with entry, stop-loss, and take-profit levels. PRO status can be unlocked by making a deposit 
+                        (starting from $20) or purchasing credit packs.
                     </div>
                 </div>
                 
@@ -412,19 +636,16 @@
                 
                 <div class="support-info-grid">
                     <div class="support-info-item">
-                        <div class="emoji">📧</div>
                         <h4>Email Support</h4>
                         <p>support@primesignal.ai</p>
                         <p style="font-size:12px; color:#6b7280;">Response within 24h</p>
                     </div>
                     <div class="support-info-item">
-                        <div class="emoji">💬</div>
                         <h4>Telegram Bot</h4>
                         <p><a href="https://t.me/PrimeSignalAiBot" target="_blank" style="color:#3b82f6; text-decoration:none;">@PrimeSignalAiBot</a></p>
                         <p style="font-size:12px; color:#6b7280;">Instant responses</p>
                     </div>
                     <div class="support-info-item">
-                        <div class="emoji">⏱️</div>
                         <h4>Response Time</h4>
                         <p>Usually within 4-12 hours</p>
                         <p style="font-size:12px; color:#6b7280;">24/7 coverage</p>
@@ -469,8 +690,8 @@
                     <div class="legal-box">
                         <h3>🔒 Privacy Policy</h3>
                         <ul>
-                            <li>We only collect essential data</li>
-                            <li>Your Telegram ID is used for login only</li>
+                            <li>We only collect essential data via Telegram</li>
+                            <li>Your Telegram ID is used for login and analytics</li>
                             <li>We never share your data with third parties</li>
                             <li>You can delete your data anytime</li>
                             <li>Cookies are used for analytics only</li>
@@ -491,10 +712,8 @@
             const item = element.closest('.faq-item');
             const isActive = item.classList.contains('active');
             
-            // Close all FAQs
             document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
             
-            // Open clicked one if it wasn't active
             if (!isActive) {
                 item.classList.add('active');
             }
