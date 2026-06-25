@@ -4341,8 +4341,20 @@ function initCharts() {
         
         // Apply scroll limits AFTER charts are created and data is loaded
         setTimeout(function() {
-            if (chart1) limitChartScrolling(chart1, currentData);
-            if (chart2) limitChartScrolling(chart2, currentData);
+            if (chart1) {
+                if (chart1._scrollCheckInterval) {
+                    clearInterval(chart1._scrollCheckInterval);
+                    chart1._scrollCheckInterval = null;
+                }
+                limitChartScrolling(chart1, currentData);
+            }
+            if (chart2) {
+                if (chart2._scrollCheckInterval) {
+                    clearInterval(chart2._scrollCheckInterval);
+                    chart2._scrollCheckInterval = null;
+                }
+                limitChartScrolling(chart2, currentData);
+            }
         }, 300);
     } catch (e) {
         console.error('Chart init error:', e);
