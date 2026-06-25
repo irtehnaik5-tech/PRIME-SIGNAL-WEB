@@ -1914,10 +1914,18 @@
 
 .trust-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 900px;
     margin: 0 auto;
+}
+
+/* Mobile: stack on top of each other */
+@media (max-width: 768px) {
+    .trust-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 .trust-card {
@@ -2457,6 +2465,7 @@
     </div>
 </div>
 <!-- ===== WHY USERS TRUST US ===== -->
+<<!-- ===== WHY USERS TRUST US ===== -->
 <div class="trust-section">
     <div class="trust-title">
         <h2>Why Users Trust Us</h2>
@@ -2487,19 +2496,8 @@
             </p>
             <span class="badge">⚡ Gemini AI Powered</span>
         </div>
-        
-        <!-- Card 3: 1M+ Users -->
-        <div class="trust-card">
-            <span class="card-icon">🌍</span>
-            <h3>Trusted by 1M+ Traders</h3>
-            <p>
-                Join a global community of over <strong>1 million traders</strong> who rely on PrimeSignal AI 
-                for accurate signals, educational resources, and 24/7 support. Rated 4.6/5 on Trustpilot.
-            </p>
-            <span class="badge">⭐ 4.6/5 Rating</span>
-        </div>
     </div>
-</div>    
+</div>
 <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
