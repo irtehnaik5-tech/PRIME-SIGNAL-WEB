@@ -7497,6 +7497,7 @@ function startScan(scanLineId, btnId) {
         el.style.opacity = '0';
     });
 
+    // ========== TIMING: Animation part ==========
     setTimeout(() => {
         // Show loading dots for score
         scoreElements.forEach(el => { 
@@ -7561,16 +7562,6 @@ function startScan(scanLineId, btnId) {
             if (scanLine) scanLine.classList.remove('active');
             isScanning = false;
             
-            // ========== SCROLL TO TOP AFTER 8 SECONDS TOTAL ==========
-            // Animation takes 3 seconds (2500ms + 500ms = 3000ms)
-            // We need to wait 5 more seconds = total 8 seconds
-            setTimeout(function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            }, 5000); // 5 seconds after animation ends
-            
             setTimeout(function() {
                 if (chart1) {
                     if (chart1._scrollCheckInterval) {
@@ -7589,6 +7580,15 @@ function startScan(scanLineId, btnId) {
             }, 100);
         }, 500);
     }, 2500);
+    
+    // ========== SCROLL TO TOP EXACTLY 8 SECONDS AFTER CLICK ==========
+    // This runs independently of the animation timing
+    setTimeout(function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 8000);
 }
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
