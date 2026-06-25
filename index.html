@@ -7422,7 +7422,10 @@ function startScan(scanLineId, btnId) {
     const scoreElements = document.querySelectorAll('.score-value');
     const directionElements = document.querySelectorAll('.score-direction');
     const signalBadges = document.querySelectorAll('.signal-badge');
-    const scoreLabels = document.querySelectorAll('.score-label');
+    
+    // HIDE the chart view BUY badge (score-direction in chart header)
+    const chartDirectionBadges = document.querySelectorAll('.score-direction');
+    const chartScoreValues = document.querySelectorAll('#scoreValueDesktop, #scoreValueMobile');
 
     // Animate numbers - fade them out (TEXT LABELS STAY VISIBLE)
     const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
@@ -7434,7 +7437,7 @@ function startScan(scanLineId, btnId) {
             el.style.opacity = '0';
         });
         
-        // Hide the BUY/SELL badge
+        // Hide the BUY/SELL badge in result box
         const badge = box.querySelector('.signal-badge');
         if (badge) {
             badge.style.transition = 'opacity 0.3s ease';
@@ -7477,6 +7480,17 @@ function startScan(scanLineId, btnId) {
         }
     });
     
+    // HIDE the chart view BUY badge (score-direction) and score value
+    chartDirectionBadges.forEach(el => {
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '0';
+    });
+    
+    chartScoreValues.forEach(el => {
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '0';
+    });
+    
     // Score value goes to loading state
     scoreElements.forEach(el => { 
         el.style.transition = 'opacity 0.3s ease';
@@ -7511,6 +7525,18 @@ function startScan(scanLineId, btnId) {
                 reasonNumbers.forEach(el => {
                     el.style.opacity = '1';
                 });
+            });
+            
+            // SHOW the chart view BUY badge and score value
+            chartDirectionBadges.forEach(el => {
+                el.textContent = 'BUY';
+                el.className = 'score-direction buy';
+                el.style.opacity = '1';
+            });
+            
+            chartScoreValues.forEach(el => {
+                el.textContent = '9.2/10';
+                el.style.opacity = '1';
             });
             
             // Update score to 9.2
