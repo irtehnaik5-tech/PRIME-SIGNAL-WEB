@@ -4357,12 +4357,12 @@ function limitChartScrolling(chartObj, data) {
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
     
-    // Store bounds (NO padding - we want exact edge limits)
+    // Store bounds
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
     chartObj._isAdjusting = false;
     
-    // Set initial visible range - show all data with a little padding so it looks nice
+    // Set initial visible range
     timeScale.setVisibleRange({
         from: firstTime,
         to: lastTime
@@ -4381,27 +4381,28 @@ function limitChartScrolling(chartObj, data) {
         let newTo = to;
         let needsUpdate = false;
         
-        // Check if viewport width is larger than data range
+        // Get viewport width
         const viewWidth = to - from;
         const dataWidth = last - first;
         
-        // If viewport is wider than data, center it
+        // If viewport is wider than data, fit all data
         if (viewWidth >= dataWidth) {
-            const center = (first + last) / 2;
-            newFrom = center - viewWidth / 2;
-            newTo = center + viewWidth / 2;
+            newFrom = first;
+            newTo = last;
             needsUpdate = true;
         } else {
-            // LEFT LIMIT: Stop when first candle reaches LEFT edge
-            // This means 'from' should never go below 'first'
+            // LEFT EDGE: First candle should never go past the left edge
+            // If 'from' is less than 'first', the first candle is going off the left side
+            // We allow it to go past, but we stop scrolling when it reaches the edge
             if (from < first) {
                 newFrom = first;
                 newTo = first + viewWidth;
                 needsUpdate = true;
             }
             
-            // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
-            // This means 'to' should never go above 'last'
+            // RIGHT EDGE: Last candle should never go past the right edge
+            // If 'to' is greater than 'last', the last candle is going off the right side
+            // We stop scrolling when it reaches the edge
             if (to > last) {
                 newTo = last;
                 newFrom = last - viewWidth;
