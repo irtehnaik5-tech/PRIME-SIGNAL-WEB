@@ -7421,15 +7421,40 @@ function startScan(scanLineId, btnId) {
     // Fixed score 9.2
     const scoreElements = document.querySelectorAll('.score-value');
     const directionElements = document.querySelectorAll('.score-direction');
+    const signalBadges = document.querySelectorAll('.signal-badge');
+    const reasonsList = document.querySelectorAll('.reasons-list');
+    const scoreLabels = document.querySelectorAll('.score-label');
 
     // Animate numbers - fade them out
     const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
     resultBoxes.forEach(box => {
+        // Hide all values
         const values = box.querySelectorAll('.row-value, .info-value');
         values.forEach(el => {
             el.style.transition = 'opacity 0.3s ease';
             el.style.opacity = '0';
         });
+        
+        // Hide the BUY/SELL badge
+        const badge = box.querySelector('.signal-badge');
+        if (badge) {
+            badge.style.transition = 'opacity 0.3s ease';
+            badge.style.opacity = '0';
+        }
+        
+        // Hide the reasons list (RSI, MACD, ADX text)
+        const reasons = box.querySelector('.reasons-list');
+        if (reasons) {
+            reasons.style.transition = 'opacity 0.3s ease';
+            reasons.style.opacity = '0';
+        }
+        
+        // Hide the score label
+        const scoreLabel = box.querySelector('.score-label');
+        if (scoreLabel) {
+            scoreLabel.style.transition = 'opacity 0.3s ease';
+            scoreLabel.style.opacity = '0';
+        }
     });
     
     // Score goes to loading state
@@ -7439,7 +7464,7 @@ function startScan(scanLineId, btnId) {
     });
 
     setTimeout(() => {
-        // Show loading dots
+        // Show loading dots for score
         scoreElements.forEach(el => { 
             el.textContent = '...';
             el.style.opacity = '1';
@@ -7449,10 +7474,29 @@ function startScan(scanLineId, btnId) {
             // Show all values with 9.2 score
             const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
             resultBoxes.forEach(box => {
+                // Show all values
                 const values = box.querySelectorAll('.row-value, .info-value');
                 values.forEach(el => {
                     el.style.opacity = '1';
                 });
+                
+                // Show the BUY badge
+                const badge = box.querySelector('.signal-badge');
+                if (badge) {
+                    badge.style.opacity = '1';
+                }
+                
+                // Show the reasons list
+                const reasons = box.querySelector('.reasons-list');
+                if (reasons) {
+                    reasons.style.opacity = '1';
+                }
+                
+                // Show the score label
+                const scoreLabel = box.querySelector('.score-label');
+                if (scoreLabel) {
+                    scoreLabel.style.opacity = '1';
+                }
             });
             
             // Update score to 9.2
@@ -7465,6 +7509,12 @@ function startScan(scanLineId, btnId) {
             directionElements.forEach(el => {
                 el.textContent = 'BUY';
                 el.className = 'score-direction buy';
+            });
+
+            // Make sure badges are BUY
+            signalBadges.forEach(el => {
+                el.textContent = 'BUY';
+                el.className = 'signal-badge buy';
             });
 
             if (btn) btn.classList.remove('scanning');
