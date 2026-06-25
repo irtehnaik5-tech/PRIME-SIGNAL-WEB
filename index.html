@@ -4379,7 +4379,7 @@ function limitChartScrolling(chartObj, data) {
         chartObj._scrollCheckInterval = null;
     }
     
-    // Set initial visible range - show all data EXACTLY (NO PADDING)
+    // Set initial visible range - show all data
     timeScale.setVisibleRange({
         from: firstTime,
         to: lastTime
@@ -4403,43 +4403,29 @@ function limitChartScrolling(chartObj, data) {
             let needsUpdate = false;
             
             const viewWidth = to - from;
-            const dataWidth = last - first;
             
-            // If viewport is wider than data, center the data
-            if (viewWidth >= dataWidth) {
-                // Center the data in the viewport
-                const center = (first + last) / 2;
-                newFrom = center - viewWidth / 2;
-                newTo = center + viewWidth / 2;
+            // LEFT LIMIT: First candle at LEFT edge
+            if (from < first) {
+                newFrom = first;
+                newTo = first + viewWidth;
                 needsUpdate = true;
-            } else {
-                // LEFT LIMIT: Stop when first candle reaches LEFT edge (NO EXTRA SPACE)
-                if (from < first) {
-                    newFrom = first;
-                    newTo = first + viewWidth;
-                    needsUpdate = true;
-                }
-                
-                // RIGHT LIMIT: Stop when last candle reaches RIGHT edge (NO EXTRA SPACE)
-                if (to > last) {
-                    newTo = last;
-                    newFrom = last - viewWidth;
-                    needsUpdate = true;
-                }
-                
-                // If scrolled all the way right, lock to right edge
-                if (from > last - viewWidth && to < last) {
-                    newTo = last;
-                    newFrom = last - viewWidth;
-                    needsUpdate = true;
-                }
-                
-                // If scrolled all the way left, lock to left edge
-                if (to < first + viewWidth && from > first) {
-                    newFrom = first;
-                    newTo = first + viewWidth;
-                    needsUpdate = true;
-                }
+            }
+            
+            // RIGHT LIMIT: Last candle at RIGHT edge
+            // This is the key - 'to' should never exceed 'last'
+            // This stops scrolling when the last candle reaches the right edge
+            if (to > last) {
+                newTo = last;
+                newFrom = last - viewWidth;
+                needsUpdate = true;
+            }
+            
+            // If the viewport is so far right that we can't see the last candle properly
+            if (from > last - viewWidth / 2) {
+                // Snap to show the last candle at the right edge
+                newTo = last;
+                newFrom = last - viewWidth;
+                needsUpdate = true;
             }
             
             if (needsUpdate && newFrom < newTo) {
@@ -4530,7 +4516,6 @@ function startScan(scanLineId, btnId) {
         // RE-APPLY SCROLL LIMITS AFTER ANIMATION
         setTimeout(function() {
             if (chart1) {
-                // Clean up old interval first
                 if (chart1._scrollCheckInterval) {
                     clearInterval(chart1._scrollCheckInterval);
                     chart1._scrollCheckInterval = null;
@@ -4545,7 +4530,7 @@ function startScan(scanLineId, btnId) {
                 limitChartScrolling(chart2, currentData);
             }
         }, 100);
-    }, 3000); // Animation duration
+    }, 3000);
 }
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
