@@ -232,7 +232,12 @@
         min-height: 400px;
         transition: all 0.3s ease;
     }
-    
+/* Hide mobile reviews section on desktop */
+@media (min-width: 769px) {
+    .reviews-section-mobile {
+        display: none !important;
+    }
+}   
     .result-box:hover {
         border-color: #3b82f6;
         box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
@@ -1997,6 +2002,7 @@
         padding-top: 14px;
     }
 }
+        
     </style>
 </head>
 <body>
@@ -2276,7 +2282,9 @@
 </div>
 
 <!-- 6. REVIEWS SECTION - Mobile (below result box) -->
-<div class="reviews-section-mobile">
+<!-- 6. REVIEWS SECTION - Mobile (below result box) -->
+<!-- Only visible on mobile -->
+<div class="reviews-section-mobile" id="mobileReviewsWrapper">
     <div class="reviews-title">
         <h2>What Our Users Say</h2>
         <p>Real reviews from real traders</p>
