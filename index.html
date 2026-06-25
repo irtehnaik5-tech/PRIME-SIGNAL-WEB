@@ -7418,6 +7418,9 @@ function startScan(scanLineId, btnId) {
         scanLine.classList.add('active');
     }
 
+    // Step 1: Scroll to chart view zone
+    scrollToChartView();
+
     // Fixed score 9.2
     const scoreElements = document.querySelectorAll('.score-value');
     const directionElements = document.querySelectorAll('.score-direction');
@@ -7561,6 +7564,17 @@ function startScan(scanLineId, btnId) {
             if (scanLine) scanLine.classList.remove('active');
             isScanning = false;
             
+            // Step 2: After animation ends, scroll to result box
+            setTimeout(function() {
+                scrollToResultBox();
+            }, 200);
+            
+            // Step 3: After 4 seconds, scroll to login box
+            setTimeout(function() {
+                scrollToLoginBox();
+            }, 4000);
+            
+            // Re-apply scroll limits
             setTimeout(function() {
                 if (chart1) {
                     if (chart1._scrollCheckInterval) {
@@ -7580,6 +7594,74 @@ function startScan(scanLineId, btnId) {
         }, 500);
     }, 2500);
 }
+// Smooth scroll function
+function smoothScrollTo(element, duration = 800) {
+    if (!element) return;
+    const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const startTime = performance.now();
+    
+    function animation(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease in-out cubic
+        const ease = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        window.scrollTo(0, startPosition + distance * ease);
+        if (progress < 1) {
+            requestAnimationFrame(animation);
+        }
+    }
+    requestAnimationFrame(animation);
+}
+
+// Scroll to chart view
+function scrollToChartView() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        // Mobile: scroll to top of page (chart view zone)
+        smoothScrollTo(document.body, 600);
+    } else {
+        // Desktop: scroll to chart container
+        const chartContainer = document.querySelector('.chart-box-50, #chartContainer');
+        if (chartContainer) {
+            smoothScrollTo(chartContainer, 600);
+        }
+    }
+}
+
+// Scroll to result box
+function scrollToResultBox() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        // Mobile: scroll to result box (below chart)
+        const resultBox = document.querySelector('.mobile-result-box');
+        if (resultBox) {
+            smoothScrollTo(resultBox, 600);
+        }
+    } else {
+        // Desktop: scroll to result box (right side)
+        const resultBox = document.querySelector('.result-box-50');
+        if (resultBox) {
+            smoothScrollTo(resultBox, 600);
+        }
+    }
+}
+
+// Scroll to login box (top of page for mobile, login section for desktop)
+function scrollToLoginBox() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        // Mobile: scroll to top of page (login box is at top)
+        smoothScrollTo(document.body, 600);
+    } else {
+        // Desktop: scroll to login section
+        const loginSection = document.querySelector('.login-section');
+        if (loginSection) {
+            smoothScrollTo(loginSection, 600);
+        }
+    }
+}    
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
         // ============================================
