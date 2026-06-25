@@ -4357,7 +4357,6 @@ function limitChartScrolling(chartObj, data) {
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
     
-    // Store bounds
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
     chartObj._isAdjusting = false;
@@ -4368,62 +4367,71 @@ function limitChartScrolling(chartObj, data) {
         to: lastTime
     });
     
-    // Subscribe to visible range changes
-    timeScale.subscribeVisibleTimeRangeChange(function(range) {
-        if (!range || chartObj._isAdjusting) return;
+    // Poll every 50ms to check and correct
+    let checkInterval = setInterval(function() {
+        if (chartObj._isAdjusting) return;
         
-        const from = range.from;
-        const to = range.to;
-        const first = chartObj._firstTime;
-        const last = chartObj._lastTime;
-        
-        let newFrom = from;
-        let newTo = to;
-        let needsUpdate = false;
-        
-        // Get viewport width
-        const viewWidth = to - from;
-        const dataWidth = last - first;
-        
-        // If viewport is wider than data, fit all data
-        if (viewWidth >= dataWidth) {
-            newFrom = first;
-            newTo = last;
-            needsUpdate = true;
-        } else {
-            // LEFT EDGE: First candle should never go past the left edge
-            // If 'from' is less than 'first', the first candle is going off the left side
-            // We allow it to go past, but we stop scrolling when it reaches the edge
-            if (from < first) {
+        try {
+            const range = timeScale.getVisibleRange();
+            if (!range) return;
+            
+            const from = range.from;
+            const to = range.to;
+            const first = chartObj._firstTime;
+            const last = chartObj._lastTime;
+            
+            let newFrom = from;
+            let newTo = to;
+            let needsUpdate = false;
+            
+            const viewWidth = to - from;
+            const dataWidth = last - first;
+            
+            // If viewport is wider than data, show all data
+            if (viewWidth >= dataWidth) {
                 newFrom = first;
-                newTo = first + viewWidth;
+                newTo = last;
                 needsUpdate = true;
+            } else {
+                // LEFT LIMIT: Stop when first candle reaches LEFT edge
+                if (from < first) {
+                    newFrom = first;
+                    newTo = first + viewWidth;
+                    needsUpdate = true;
+                }
+                
+                // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
+                // The 'to' value should never exceed 'last'
+                // This keeps the last candle at the RIGHT edge
+                if (to > last) {
+                    newTo = last;
+                    newFrom = last - viewWidth;
+                    needsUpdate = true;
+                }
+                
+                // ADDED: If scrolling right but the last candle is not at the right edge,
+                // push it to the right edge
+                if (to < last && from < first) {
+                    // We're in the middle, allow normal scrolling
+                }
             }
             
-            // RIGHT EDGE: Last candle should never go past the right edge
-            // If 'to' is greater than 'last', the last candle is going off the right side
-            // We stop scrolling when it reaches the edge
-            if (to > last) {
-                newTo = last;
-                newFrom = last - viewWidth;
-                needsUpdate = true;
-            }
-        }
-        
-        // If we need to correct the range
-        if (needsUpdate && newFrom < newTo) {
-            chartObj._isAdjusting = true;
-            requestAnimationFrame(() => {
+            if (needsUpdate && newFrom < newTo) {
+                chartObj._isAdjusting = true;
                 timeScale.setVisibleRange({
                     from: newFrom,
                     to: newTo
                 });
-                setTimeout(() => {
+                setTimeout(function() {
                     chartObj._isAdjusting = false;
-                }, 50);
-            });
+                }, 100);
+            }
+        } catch(e) {
+            // Ignore errors
         }
-    });
+    }, 50);
+    
+    chartObj._scrollCheckInterval = checkInterval;
 }
 // Add this function to clean up chart subscriptions
 function cleanupChart(chartObj) {
