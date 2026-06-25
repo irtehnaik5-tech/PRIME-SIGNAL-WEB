@@ -4331,22 +4331,23 @@ function initCharts() {
         if (chartObj1) { 
             chart1 = chartObj1; 
             updateChart(chart1, currentData);
-            // Limit scrolling on desktop chart
-            limitChartScrolling(chart1, currentData);
         }
 
         const chartObj2 = createChart('chartContainerMobile');
         if (chartObj2) { 
             chart2 = chartObj2; 
             updateChart(chart2, currentData);
-            // Limit scrolling on mobile chart
-            limitChartScrolling(chart2, currentData);
         }
+        
+        // Apply scroll limits AFTER charts are created and data is loaded
+        setTimeout(function() {
+            if (chart1) limitChartScrolling(chart1, currentData);
+            if (chart2) limitChartScrolling(chart2, currentData);
+        }, 300);
     } catch (e) {
         console.error('Chart init error:', e);
     }
 }
-
 function limitChartScrolling(chartObj, data) {
     if (!chartObj || !data || data.length === 0) return;
     
@@ -4484,56 +4485,28 @@ function cleanupChart(chartObj) {
             });
         }
 
-        function startScan(scanLineId, btnId) {
-            if (isScanning) return;
-            isScanning = true;
+function startScan(scanLineId, btnId) {
+    if (isScanning) return;
+    isScanning = true;
 
-            const btn = document.getElementById(btnId);
-            const scanLine = document.getElementById(scanLineId);
+    const btn = document.getElementById(btnId);
+    const scanLine = document.getElementById(scanLineId);
 
-            if (btn) btn.classList.add('scanning');
-            if (scanLine) {
-                scanLine.classList.remove('active');
-                void scanLine.offsetWidth;
-                scanLine.classList.add('active');
-            }
+    if (btn) btn.classList.add('scanning');
+    if (scanLine) {
+        scanLine.classList.remove('active');
+        void scanLine.offsetWidth;
+        scanLine.classList.add('active');
+    }
 
-            let counter = 0;
-            const maxSteps = 8;
-
-            if (priceInterval) clearInterval(priceInterval);
-
-            priceInterval = setInterval(() => {
-                if (counter >= maxSteps) {
-                    clearInterval(priceInterval);
-                    if (btn) btn.classList.remove('scanning');
-                    if (scanLine) scanLine.classList.remove('active');
-                    isScanning = false;
-                    updateScoreDisplay();
-                    return;
-                }
-
-                const lastCandle = currentData[currentData.length - 1];
-                const move = (Math.random() - 0.45) * 6;
-                const newClose = lastCandle.close + move;
-                const newHigh = Math.max(lastCandle.high + (Math.random() * 3), newClose + Math.random() * 2);
-                const newLow = Math.min(lastCandle.low - (Math.random() * 3), newClose - Math.random() * 2);
-                const newTime = lastCandle.time + 3600;
-
-                currentData.push({
-                    time: newTime,
-                    open: lastCandle.close,
-                    high: newHigh,
-                    low: newLow,
-                    close: newClose,
-                    volume: Math.random() * 1000 + 500
-                });
-
-                if (chart1) updateChart(chart1, currentData);
-                if (chart2) updateChart(chart2, currentData);
-                counter++;
-            }, 300);
-        }
+    // Just play the animation - no candle generation
+    setTimeout(() => {
+        if (btn) btn.classList.remove('scanning');
+        if (scanLine) scanLine.classList.remove('active');
+        isScanning = false;
+        updateScoreDisplay();
+    }, 3000); // Animation duration (matches your scan line animation)
+}
 
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
