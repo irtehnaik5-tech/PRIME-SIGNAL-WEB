@@ -7857,34 +7857,48 @@ function initTicker() {
         // REVIEWS SECTION
         // ============================================
 
-        const reviewsList = [
-            { author: "Alex M.", rating: 5, text: "This AI is incredible! I've been trading for 5 years and never had such accurate signals. The entry points are spot on." },
-            { author: "Sarah K.", rating: 5, text: "Finally a signal service that actually works. Up 30% in my first month. The AI analysis is game-changing." },
-            { author: "James R.", rating: 4, text: "Very good signals, though sometimes the alerts come a bit late. Still profitable overall." },
-            { author: "Maria L.", rating: 5, text: "The best trading tool I've ever used. Simple interface, clear signals. Highly recommend!" },
-            { author: "David W.", rating: 4, text: "Solid performance. The AI catches trends early. Occasionally a false signal but overall great." },
-            { author: "Emma T.", rating: 5, text: "Life-changing! I went from losing money to consistent profits in 2 weeks. Thank you PrimeSignal!" },
-            { author: "Robert C.", rating: 3, text: "Decent signals but the response time could be faster. Works well for swing trading though." },
-            { author: "Lisa P.", rating: 5, text: "Finally a service that delivers what it promises. Accurate, reliable, and easy to follow." },
-            { author: "Michael S.", rating: 4, text: "Great tool! The AI analysis is impressive. Would be 5 stars if the mobile app was better." },
-            { author: "John D.", rating: 5, text: "This is the real deal. I've tried many signal services and this is by far the best. The AI knows what it's doing." },
-            { author: "Anna R.", rating: 4, text: "Very helpful for a beginner like me. The signals are clear and easy to understand. Learning a lot." },
-            { author: "Chris P.", rating: 5, text: "Consistent profits every week. The AI catches moves I would never see. Absolutely worth it." },
-            { author: "Jessica H.", rating: 5, text: "I was skeptical at first, but after 3 months I'm a believer. Best trading decision I ever made." },
-            { author: "Thomas L.", rating: 4, text: "Good signals overall. Some delays during high volatility, but still very profitable." },
-            { author: "Nancy W.", rating: 5, text: "The AI analysis is brilliant. I've recommended this to all my trading friends. They love it too." },
-            { author: "Kevin B.", rating: 3, text: "Mixed results honestly. Some trades are great, others miss the mark. Good support team though." },
-            { author: "Laura G.", rating: 5, text: "Absolutely love this! My trading has improved dramatically. The signals are consistently accurate." },
-            { author: "Frank Z.", rating: 4, text: "Very solid platform. The AI insights are valuable. Would like more educational content." },
-            { author: "Sharon M.", rating: 5, text: "This saved my trading career. I was about to give up, now I'm profitable every month. Thank you!" },
-            { author: "Ryan T.", rating: 4, text: "Reliable signals with good accuracy. The interface is clean and professional. Recommended." },
-            { author: "Megan J.", rating: 5, text: "The AI is like having a professional trader guide you. I've learned so much just by following the signals." },
-            { author: "Peter K.", rating: 5, text: "Perfect for busy professionals who can't watch charts all day. The AI does all the work." },
-            { author: "Catherine R.", rating: 4, text: "Great service! Only issue is sometimes the signals come when I'm asleep. But that's not their fault." },
-            { author: "Daniel N.", rating: 5, text: "This is THE tool for serious traders. The AI analysis is second to none. Highly recommended." },
-            { author: "Olivia S.", rating: 4, text: "Very reliable signals. The AI catches good entries. Would love more educational content." },
-            { author: "Mark T.", rating: 5, text: "Absolutely fantastic! My trading has never been better. The AI is like having a mentor." }
-        ];
+const reviewsList = [
+    // ===== AFRICA =====
+    { author: "Amara O.", rating: 5, text: "This bot changed everything for me. I was losing money for months, now I'm actually seeing green days. Still learning but the signals are solid" },
+    { author: "Kwame A.", rating: 4, text: "Works well but sometimes the alerts come a bit late. Still profitable overall, just need to be quick" },
+    { author: "Zara M.", rating: 5, text: "Finally something that works. My trading has improved so much, I can actually pay my bills now" },
+    { author: "Thabo K.", rating: 4, text: "Good signals but the entry points could be tighter. Overall happy with the service" },
+    { author: "Fatima D.", rating: 5, text: "I was skeptical at first but after 2 months I'm convinced. This AI knows what it's doing" },
+    { author: "Chidi E.", rating: 3, text: "Decent but sometimes I don't understand why it gives certain signals. Need better explanations" },
+    { author: "Nia W.", rating: 5, text: "Best decision I made this year. The signals are clear and easy to follow, even for a beginner like me" },
+    
+    // ===== EUROPE =====
+    { author: "Jean-Pierre L.", rating: 5, text: "Excellente application ! Les signaux sont précis et j'ai déjà doublé mon compte en 3 mois. Je recommande vivement" },
+    { author: "Maria S.", rating: 4, text: "Très bon outil, mais parfois les notifications arrivent en retard. Dommage car les signaux sont bons" },
+    { author: "Hans M.", rating: 5, text: "Endlich ein Signal-Dienst der wirklich funktioniert. Die Gewinne sind konstant und ich bin sehr zufrieden" },
+    { author: "Elena R.", rating: 4, text: "Mi piace molto, ma qualche volta i segnali arrivano tardi. Comunque molto utile per il trading" },
+    { author: "David W.", rating: 5, text: "Solid performance overall. The AI catches trends I would never see on my own. Highly recommend" },
+    { author: "Sophie B.", rating: 4, text: "Bon service, mais l'interface pourrait être plus intuitive. Les signaux sont fiables" },
+    { author: "Thomas N.", rating: 5, text: "Super zufrieden mit den Ergebnissen. Die KI-Analyse ist wirklich beeindruckend" },
+    { author: "Anna K.", rating: 5, text: "Great tool, saved me from many bad trades. The AI really knows its stuff" },
+    
+    // ===== ASIA =====
+    { author: "Chen W.", rating: 5, text: "非常好用！信号准确率很高，我已经推荐给所有朋友了。值得信赖的平台" },
+    { author: "Akira T.", rating: 4, text: "良いツールです。時々シグナルが遅れますが、全体的に満足しています" },
+    { author: "Ming L.", rating: 5, text: "终于找到一个靠谱的信号平台。用了两个月，收益稳定，非常感谢" },
+    { author: "Priya R.", rating: 5, text: "This is amazing! I've been trading for 3 years and never had such accurate signals. The entry points are spot on" },
+    { author: "Yuki S.", rating: 4, text: "Good signals, but sometimes I miss them because I'm sleeping. Wish there was a way to set alarms" },
+    { author: "Rahul K.", rating: 5, text: "Finally a signal service that actually works. Up 30% in my first month. Game changer" },
+    { author: "Mei L.", rating: 5, text: "用了一个月，收益不错。信号清晰，适合像我这样的新手" },
+    { author: "Hiroshi N.", rating: 4, text: "Kinda useful but needs improvement on timing. Still better than most services out there" },
+    
+    // ===== AMERICA =====
+    { author: "James R.", rating: 4, text: "Very good signals, though sometimes the alerts come a bit late. Still profitable overall" },
+    { author: "Sarah K.", rating: 5, text: "Finally a signal service that actually works. Up 30% in my first month. The AI analysis is game-changing" },
+    { author: "Mike T.", rating: 3, text: "Mixed results honestly. Some trades are great, others miss the mark. Good support team though" },
+    { author: "Jessica H.", rating: 5, text: "I was skeptical at first, but after 3 months I'm a believer. Best trading decision I ever made" },
+    { author: "Robert C.", rating: 4, text: "Reliable signals with good accuracy. The interface is clean and professional. Recommended" },
+    { author: "Amanda S.", rating: 5, text: "Life-changing! I went from losing money to consistent profits in 2 weeks. Thank you PrimeSignal" },
+    { author: "Kevin B.", rating: 4, text: "Works great for swing trading. Some delays during high volatility but overall satisfied" },
+    { author: "Laura G.", rating: 5, text: "Absolutely love this! My trading has improved dramatically. The signals are consistently accurate" },
+    { author: "Chris P.", rating: 5, text: "Consistent profits every week. The AI catches moves I would never see. Absolutely worth it" },
+    { author: "Nancy W.", rating: 5, text: "The AI analysis is brilliant. I've recommended this to all my trading friends" },
+];
 
         let reviewInterval = null;
         let isTransitioning = false;
