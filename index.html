@@ -7418,32 +7418,77 @@ function startScan(scanLineId, btnId) {
         scanLine.classList.add('active');
     }
 
-    // Just play the animation - no candle generation
+    // Fixed score 9.2
+    const scoreElements = document.querySelectorAll('.score-value');
+    const directionElements = document.querySelectorAll('.score-direction');
+
+    // Animate numbers - fade them out
+    const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
+    resultBoxes.forEach(box => {
+        const values = box.querySelectorAll('.row-value, .info-value');
+        values.forEach(el => {
+            el.style.transition = 'opacity 0.3s ease';
+            el.style.opacity = '0';
+        });
+    });
+    
+    // Score goes to loading state
+    scoreElements.forEach(el => { 
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '0';
+    });
+
     setTimeout(() => {
-        if (btn) btn.classList.remove('scanning');
-        if (scanLine) scanLine.classList.remove('active');
-        isScanning = false;
-        updateScoreDisplay();
+        // Show loading dots
+        scoreElements.forEach(el => { 
+            el.textContent = '...';
+            el.style.opacity = '1';
+        });
         
-        // RE-APPLY SCROLL LIMITS AFTER ANIMATION
-        setTimeout(function() {
-            if (chart1) {
-                // Clean up old interval first
-                if (chart1._scrollCheckInterval) {
-                    clearInterval(chart1._scrollCheckInterval);
-                    chart1._scrollCheckInterval = null;
+        setTimeout(() => {
+            // Show all values with 9.2 score
+            const resultBoxes = document.querySelectorAll('.result-box-50, .mobile-result-box');
+            resultBoxes.forEach(box => {
+                const values = box.querySelectorAll('.row-value, .info-value');
+                values.forEach(el => {
+                    el.style.opacity = '1';
+                });
+            });
+            
+            // Update score to 9.2
+            scoreElements.forEach(el => { 
+                el.textContent = '9.2/10';
+                el.style.opacity = '1';
+            });
+            
+            // Keep direction as BUY
+            directionElements.forEach(el => {
+                el.textContent = 'BUY';
+                el.className = 'score-direction buy';
+            });
+
+            if (btn) btn.classList.remove('scanning');
+            if (scanLine) scanLine.classList.remove('active');
+            isScanning = false;
+            
+            setTimeout(function() {
+                if (chart1) {
+                    if (chart1._scrollCheckInterval) {
+                        clearInterval(chart1._scrollCheckInterval);
+                        chart1._scrollCheckInterval = null;
+                    }
+                    limitChartScrolling(chart1, currentData);
                 }
-                limitChartScrolling(chart1, currentData);
-            }
-            if (chart2) {
-                if (chart2._scrollCheckInterval) {
-                    clearInterval(chart2._scrollCheckInterval);
-                    chart2._scrollCheckInterval = null;
+                if (chart2) {
+                    if (chart2._scrollCheckInterval) {
+                        clearInterval(chart2._scrollCheckInterval);
+                        chart2._scrollCheckInterval = null;
+                    }
+                    limitChartScrolling(chart2, currentData);
                 }
-                limitChartScrolling(chart2, currentData);
-            }
-        }, 100);
-    }, 3000); // Animation duration
+            }, 100);
+        }, 500);
+    }, 2500);
 }
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
