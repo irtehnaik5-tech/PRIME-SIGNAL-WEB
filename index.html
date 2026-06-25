@@ -735,7 +735,18 @@
             color: #9ca3af;
             font-family: 'Libre Franklin', sans-serif;
         }
+/* Login Button Highlight Effect */
+.telegram-login-btn.highlight {
+    background: #3b82f6 !important;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.8) !important;
+    transform: scale(1.02);
+    transition: all 0.5s ease;
+}
 
+.telegram-login-btn.highlight:hover {
+    background: #2563eb !important;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 1) !important;
+}
 .telegram-login-btn {
     display: flex;
     align-items: center;
@@ -7582,12 +7593,22 @@ function startScan(scanLineId, btnId) {
     }, 2500);
     
     // ========== SCROLL TO TOP EXACTLY 8 SECONDS AFTER CLICK ==========
-    // This runs independently of the animation timing
     setTimeout(function() {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
+        
+        // ========== HIGHLIGHT LOGIN BUTTON AFTER 1 SECOND ==========
+        setTimeout(function() {
+            const loginBtns = document.querySelectorAll('.telegram-login-btn');
+            loginBtns.forEach(function(btn) {
+                btn.classList.add('highlight');
+                setTimeout(function() {
+                    btn.classList.remove('highlight');
+                }, 4000);
+            });
+        }, 1000);
     }, 8000);
 }
         // ============================================
