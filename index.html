@@ -4364,22 +4364,18 @@ function limitChartScrolling(chartObj, data) {
     chartObj._padding = padding;
     chartObj._isAdjusting = false;
     
-    // Set initial visible range - show all data with minimal padding
+    // Set initial visible range
     timeScale.setVisibleRange({
         from: firstTime - padding,
         to: lastTime + padding
     });
     
-    // Subscribe to logical range changes
-    timeScale.subscribeVisibleLogicalRangeChange(function(range) {
+    // Use subscribeVisibleTimeRangeChange
+    timeScale.subscribeVisibleTimeRangeChange(function(range) {
         if (!range || chartObj._isAdjusting) return;
         
-        // Get the current visible range in time
-        const visibleRange = timeScale.getVisibleRange();
-        if (!visibleRange) return;
-        
-        const from = visibleRange.from;
-        const to = visibleRange.to;
+        const from = range.from;
+        const to = range.to;
         const first = chartObj._firstTime;
         const last = chartObj._lastTime;
         const pad = chartObj._padding;
@@ -4388,48 +4384,43 @@ function limitChartScrolling(chartObj, data) {
         let newTo = to;
         let needsUpdate = false;
         
-        // Prevent scrolling left past first candle
-        // First candle should be at the LEFT edge of viewport
+        // The key fix: When scrolling right, we want the LAST candle at the RIGHT edge
+        // So we check if 'to' is greater than 'last + padding'
+        if (to > last + pad) {
+            newTo = last + pad;
+            // Keep the same width
+            const width = to - from;
+            newFrom = newTo - width;
+            needsUpdate = true;
+        }
+        
+        // When scrolling left, first candle at LEFT edge
         if (from < first - pad) {
             newFrom = first - pad;
-            newTo = newFrom + (to - from);
+            const width = to - from;
+            newTo = newFrom + width;
             needsUpdate = true;
         }
         
-        // Prevent scrolling right past last candle
-        // Last candle should be at the RIGHT edge of viewport
-        // This means we set 'to' to the last time + padding,
-        // and adjust 'from' accordingly
-        if (to > last + pad) {
-            // When scrolling right, the RIGHT edge stops at the last candle
-            // The 'to' value should never exceed last + padding
+        // Also fix: if we've scrolled so far right that the first candle is gone
+        // and we can't see the last candle anymore, reset
+        if (from > last - pad) {
+            // Snap back to show the last candle
+            const width = to - from;
             newTo = last + pad;
-            // Keep the same visible width
-            newFrom = newTo - (to - from);
+            newFrom = newTo - width;
             needsUpdate = true;
         }
         
-        // Also check if the viewport has shifted so far right that we can't see the last candle
-        // In this case, we should snap to show the last candle at the right edge
-        if (from > last - (to - from) + pad) {
-            // This means the viewport is too far right
-            newTo = last + pad;
-            newFrom = newTo - (to - from);
-            needsUpdate = true;
-        }
-        
-        // If we need to correct the range
         if (needsUpdate && newFrom < newTo) {
             chartObj._isAdjusting = true;
-            requestAnimationFrame(() => {
-                timeScale.setVisibleRange({
-                    from: newFrom,
-                    to: newTo
-                });
-                setTimeout(() => {
-                    chartObj._isAdjusting = false;
-                }, 50);
+            timeScale.setVisibleRange({
+                from: Math.max(newFrom, first - pad),
+                to: Math.min(newTo, last + pad)
             });
+            setTimeout(() => {
+                chartObj._isAdjusting = false;
+            }, 50);
         }
     });
 }
