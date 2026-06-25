@@ -4361,6 +4361,12 @@ function limitChartScrolling(chartObj, data) {
     chartObj._lastTime = lastTime;
     chartObj._isAdjusting = false;
     
+    // Clear any existing interval
+    if (chartObj._scrollCheckInterval) {
+        clearInterval(chartObj._scrollCheckInterval);
+        chartObj._scrollCheckInterval = null;
+    }
+    
     // Set initial visible range - show all data
     timeScale.setVisibleRange({
         from: firstTime,
@@ -4406,7 +4412,6 @@ function limitChartScrolling(chartObj, data) {
             }
             
             // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
-            // This is the key fix - 'to' should never exceed 'last'
             if (to > last) {
                 newTo = last;
                 newFrom = last - viewWidth;
@@ -4415,7 +4420,6 @@ function limitChartScrolling(chartObj, data) {
             
             // If scrolled all the way right, make sure last candle is at right edge
             if (from > last - viewWidth && to < last) {
-                // Snap to right edge
                 newTo = last;
                 newFrom = last - viewWidth;
                 needsUpdate = true;
@@ -4505,9 +4509,27 @@ function startScan(scanLineId, btnId) {
         if (scanLine) scanLine.classList.remove('active');
         isScanning = false;
         updateScoreDisplay();
-    }, 3000); // Animation duration (matches your scan line animation)
+        
+        // RE-APPLY SCROLL LIMITS AFTER ANIMATION
+        setTimeout(function() {
+            if (chart1) {
+                // Clean up old interval first
+                if (chart1._scrollCheckInterval) {
+                    clearInterval(chart1._scrollCheckInterval);
+                    chart1._scrollCheckInterval = null;
+                }
+                limitChartScrolling(chart1, currentData);
+            }
+            if (chart2) {
+                if (chart2._scrollCheckInterval) {
+                    clearInterval(chart2._scrollCheckInterval);
+                    chart2._scrollCheckInterval = null;
+                }
+                limitChartScrolling(chart2, currentData);
+            }
+        }, 100);
+    }, 3000); // Animation duration
 }
-
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
         // ============================================
