@@ -4363,16 +4363,17 @@ function limitChartScrolling(chartObj, data) {
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
     chartObj._padding = padding;
+    chartObj._isAdjusting = false;
     
-    // Set initial visible range
+    // Set initial visible range - show all data with minimal padding
     timeScale.setVisibleRange({
         from: firstTime - padding,
         to: lastTime + padding
     });
     
-    // Use subscribeVisibleLogicalRangeChange instead
+    // Subscribe to logical range changes
     timeScale.subscribeVisibleLogicalRangeChange(function(range) {
-        if (!range) return;
+        if (!range || chartObj._isAdjusting) return;
         
         // Get the current visible range in time
         const visibleRange = timeScale.getVisibleRange();
@@ -4384,32 +4385,43 @@ function limitChartScrolling(chartObj, data) {
         const last = chartObj._lastTime;
         const pad = chartObj._padding;
         
+        // Calculate the visible range width
+        const visibleWidth = to - from;
+        
         let newFrom = from;
         let newTo = to;
         let needsUpdate = false;
         
-        // Prevent scrolling left past first candle
+        // Check if scrolling too far left (past first candle)
+        // The first candle should be visible, not pushed past the left edge
         if (from < first - pad) {
             newFrom = first - pad;
+            newTo = newFrom + visibleWidth;
             needsUpdate = true;
         }
         
-        // Prevent scrolling right past last candle
+        // Check if scrolling too far right (past last candle)
+        // The last candle should be visible, not pushed past the right edge
         if (to > last + pad) {
             newTo = last + pad;
+            newFrom = newTo - visibleWidth;
             needsUpdate = true;
         }
         
         // If we need to correct the range
         if (needsUpdate && newFrom < newTo) {
-            // Use a small delay to prevent recursive loops
-            clearTimeout(chartObj._scrollTimeout);
-            chartObj._scrollTimeout = setTimeout(() => {
+            chartObj._isAdjusting = true;
+            // Use requestAnimationFrame to prevent loop
+            requestAnimationFrame(() => {
                 timeScale.setVisibleRange({
                     from: newFrom,
                     to: newTo
                 });
-            }, 10);
+                // Reset flag after a short delay
+                setTimeout(() => {
+                    chartObj._isAdjusting = false;
+                }, 50);
+            });
         }
     });
 }
