@@ -4369,8 +4369,13 @@ function limitChartScrolling(chartObj, data) {
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
     
+    // Calculate the scroll range - limit to 50% (0.5)
+    const range = lastTime - firstTime;
+    const scrollLimit = range * 0.35; // ← 50% scroll limit
+    
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
+    chartObj._scrollLimit = scrollLimit;
     chartObj._isAdjusting = false;
     
     // Clear any existing interval
@@ -4397,6 +4402,7 @@ function limitChartScrolling(chartObj, data) {
             const to = range.to;
             const first = chartObj._firstTime;
             const last = chartObj._lastTime;
+            const limit = chartObj._scrollLimit;
             
             let newFrom = from;
             let newTo = to;
@@ -4404,25 +4410,22 @@ function limitChartScrolling(chartObj, data) {
             
             const viewWidth = to - from;
             
-            // LEFT LIMIT: First candle at LEFT edge
+            // Calculate the center of the data
+            const center = (first + last) / 2;
+            
+            // Calculate the allowed scroll range (50% of data range)
+            const allowedMin = center - limit - viewWidth / 2;
+            const allowedMax = center + limit + viewWidth / 2;
+            
+            // LEFT LIMIT: Stop at 50% scroll
             if (from < first) {
                 newFrom = first;
                 newTo = first + viewWidth;
                 needsUpdate = true;
             }
             
-            // RIGHT LIMIT: Last candle at RIGHT edge
-            // This is the key - 'to' should never exceed 'last'
-            // This stops scrolling when the last candle reaches the right edge
+            // RIGHT LIMIT: Stop at 50% scroll
             if (to > last) {
-                newTo = last;
-                newFrom = last - viewWidth;
-                needsUpdate = true;
-            }
-            
-            // If the viewport is so far right that we can't see the last candle properly
-            if (from > last - viewWidth / 2) {
-                // Snap to show the last candle at the right edge
                 newTo = last;
                 newFrom = last - viewWidth;
                 needsUpdate = true;
@@ -4506,14 +4509,12 @@ function startScan(scanLineId, btnId) {
         scanLine.classList.add('active');
     }
 
-    // Just play the animation - no candle generation
     setTimeout(() => {
         if (btn) btn.classList.remove('scanning');
         if (scanLine) scanLine.classList.remove('active');
         isScanning = false;
         updateScoreDisplay();
         
-        // RE-APPLY SCROLL LIMITS AFTER ANIMATION
         setTimeout(function() {
             if (chart1) {
                 if (chart1._scrollCheckInterval) {
