@@ -4341,20 +4341,8 @@ function initCharts() {
         
         // Apply scroll limits AFTER charts are created and data is loaded
         setTimeout(function() {
-            if (chart1) {
-                if (chart1._scrollCheckInterval) {
-                    clearInterval(chart1._scrollCheckInterval);
-                    chart1._scrollCheckInterval = null;
-                }
-                limitChartScrolling(chart1, currentData);
-            }
-            if (chart2) {
-                if (chart2._scrollCheckInterval) {
-                    clearInterval(chart2._scrollCheckInterval);
-                    chart2._scrollCheckInterval = null;
-                }
-                limitChartScrolling(chart2, currentData);
-            }
+            if (chart1) limitChartScrolling(chart1, currentData);
+            if (chart2) limitChartScrolling(chart2, currentData);
         }, 300);
     } catch (e) {
         console.error('Chart init error:', e);
@@ -4369,26 +4357,27 @@ function limitChartScrolling(chartObj, data) {
     const firstTime = data[0].time;
     const lastTime = data[data.length - 1].time;
     
-    // Calculate the scroll range - limit to 50% (0.5)
-    const range = lastTime - firstTime;
-    const scrollLimit = range * 0.35; // ← 50% scroll limit
-    
     chartObj._firstTime = firstTime;
     chartObj._lastTime = lastTime;
-    chartObj._scrollLimit = scrollLimit;
     chartObj._isAdjusting = false;
-    
-    // Clear any existing interval
-    if (chartObj._scrollCheckInterval) {
-        clearInterval(chartObj._scrollCheckInterval);
-        chartObj._scrollCheckInterval = null;
-    }
     
     // Set initial visible range - show all data
     timeScale.setVisibleRange({
         from: firstTime,
         to: lastTime
     });
+    
+    // Force the chart to show the last candle at the right edge
+    setTimeout(function() {
+        const range = timeScale.getVisibleRange();
+        if (range) {
+            const viewWidth = range.to - range.from;
+            timeScale.setVisibleRange({
+                from: lastTime - viewWidth,
+                to: lastTime
+            });
+        }
+    }, 100);
     
     // Poll every 50ms to check and correct
     let checkInterval = setInterval(function() {
@@ -4402,7 +4391,6 @@ function limitChartScrolling(chartObj, data) {
             const to = range.to;
             const first = chartObj._firstTime;
             const last = chartObj._lastTime;
-            const limit = chartObj._scrollLimit;
             
             let newFrom = from;
             let newTo = to;
@@ -4410,22 +4398,24 @@ function limitChartScrolling(chartObj, data) {
             
             const viewWidth = to - from;
             
-            // Calculate the center of the data
-            const center = (first + last) / 2;
-            
-            // Calculate the allowed scroll range (50% of data range)
-            const allowedMin = center - limit - viewWidth / 2;
-            const allowedMax = center + limit + viewWidth / 2;
-            
-            // LEFT LIMIT: Stop at 50% scroll
+            // LEFT LIMIT: Stop when first candle reaches LEFT edge
             if (from < first) {
                 newFrom = first;
                 newTo = first + viewWidth;
                 needsUpdate = true;
             }
             
-            // RIGHT LIMIT: Stop at 50% scroll
+            // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
+            // This is the key fix - 'to' should never exceed 'last'
             if (to > last) {
+                newTo = last;
+                newFrom = last - viewWidth;
+                needsUpdate = true;
+            }
+            
+            // If scrolled all the way right, make sure last candle is at right edge
+            if (from > last - viewWidth && to < last) {
+                // Snap to right edge
                 newTo = last;
                 newFrom = last - viewWidth;
                 needsUpdate = true;
@@ -4509,30 +4499,15 @@ function startScan(scanLineId, btnId) {
         scanLine.classList.add('active');
     }
 
+    // Just play the animation - no candle generation
     setTimeout(() => {
         if (btn) btn.classList.remove('scanning');
         if (scanLine) scanLine.classList.remove('active');
         isScanning = false;
         updateScoreDisplay();
-        
-        setTimeout(function() {
-            if (chart1) {
-                if (chart1._scrollCheckInterval) {
-                    clearInterval(chart1._scrollCheckInterval);
-                    chart1._scrollCheckInterval = null;
-                }
-                limitChartScrolling(chart1, currentData);
-            }
-            if (chart2) {
-                if (chart2._scrollCheckInterval) {
-                    clearInterval(chart2._scrollCheckInterval);
-                    chart2._scrollCheckInterval = null;
-                }
-                limitChartScrolling(chart2, currentData);
-            }
-        }, 100);
-    }, 3000);
+    }, 3000); // Animation duration (matches your scan line animation)
 }
+
         // ============================================
         // EXISTING CONVERSATION AND TICKER CODE
         // ============================================
