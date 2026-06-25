@@ -4367,23 +4367,11 @@ function limitChartScrolling(chartObj, data) {
         chartObj._scrollCheckInterval = null;
     }
     
-    // Set initial visible range - show all data
+    // Set initial visible range - show all data EXACTLY (NO PADDING)
     timeScale.setVisibleRange({
         from: firstTime,
         to: lastTime
     });
-    
-    // Force the chart to show the last candle at the right edge
-    setTimeout(function() {
-        const range = timeScale.getVisibleRange();
-        if (range) {
-            const viewWidth = range.to - range.from;
-            timeScale.setVisibleRange({
-                from: lastTime - viewWidth,
-                to: lastTime
-            });
-        }
-    }, 100);
     
     // Poll every 50ms to check and correct
     let checkInterval = setInterval(function() {
@@ -4403,26 +4391,43 @@ function limitChartScrolling(chartObj, data) {
             let needsUpdate = false;
             
             const viewWidth = to - from;
+            const dataWidth = last - first;
             
-            // LEFT LIMIT: Stop when first candle reaches LEFT edge
-            if (from < first) {
-                newFrom = first;
-                newTo = first + viewWidth;
+            // If viewport is wider than data, center the data
+            if (viewWidth >= dataWidth) {
+                // Center the data in the viewport
+                const center = (first + last) / 2;
+                newFrom = center - viewWidth / 2;
+                newTo = center + viewWidth / 2;
                 needsUpdate = true;
-            }
-            
-            // RIGHT LIMIT: Stop when last candle reaches RIGHT edge
-            if (to > last) {
-                newTo = last;
-                newFrom = last - viewWidth;
-                needsUpdate = true;
-            }
-            
-            // If scrolled all the way right, make sure last candle is at right edge
-            if (from > last - viewWidth && to < last) {
-                newTo = last;
-                newFrom = last - viewWidth;
-                needsUpdate = true;
+            } else {
+                // LEFT LIMIT: Stop when first candle reaches LEFT edge (NO EXTRA SPACE)
+                if (from < first) {
+                    newFrom = first;
+                    newTo = first + viewWidth;
+                    needsUpdate = true;
+                }
+                
+                // RIGHT LIMIT: Stop when last candle reaches RIGHT edge (NO EXTRA SPACE)
+                if (to > last) {
+                    newTo = last;
+                    newFrom = last - viewWidth;
+                    needsUpdate = true;
+                }
+                
+                // If scrolled all the way right, lock to right edge
+                if (from > last - viewWidth && to < last) {
+                    newTo = last;
+                    newFrom = last - viewWidth;
+                    needsUpdate = true;
+                }
+                
+                // If scrolled all the way left, lock to left edge
+                if (to < first + viewWidth && from > first) {
+                    newFrom = first;
+                    newTo = first + viewWidth;
+                    needsUpdate = true;
+                }
             }
             
             if (needsUpdate && newFrom < newTo) {
