@@ -4347,7 +4347,6 @@ function initCharts() {
     }
 }
 
-// Add this new function to limit chart scrolling
 function limitChartScrolling(chartObj, data) {
     if (!chartObj || !data || data.length === 0) return;
     
@@ -4385,39 +4384,48 @@ function limitChartScrolling(chartObj, data) {
         const last = chartObj._lastTime;
         const pad = chartObj._padding;
         
-        // Calculate the visible range width
-        const visibleWidth = to - from;
-        
         let newFrom = from;
         let newTo = to;
         let needsUpdate = false;
         
-        // Check if scrolling too far left (past first candle)
-        // The first candle should be visible, not pushed past the left edge
+        // Prevent scrolling left past first candle
+        // First candle should be at the LEFT edge of viewport
         if (from < first - pad) {
             newFrom = first - pad;
-            newTo = newFrom + visibleWidth;
+            newTo = newFrom + (to - from);
             needsUpdate = true;
         }
         
-        // Check if scrolling too far right (past last candle)
-        // The last candle should be visible, not pushed past the right edge
+        // Prevent scrolling right past last candle
+        // Last candle should be at the RIGHT edge of viewport
+        // This means we set 'to' to the last time + padding,
+        // and adjust 'from' accordingly
         if (to > last + pad) {
+            // When scrolling right, the RIGHT edge stops at the last candle
+            // The 'to' value should never exceed last + padding
             newTo = last + pad;
-            newFrom = newTo - visibleWidth;
+            // Keep the same visible width
+            newFrom = newTo - (to - from);
+            needsUpdate = true;
+        }
+        
+        // Also check if the viewport has shifted so far right that we can't see the last candle
+        // In this case, we should snap to show the last candle at the right edge
+        if (from > last - (to - from) + pad) {
+            // This means the viewport is too far right
+            newTo = last + pad;
+            newFrom = newTo - (to - from);
             needsUpdate = true;
         }
         
         // If we need to correct the range
         if (needsUpdate && newFrom < newTo) {
             chartObj._isAdjusting = true;
-            // Use requestAnimationFrame to prevent loop
             requestAnimationFrame(() => {
                 timeScale.setVisibleRange({
                     from: newFrom,
                     to: newTo
                 });
-                // Reset flag after a short delay
                 setTimeout(() => {
                     chartObj._isAdjusting = false;
                 }, 50);
