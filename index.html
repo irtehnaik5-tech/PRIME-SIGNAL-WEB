@@ -1875,6 +1875,7 @@
     transition: all 0.3s ease;
 } 
 /* Add this animation keyframes */
+/* ===== WHY USERS TRUST US - Desktop & Mobile ===== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1884,8 +1885,8 @@
         opacity: 1;
         transform: translateY(0);
     }
-}        
-        /* ===== WHY USERS TRUST US - Desktop & Mobile ===== */
+}
+
 .trust-section {
     width: 100%;
     padding: 40px 20px 60px 20px;
@@ -1912,20 +1913,14 @@
     margin-top: 6px;
 }
 
+/* Desktop: 2 columns side by side with gap */
 .trust-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 60px;    /* ← Changed from 30px to 60px for more space */
-    max-width: 900px;
+    gap: 40px;
+    max-width: 1100px;
     margin: 0 auto;
-}
-
-/* Mobile: stack on top of each other */
-@media (max-width: 768px) {
-    .trust-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
+    padding: 0 20px;
 }
 
 .trust-card {
@@ -1941,18 +1936,11 @@
 
 .trust-card:nth-child(1) { animation-delay: 0.1s; }
 .trust-card:nth-child(2) { animation-delay: 0.2s; }
-.trust-card:nth-child(3) { animation-delay: 0.3s; }
 
 .trust-card:hover {
     border-color: #3b82f6;
     box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
     transform: translateY(-4px);
-}
-
-.trust-card .card-icon {
-    font-size: 42px;
-    margin-bottom: 16px;
-    display: block;
 }
 
 .trust-card h3 {
@@ -1995,6 +1983,12 @@
         font-size: 24px;
     }
     
+    .trust-grid {
+        gap: 50px;
+        max-width: 1200px;
+        padding: 0;
+    }
+    
     .trust-card {
         padding: 40px 36px;
     }
@@ -2008,7 +2002,7 @@
     }
 }
 
-/* Mobile trust section */
+/* Mobile trust section - 1 column stacked */
 @media (max-width: 768px) {
     .trust-section {
         padding: 30px 16px 50px 16px;
@@ -2026,7 +2020,9 @@
     
     .trust-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
+        padding: 0;
+        max-width: 100%;
     }
     
     .trust-card {
@@ -2039,10 +2035,6 @@
     
     .trust-card p {
         font-size: 14px;
-    }
-    
-    .trust-card .card-icon {
-        font-size: 32px;
     }
 }
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
@@ -2472,7 +2464,7 @@
         <p>Powered by industry-leading technology partners</p>
     </div>
     
-    <div class="trust-grid">   <!-- ← ADD THIS WRAPPER -->
+    <div class="trust-grid">
         <!-- Card 1: AWS SageMaker + PyTorch -->
         <div class="trust-card">
             <h3>AWS SageMaker &amp; PyTorch</h3>
@@ -2494,7 +2486,7 @@
             </p>
             <span class="badge">Gemini Powered</span>
         </div>
-    </div>   <!-- ← CLOSE THE WRAPPER -->
+    </div>
 </div>
 <script>
         // ============================================
