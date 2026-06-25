@@ -4320,22 +4320,89 @@ const candleData = [
             chart.priceScale('right').applyOptions({ autoScale: true });
         }
 
-        function initCharts() {
-            try {
-                if (typeof LightweightCharts === 'undefined') {
-                    console.error('Lightweight Charts library not loaded');
-                    return;
-                }
-
-                const chartObj1 = createChart('chartContainer');
-                if (chartObj1) { chart1 = chartObj1; updateChart(chart1, currentData); }
-
-                const chartObj2 = createChart('chartContainerMobile');
-                if (chartObj2) { chart2 = chartObj2; updateChart(chart2, currentData); }
-            } catch (e) {
-                console.error('Chart init error:', e);
-            }
+function initCharts() {
+    try {
+        if (typeof LightweightCharts === 'undefined') {
+            console.error('Lightweight Charts library not loaded');
+            return;
         }
+
+        const chartObj1 = createChart('chartContainer');
+        if (chartObj1) { 
+            chart1 = chartObj1; 
+            updateChart(chart1, currentData);
+            // Limit scrolling on desktop chart
+            limitChartScrolling(chart1, currentData);
+        }
+
+        const chartObj2 = createChart('chartContainerMobile');
+        if (chartObj2) { 
+            chart2 = chartObj2; 
+            updateChart(chart2, currentData);
+            // Limit scrolling on mobile chart
+            limitChartScrolling(chart2, currentData);
+        }
+    } catch (e) {
+        console.error('Chart init error:', e);
+    }
+}
+
+// Add this new function to limit chart scrolling
+function limitChartScrolling(chartObj, data) {
+    if (!chartObj || !data || data.length === 0) return;
+    
+    const chart = chartObj.chart;
+    const timeScale = chart.timeScale();
+    
+    // Get first and last time values
+    const firstTime = data[0].time;
+    const lastTime = data[data.length - 1].time;
+    
+    // Set visible range to show all data initially
+    timeScale.setVisibleRange({
+        from: firstTime - 3600,  // Slight padding on left
+        to: lastTime + 3600      // Slight padding on right
+    });
+    
+    // Store bounds for scroll limiting
+    chartObj._firstTime = firstTime;
+    chartObj._lastTime = lastTime;
+    
+    // Listen for scroll events
+    timeScale.subscribeVisibleTimeRangeChange(function(range) {
+        if (!range) return;
+        
+        const from = range.from;
+        const to = range.to;
+        const first = chartObj._firstTime;
+        const last = chartObj._lastTime;
+        const padding = 3600; // 1 hour padding
+        
+        let newFrom = from;
+        let newTo = to;
+        let needsUpdate = false;
+        
+        // Prevent scrolling left past first candle
+        if (from < first - padding) {
+            newFrom = first - padding;
+            needsUpdate = true;
+        }
+        
+        // Prevent scrolling right past last candle
+        if (to > last + padding) {
+            newTo = last + padding;
+            needsUpdate = true;
+        }
+        
+        // If we have a valid range and need to update
+        if (needsUpdate && newFrom < newTo) {
+            timeScale.setVisibleRange({
+                from: newFrom,
+                to: newTo
+            });
+        }
+    });
+}
 
         function resizeCharts() {
             try {
