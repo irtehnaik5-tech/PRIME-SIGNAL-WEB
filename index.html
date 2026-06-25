@@ -1873,7 +1873,159 @@
     border-color: #3b82f6;  /* ← Solid blue on hover */
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     transition: all 0.3s ease;
-}       
+}   
+        /* ===== WHY USERS TRUST US - Desktop & Mobile ===== */
+.trust-section {
+    width: 100%;
+    padding: 40px 20px 60px 20px;
+    background: #000000;
+    align-self: flex-start;
+}
+
+.trust-section .trust-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.trust-section .trust-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #e6e9f0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.trust-section .trust-title p {
+    font-size: 16px;
+    color: #9ca3af;
+    font-family: 'Libre Franklin', sans-serif;
+    margin-top: 6px;
+}
+
+.trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.trust-card {
+    background: transparent;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 20px;
+    padding: 32px 28px;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.trust-card:nth-child(1) { animation-delay: 0.1s; }
+.trust-card:nth-child(2) { animation-delay: 0.2s; }
+.trust-card:nth-child(3) { animation-delay: 0.3s; }
+
+.trust-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+    transform: translateY(-4px);
+}
+
+.trust-card .card-icon {
+    font-size: 42px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.trust-card h3 {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.trust-card p {
+    color: #cbd5e1;
+    font-size: 15px;
+    line-height: 1.7;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.trust-card .badge {
+    display: inline-block;
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* Desktop trust section */
+@media (min-width: 769px) {
+    .trust-section {
+        padding: 60px clamp(30px, 12vw, 220px) 80px clamp(30px, 12vw, 220px);
+    }
+    
+    .trust-section .trust-title h2 {
+        font-size: 48px;
+    }
+    
+    .trust-section .trust-title p {
+        font-size: 24px;
+    }
+    
+    .trust-card {
+        padding: 40px 36px;
+    }
+    
+    .trust-card h3 {
+        font-size: 24px;
+    }
+    
+    .trust-card p {
+        font-size: 17px;
+    }
+}
+
+/* Mobile trust section */
+@media (max-width: 768px) {
+    .trust-section {
+        padding: 30px 16px 50px 16px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .trust-section .trust-title h2 {
+        font-size: 24px;
+    }
+    
+    .trust-section .trust-title p {
+        font-size: 14px;
+    }
+    
+    .trust-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .trust-card {
+        padding: 24px 20px;
+    }
+    
+    .trust-card h3 {
+        font-size: 18px;
+    }
+    
+    .trust-card p {
+        font-size: 14px;
+    }
+    
+    .trust-card .card-icon {
+        font-size: 32px;
+    }
+}
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
 /* Desktop: 50/50 Split - Chart Left | Result Box Right */
@@ -2293,6 +2445,50 @@
         <!-- Reviews will be inserted here by JavaScript -->
     </div>
 </div>
+<!-- ===== WHY USERS TRUST US ===== -->
+<div class="trust-section">
+    <div class="trust-title">
+        <h2>Why Users Trust Us</h2>
+        <p>Powered by industry-leading technology partners</p>
+    </div>
+    
+    <div class="trust-grid">
+        <!-- Card 1: AWS Training -->
+        <div class="trust-card">
+            <span class="card-icon">☁️</span>
+            <h3>AWS Cloud Training</h3>
+            <p>
+                Our AI models are trained on <strong>AWS</strong> (Amazon Web Services) using state-of-the-art 
+                machine learning infrastructure. This ensures lightning-fast analysis and reliable performance 
+                even during high market volatility.
+            </p>
+            <span class="badge">🏆 AWS Certified</span>
+        </div>
+        
+        <!-- Card 2: Gemini AI Integration -->
+        <div class="trust-card">
+            <span class="card-icon">🤖</span>
+            <h3>Gemini AI Assistant</h3>
+            <p>
+                Powered by <strong>Google's Gemini AI</strong>, our intelligent chatbot provides real-time 
+                market insights, answers your trading questions, and helps you understand complex market 
+                patterns instantly.
+            </p>
+            <span class="badge">⚡ Gemini AI Powered</span>
+        </div>
+        
+        <!-- Card 3: 1M+ Users -->
+        <div class="trust-card">
+            <span class="card-icon">🌍</span>
+            <h3>Trusted by 1M+ Traders</h3>
+            <p>
+                Join a global community of over <strong>1 million traders</strong> who rely on PrimeSignal AI 
+                for accurate signals, educational resources, and 24/7 support. Rated 4.6/5 on Trustpilot.
+            </p>
+            <span class="badge">⭐ 4.6/5 Rating</span>
+        </div>
+    </div>
+</div>    
 <script>
         // ============================================
         // LIGHTWEIGHT CHARTS - EXACTLY MATCHES TELEGRAM BOT
